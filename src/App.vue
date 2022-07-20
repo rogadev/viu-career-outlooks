@@ -4,7 +4,9 @@
 
 <template>
   <div class="app-area">
-    <router-view></router-view>
+    <Suspense>
+      <router-view></router-view>
+    </Suspense>
   </div>
 </template>
 
