@@ -18,12 +18,7 @@ const routes = [
     component: Home,
   },
   {
-    path: '/search-by-program',
-    name: 'SearchProgram',
-    component: SearchProgram,
-  },
-  {
-    path: '/search-by-program/:nid',
+    path: '/search-by-program/:nid?',
     name: 'SearchProgramWithNid',
     component: SearchProgram,
   },
