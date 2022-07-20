@@ -33,7 +33,7 @@ const routes = [
     component: SearchKeywords,
   },
 
-  { path: '/*', name: 'NotFound', component: NotFound },
+  { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound },
 ]
 
 // ROUTER
