@@ -23,21 +23,17 @@ const routes = [
     component: SearchProgram,
   },
   {
+    path: '/search-by-program/:nid',
+    name: 'SearchProgramWithNid',
+    component: SearchProgram,
+  },
+  {
     path: '/search-by-keywords',
     name: 'SearchKeywords',
     component: SearchKeywords,
   },
-  {
-    path: '/search-by-program/:nid',
-    name: 'PrefetchSearchProgram',
-    component: PrefetchSearchProgram,
-  },
-  {
-    path: '/search-by-keywords/:keywords',
-    name: 'PrefetchSearchKeywords',
-    component: PrefetchSearchKeywords,
-  },
-  { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound },
+
+  { path: '/*', name: 'NotFound', component: NotFound },
 ]
 
 // ROUTER
