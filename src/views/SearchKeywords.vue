@@ -8,7 +8,8 @@ const nid = route.params.nid; // expects a VIU nid on params - see router
 
 <template>
   <div>
-    <h1>Search by Program</h1>
+    <h1>Search by Keywords</h1>
+    <input type="text" placeholder="Keywords Go Here" />
     <p>...</p>
   </div>
 </template>
