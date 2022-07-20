@@ -10,13 +10,14 @@ nid.value = route.params.nid || ""; // expects a VIU nid on params - see router
 
 const programs =
   import.meta.env.MODE === "PROD"
-    ? await fetch("https://api.viu.ca/v1/programs").json()
+    ? await fetch("https://api.viu.ca/v1/programs")
     : (await import("../assets/temp_programs.json")).default;
 
 const jobs = ref([]);
-jobs.value = await fetch(
+const res = await fetch(
   `https://viu-career-outlook.herokuapp.com/api/v1/jobs/program/${nid.value}`
-).json();
+);
+jobs.value = await res.json();
 console.log(jobs.value);
 </script>
 
