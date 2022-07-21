@@ -1,5 +1,4 @@
 <script setup>
-import { defineProps } from "vue";
 defineProps({
   options: {
     type: Array,
