@@ -1,38 +1,85 @@
 
 <script setup>
 import { ref } from "vue";
+
+import SelectOptions from "@components/SelectOptions.vue";
+import Results from "@components/Results.vue";
+
 import { useRoute } from "vue-router";
-// import data from "../assets/temp_programs.json";
-
 const route = useRoute();
-const nid = ref(null);
-nid.value = route.params.nid || ""; // expects a VIU nid on params - see router
 
+/**
+ * Imported list of programs from VIU.
+ */
 const programs =
   import.meta.env.MODE === "PROD"
     ? await fetch("https://api.viu.ca/v1/programs")
-    : (await import("../assets/temp_programs.json")).default;
+    : (await import("@assets/temp_programs.json")).default;
+const options = programs
+  .map((program) => ({
+    value: program.nid,
+    title: program.title,
+  }))
+  .sort((a, b) => a.title.localeCompare(b.title));
 
-const jobs = ref([]);
-const res = await fetch(
-  `https://viu-career-outlook.herokuapp.com/api/v1/jobs/program/${nid.value}`
-);
-jobs.value = await res.json();
-console.log(jobs.value);
+const selectedProgramNID = ref("");
+const results = ref([]);
+const loading = ref(false);
+const error = ref(false);
+const noResults = ref(false);
+const showResults = ref(false);
+const nid = ref(null);
+const showSearch = ref(true);
+
+// Initial NID, if provided to route params.
+const initialNID = ref(route.params.nid || false);
+
+if (initialNID !== false) {
+  nid.value = initialNID;
+  showSearch.value = false;
+} else {
+  showSearch.value = true;
+}
+
+async function runSearch() {
+  nid.value = selectedProgramNID.value;
+  loading.value = true;
+
+  const response = await fetch(
+    `https://viu-career-outlook.herokuapp.com/api/v1/jobs/program/${selectedProgramNID.value}`
+  );
+  results.value = await response.json();
+
+  loading.value = false;
+
+  if (results.value.length === 0) {
+    noResults.value = true;
+  } else {
+    console.log(results.value);
+    noResults.value = false;
+  }
+
+  showResults.value = true;
+}
 </script>
 
 <template>
   <div>
     <h1>Search by Program</h1>
-    <select name="program" id="program" v-bind="nid">
-      <option
-        v-for="program of programs"
-        :value="program.nid"
-        :id="program.nid"
-      >
-        {{ program.title }}
-      </option>
-    </select>
-    <p>{{ nid }}</p>
+    <SelectOptions
+      :options="options"
+      @selectedOption="selectedProgramNID = $event"
+      @keypress.enter="runSearch"
+    />
+    <button class="" @click.prevent="runSearch">Search</button>
+    <p>Selected NID: {{ selectedProgramNID || "''" }}</p>
+    <div id="results-area" v-show="showResults">
+      <div id="no-results" v-if="noResults">
+        <p>No results were found for that program.</p>
+      </div>
+      <div id="results-found" v-else>
+        <Results :results="results" />
+      </div>
+    </div>
   </div>
 </template>
