@@ -2,13 +2,10 @@
 import { createWebHistory, createRouter } from 'vue-router'
 
 // ROUTE COMPONENTS (Lazy Loading)
-const Home = () => import('../views/Home.vue')
-const SearchProgram = () => import('../views/SearchProgram.vue')
-const SearchKeywords = () => import('../views/SearchKeywords.vue')
-const PrefetchSearchProgram = () => import('../views/PrefetchSearchProgram.vue')
-const PrefetchSearchKeywords = () =>
-  import('../views/PrefetchSearchKeywords.vue')
-const NotFound = () => import('../views/NotFound.vue')
+const Home = () => import('@views/Home.vue')
+const SearchProgram = () => import('@views/SearchProgram.vue')
+const SearchKeywords = () => import('@views/SearchKeywords.vue')
+const NotFound = () => import('@views/NotFound.vue')
 
 // ROUTES
 const routes = [
