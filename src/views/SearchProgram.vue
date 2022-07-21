@@ -4,6 +4,7 @@ import { ref } from "vue";
 
 import SelectOptions from "@components/SelectOptions.vue";
 import Results from "@components/Results.vue";
+import MyButton from "@components/MyButton.vue";
 
 import { useRoute } from "vue-router";
 const route = useRoute();
@@ -71,7 +72,7 @@ async function runSearch() {
       @selectedOption="selectedProgramNID = $event"
       @keypress.enter="runSearch"
     />
-    <button class="" @click.prevent="runSearch">Search</button>
+    <MyButton @click.prevent="runSearch">Search</MyButton>
     <p>Selected NID: {{ selectedProgramNID || "''" }}</p>
     <div id="results-area" v-show="showResults">
       <div id="no-results" v-if="noResults">
