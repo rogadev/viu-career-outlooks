@@ -31,6 +31,7 @@ const noResults = ref(false);
 const showResults = ref(false);
 const nid = ref(null);
 const showSearch = ref(true);
+const resultKey = ref(0);
 
 // Initial NID, if provided to route params.
 const initialNID = ref(route.params.nid || false);
@@ -53,11 +54,11 @@ async function runSearch() {
 
   loading.value = false;
 
-  if (results.value.length === 0) {
+  if (results.value.length < 1) {
     noResults.value = true;
   } else {
-    console.log(results.value);
     noResults.value = false;
+    resultKey.value++;
   }
 
   showResults.value = true;
@@ -72,14 +73,17 @@ async function runSearch() {
       @selectedOption="selectedProgramNID = $event"
       @keypress.enter="runSearch"
     />
-    <MyButton @click="runSearch">Search</MyButton>
+    <div class="my-4">
+      <MyButton @click="runSearch">Search</MyButton>
+    </div>
     <p>Selected NID: {{ selectedProgramNID || "''" }}</p>
-    <div id="results-area" v-show="showResults">
+    <p>Results: {{ results }}</p>
+    <div id="results-area" v-if="showResults">
       <div id="no-results" v-if="noResults">
         <p>No results were found for that program.</p>
       </div>
       <div id="results-found" v-else>
-        <Results :results="results" />
+        <Results :results="results" key="resultKey" />
       </div>
     </div>
   </div>
