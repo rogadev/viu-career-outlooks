@@ -72,7 +72,7 @@ async function runSearch() {
       @selectedOption="selectedProgramNID = $event"
       @keypress.enter="runSearch"
     />
-    <MyButton @click.prevent="runSearch">Search</MyButton>
+    <MyButton @click="runSearch">Search</MyButton>
     <p>Selected NID: {{ selectedProgramNID || "''" }}</p>
     <div id="results-area" v-show="showResults">
       <div id="no-results" v-if="noResults">
