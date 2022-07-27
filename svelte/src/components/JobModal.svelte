@@ -1,6 +1,4 @@
 <script>
-  import { LOGONSERVER } from '$env/static/private'
-
   const details = {
     noc: 123,
     title: 'awesome title',
