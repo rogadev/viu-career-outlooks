@@ -1,5 +1,5 @@
 <script>
-  import JobModal from 'src/components/JobModal.svelte'
+  import JobModal from '../components/JobModal.svelte'
 </script>
 
 <h1>Welcome to SvelteKit</h1>
