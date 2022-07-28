@@ -1,5 +1,5 @@
 <script>
-  export /** @type {any} */ let noc
+  export /** @type {object} */ let noc
   export /** @type {any} */ let province
   export /** @type {any} */ let eruid
   export /** @type {any} */ let trends
