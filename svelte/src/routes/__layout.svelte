@@ -18,9 +18,6 @@
 
 <style>
   div.app-wrapper {
-    font-family: 'ProximaNova', Corbel, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
     color: #222;
     font-size: 18px;
     border: 1rem solid #003b5c;
@@ -34,8 +31,6 @@
   }
 
   footer {
-    position: absolute;
-    bottom: 0;
     width: 100%;
     height: 2.5rem;
   }
