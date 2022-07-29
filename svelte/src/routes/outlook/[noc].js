@@ -37,7 +37,7 @@ export async function GET({ params }) {
     resolve({ title, jobs, requirements, duties })
   })
 
-  await Promise.all([p1, p2]).then((results) => {
+  return await Promise.all([p1, p2]).then((results) => {
     return {
       status: 200,
       body: {
@@ -54,5 +54,4 @@ export async function GET({ params }) {
       },
     }
   })
-  return {}
 }

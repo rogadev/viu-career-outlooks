@@ -1,11 +1,5 @@
-<script>
-  export let noc
-
-  $: console.log(noc)
-</script>
-
 <!-- 
-
+  What I should have...
   {
         noc,
         title: results[1].title,
@@ -18,9 +12,13 @@
         province: 'British Columbia',
         eruid: 5900,
       }
-
  -->
+<script>
+  export /** @type {any} */ let noc
+
+  $: console.log(noc)
+</script>
 
 <ul>
-  <li>lkj</li>
+  <li>{noc}</li>
 </ul>
