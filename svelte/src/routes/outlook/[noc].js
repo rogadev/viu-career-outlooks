@@ -2,6 +2,8 @@
 export async function GET({ params }) {
   const noc = String(params.noc)
 
+  if (typeof Number.parseInt(noc) !== 'number') return { status: 404 }
+
   const p1 = new Promise(async (resolve, reject) => {
     let trends, outlook_verbose, outlook
     try {
