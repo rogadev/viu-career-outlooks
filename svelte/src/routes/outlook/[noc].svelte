@@ -1,24 +1,96 @@
 <script>
+  import { titleCase } from '$lib/helpers/titleCase.js'
   // Properties returned from our shadow endpoint.
-  export /** @type {string} */ let noc
-  export /** @type {string} */ let title
-  export /** @type {string} */ let jobs
-  export /** @type {string} */ let requirements
-  export /** @type {string} */ let duties
-  export /** @type {string} */ let outlook
-  export /** @type {string} */ let outlook_verbose
-  export /** @type {string} */ let trends
-  export /** @type {string} */ let province
+  export let /** @type {string} */ noc
+  export let /** @type {string} */ title
+  export let /** @type {string} */ jobs
+  export let /** @type {string} */ requirements
+  export let /** @type {string} */ duties
+  export let /** @type {string} */ outlook
+  export let /** @type {string} */ outlook_verbose
+  export let /** @type {string} */ trends
+  export let /** @type {string} */ province
+
+  $: jobList = () => {
+    const list = String(jobs).split(',')
+    return list.map((job) => titleCase(job))
+  }
 </script>
 
+<svelte:head>
+  <title>
+    3-Year Outlook for {titleCase(title)} in {province} (NOC {noc})
+  </title>
+</svelte:head>
+
+<h1>{titleCase(title)}</h1>
+<h2 class={`outlook-${outlook}`}>
+  3-Year Market Outlook: <b>{outlook_verbose}</b>
+</h2>
+
 <ul>
-  <li>{noc}</li>
-  <li>{title}</li>
-  <li>{jobs}</li>
-  <li>{requirements}</li>
-  <li>{duties}</li>
-  <li>{outlook}</li>
-  <li>{outlook_verbose}</li>
-  <li>{@html trends}</li>
-  <li>{province}</li>
+  <li class="detail-section">
+    <b>Job titles in this group:</b>
+    <ul>
+      {#each jobList() as job}
+        <li>{job}</li>
+      {/each}
+    </ul>
+  </li>
+  <li class="detail-section">
+    <b>Employment Requirements:</b>
+    <ul>
+      <li>{requirements}</li>
+    </ul>
+  </li>
+  <li class="detail-section">
+    <b>List of Duties:</b>
+    <ul>
+      {#each duties as duty}
+        <li>{duty}</li>
+      {/each}
+    </ul>
+  </li>
+  <li class="detail-section">
+    <b>Trends in {province}:</b>
+    {@html trends}
+  </li>
 </ul>
+
+<style>
+  .outlook-0 {
+    color: white;
+    background-color: #000;
+  }
+
+  .outlook-1 {
+    color: white;
+    background-color: red;
+  }
+
+  .outlook-2 {
+    color: white;
+    background-color: yellow;
+  }
+
+  .outlook-3 {
+    color: white;
+    background-color: green;
+  }
+
+  .outlook-0,
+  .outlook-1,
+  .outlook-2,
+  .outlook-3 {
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+  }
+
+  .detail-section {
+    margin-top: 1rem;
+  }
+
+  ul {
+    margin-top: 1rem;
+  }
+</style>
