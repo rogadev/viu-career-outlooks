@@ -1,5 +1,8 @@
 <script>
   import Navbar from '../components/Navbar.svelte'
+  import { navigating } from '$app/stores'
+  import { loading } from '../lib/loading'
+  $: $loading = !!$navigating
 </script>
 
 <svelte:head>
@@ -9,10 +12,14 @@
 <div class="app-wrapper">
   <Navbar />
   <div class="slot-wrapper">
-    <slot />
+    {#if $loading}
+      <div>loading.Navbar..</div>
+    {:else}
+      <slot />
+    {/if}
   </div>
   <footer>
-    <p>footer will go here</p>
+    <p>// TODO - footer</p>
   </footer>
 </div>
 
