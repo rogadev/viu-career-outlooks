@@ -1,10 +1,10 @@
 <script>
-  import { searching } from '$lib/stores/searching.js'
+  import { state } from '$lib/stores/searching.js'
   const registerSearchClick = () => {
-    searching.set(true)
+    state.set('searching')
   }
 
-  $: disabled = $searching
+  $: disabled = $state === 'searching' || $state instanceof Error
 </script>
 
 <!-- Credential Selector -->
