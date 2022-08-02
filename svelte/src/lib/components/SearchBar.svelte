@@ -1,5 +1,10 @@
 <script>
-  const registerSearchClick = () => console.log('Search clicked.')
+  import { searching } from '$lib/stores/searching.js'
+  const registerSearchClick = () => {
+    searching.set(true)
+  }
+
+  $: disabled = $searching
 </script>
 
 <!-- Credential Selector -->
@@ -11,6 +16,7 @@
     id="location"
     name="location"
     class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+    {disabled}
   >
     <option selected>Degree</option>
     <option>Diploma</option>
@@ -29,17 +35,22 @@
       name="search"
       id="search"
       class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-      autocomplete="off"
+      {disabled}
     />
   </div>
-  <p class="mt-2 text-sm text-gray-500" id="email-description">
+  <p class="mt-2 text-sm text-gray-500" id="search-description">
     Separate with commas. (ex. "computer science, computer programming")
   </p>
 </div>
 <!-- Submit Button -->
-<button
-  type="button"
-  on:click={registerSearchClick}
-  class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-[#003B5C] hover:bg-[#00304c] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 my-4"
-  >Search</button
->
+
+{#if disabled}
+  <p class="font-semibold py-4">Searching...</p>
+{:else}
+  <button
+    type="button"
+    on:click={registerSearchClick}
+    class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-[#003B5C] hover:bg-[#00304c] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 my-4"
+    {disabled}>Search</button
+  >
+{/if}
