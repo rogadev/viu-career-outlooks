@@ -1,8 +1,14 @@
+import { loading } from '$lib/stores/loading'
+
 /** @type {import('@sveltejs/kit').RequestHandler<{ noc: string }>} */
 export async function GET({ params }) {
+  loading.set(true)
   const noc = String(params.noc)
 
-  if (typeof Number.parseInt(noc) !== 'number') return { status: 404 }
+  if (typeof Number.parseInt(noc) !== 'number') {
+    loading.set(false)
+    return { status: 404 }
+  }
 
   const p1 = new Promise(async (resolve, reject) => {
     let trends, outlook_verbose, outlook
@@ -38,6 +44,7 @@ export async function GET({ params }) {
   })
 
   return await Promise.all([p1, p2]).then((results) => {
+    loading.set(false)
     return {
       status: 200,
       body: {

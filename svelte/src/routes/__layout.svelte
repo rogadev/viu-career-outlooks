@@ -2,7 +2,7 @@
   import '../app.css'
   import Navbar from '$lib/components/Navbar.svelte'
   import { navigating } from '$app/stores'
-  import { loading } from '$lib/loading'
+  import { loading } from '$lib/stores/loading'
   $: $loading = !!$navigating
 </script>
 
