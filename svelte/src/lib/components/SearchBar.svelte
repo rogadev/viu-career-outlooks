@@ -1,0 +1,45 @@
+<script>
+  const registerSearchClick = () => console.log('Search clicked.')
+</script>
+
+<!-- Credential Selector -->
+<div>
+  <label for="location" class="block text-sm font-medium text-gray-700"
+    >Location</label
+  >
+  <select
+    id="location"
+    name="location"
+    class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+  >
+    <option selected>Degree</option>
+    <option>Diploma</option>
+    <option>Certificate</option>
+    <option>Trades</option>
+  </select>
+</div>
+<!-- Keywords Input -->
+<div>
+  <label for="search" class="block text-sm font-medium text-gray-700"
+    >Keywords</label
+  >
+  <div class="mt-1">
+    <input
+      type="text"
+      name="search"
+      id="search"
+      class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+      autocomplete="off"
+    />
+  </div>
+  <p class="mt-2 text-sm text-gray-500" id="email-description">
+    Separate with commas. (ex. "computer science, computer programming")
+  </p>
+</div>
+<!-- Submit Button -->
+<button
+  type="button"
+  on:click={registerSearchClick}
+  class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-[#003B5C] hover:bg-[#00304c] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 my-4"
+  >Search</button
+>
