@@ -14,7 +14,7 @@
   <Navbar />
   <div class="slot-wrapper">
     {#if $loading}
-      <div>loading.Navbar..</div>
+      <div>loading...</div>
     {:else}
       <slot />
     {/if}
