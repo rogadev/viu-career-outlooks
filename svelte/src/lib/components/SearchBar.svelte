@@ -1,10 +1,24 @@
 <script>
-  import { state } from '$lib/stores/searching.js'
+  import { state, keywordFields } from '$lib/stores/searching.js'
+
+  export let data
+
+  // Staging values to be sent to our search via the store array variable "keywordFields".
+  let /** @type {string} */ credentialValue, /** @type {string} */ keywordsValue
+
   const registerSearchClick = () => {
+    // Set our store state to "searching".
     state.set('searching')
+    // Send search keywords to the store.
+    keywordFields.set({
+      credential: credentialValue,
+      keywords: keywordsValue,
+    })
   }
 
   $: disabled = $state === 'searching' || $state instanceof Error
+
+  $: () => console.log($data)
 </script>
 
 <!-- Credential Selector -->
@@ -17,6 +31,7 @@
     name="location"
     class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
     {disabled}
+    bind:value={credentialValue}
   >
     <option selected>Degree</option>
     <option>Diploma</option>
@@ -34,6 +49,7 @@
       type="text"
       name="search"
       id="search"
+      bind:value={keywordsValue}
       class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
       {disabled}
     />

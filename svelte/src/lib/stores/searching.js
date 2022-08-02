@@ -6,3 +6,5 @@ let initialState = 'idle'
 export const state = writable(
   /** @type {"idle" | "searching" | "found" | Error} */ (initialState)
 )
+
+export const keywordFields = writable({ credential: '', keywords: '' })
