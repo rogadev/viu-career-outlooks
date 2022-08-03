@@ -32,7 +32,6 @@
 </header>
 
 <style lang="postcss">
-  /* has an error in my IDE for hover: but it works in testing. */
   .nav-item {
     @apply px-4 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 text-2xl md:text-xl font-semibold;
   }
