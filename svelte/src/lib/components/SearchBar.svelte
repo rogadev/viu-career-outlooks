@@ -1,12 +1,11 @@
 <script>
   import { state, keywordFields } from '$lib/stores/searching.js'
 
-  export let data
-
   // Staging values to be sent to our search via the store array variable "keywordFields".
   let /** @type {string} */ credentialValue, /** @type {string} */ keywordsValue
 
   const registerSearchClick = () => {
+    // TODO remove state setting from the click function. Move all state logic to the search helper.
     // Set our store state to "searching".
     state.set('searching')
     // Send search keywords to the store.
@@ -14,11 +13,14 @@
       credential: credentialValue,
       keywords: keywordsValue,
     })
+    // Perform search
+
+    // Check if we have results
+
+    // Conditionally flip state to either "searching" or "results".
   }
 
   $: disabled = $state === 'searching' || $state instanceof Error
-
-  $: () => console.log($data)
 </script>
 
 <!-- Credential Selector -->
