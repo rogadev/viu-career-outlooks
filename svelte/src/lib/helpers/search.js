@@ -1,5 +1,4 @@
 import { state, keywordFields } from '$lib/stores/searching.js'
-import { visitFunctionBody } from 'typescript'
 
 // Reactively updates variables for use in our async get request
 let /** @type {string} */ credential, /** @type {string} */ keywords
@@ -8,29 +7,37 @@ keywordFields.subscribe(({ credential: cred, keywords: kw }) => {
   keywords = kw
 })
 
-/** @type {import('@sveltejs/kit').RequestHandler<{ noc: string }>} */
-export async function GET() {
+export const search = async () => {
+  // Set search state to searching
   state.set('searching')
-
-  const url = new URL(
-    'https://viu-career-outlook.herokuapp.com/api/v1/jobs/credential'
-  )
-  url.searchParams.set('credentail', credential)
-  url.searchParams.set('keywords', keywords)
-
-  const response = await fetch(url)
-  const data = await response.json()
-
-  const object = {}
+  // Fetch and store results. Handle errors.
+  let searchData = {}
   try {
-    object.status = 200
-    object.body = { data: data.body }
+    const url = new URL(
+      'https://viu-career-outlook.herokuapp.com/api/v1/jobs/credential'
+    )
+    url.searchParams.set('credentail', credential)
+    url.searchParams.set('keywords', keywords)
+
+    const response = await fetch(url)
+    searchData = await response.json()
   } catch (e) {
     // @ts-ignore
-    state.set(e)
-    object.status = 500
-    // @ts-ignore
-    object.body = e.message
+    const error = new Error(e)
+    state.set(error)
+    return {
+      status: 500,
+      message: 'Internal Server Error',
+      error: error,
+    }
   }
-  return object
+
+  // Set search state to 'found'
+  state.set('found')
+
+  // Return results
+  return {
+    status: 200,
+    body: searchData,
+  }
 }
