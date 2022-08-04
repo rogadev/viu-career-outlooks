@@ -50,6 +50,11 @@
       bind:value={keywordsValue}
       class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
       {disabled}
+      on:keydown={(e) => {
+        if (e.key === 'Enter') {
+          registerSearchClick()
+        }
+      }}
     />
   </div>
   <p class="mt-2 text-sm text-gray-500" id="search-description">
