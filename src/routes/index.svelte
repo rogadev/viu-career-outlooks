@@ -1,3 +1,7 @@
+<svelte:head>
+  <title>VIU's Career Outlook Tool</title>
+</svelte:head>
+
 <div>
   <div class="w-4/5 mx-auto">
     <h1>Career Finder &amp; Market Outlook Tool</h1>
