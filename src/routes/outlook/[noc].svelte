@@ -19,7 +19,7 @@
 
 <svelte:head>
   <title>
-    3-Year Market Outlook for {titleCase(title)} in {province} (NOC {noc})
+    {titleCase(title)} | 3-Year Market Outlook | {province} (NOC {noc})
   </title>
 </svelte:head>
 
