@@ -44,11 +44,25 @@
     </ul>
   </li>
   <li class="detail-section">
+    <!-- Duties is either an array of objects or an array of strings. -->
     <b>List of Duties:</b>
-    <ul>
-      {#each duties as duty}
-        <li>{duty}</li>
-      {/each}
+    <ul class="list-disc ml-5">
+      {#if typeof duties[0] === 'string'}
+        {#each duties as duty}
+          <li>{duty}</li>
+        {/each}
+      {:else}
+        {#each duties as duty}
+          <li class="font-semibold">
+            {duty.title}
+            <ul class="list-disc ml-4 mb-4">
+              {#each duty.items as item}
+                <li class="font-normal">{item}</li>
+              {/each}
+            </ul>
+          </li>
+        {/each}
+      {/if}
     </ul>
   </li>
   <li class="detail-section">
