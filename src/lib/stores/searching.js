@@ -9,4 +9,4 @@ export const state = writable(
 
 export const keywordFields = writable({ credential: '', keywords: '' })
 
-export const results = writable([])
+export const results = writable()
