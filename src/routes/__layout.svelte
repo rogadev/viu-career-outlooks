@@ -6,10 +6,6 @@
   $: $loading = !!$navigating
 </script>
 
-<svelte:head>
-  <title>App Title</title>
-</svelte:head>
-
 <div class="app-wrapper">
   <Navbar />
   <div class="slot-wrapper">
