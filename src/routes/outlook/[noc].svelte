@@ -31,7 +31,7 @@
 <ul>
   <li class="detail-section">
     <b>Job titles in this group:</b>
-    <ul>
+    <ul class="list-disc ml-5">
       {#each jobList() as job}
         <li>{job}</li>
       {/each}
@@ -39,8 +39,10 @@
   </li>
   <li class="detail-section">
     <b>Employment Requirements:</b>
-    <ul>
-      <li>{requirements}</li>
+    <ul class="list-disc ml-5">
+      {#each requirements as requirement}
+        <li>{requirement}</li>
+      {/each}
     </ul>
   </li>
   <li class="detail-section">
@@ -67,6 +69,7 @@
   </li>
   <li class="detail-section">
     <b>Trends in {province}:</b>
+    <!-- TODO Need to find a way to style this section. -->
     {@html trends}
   </li>
 </ul>
