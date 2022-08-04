@@ -1,5 +1,5 @@
 <script>
-  import { titleCase } from '$lib/helpers/titleCase.js'
+  import titleCase from '$lib/helpers/titleCase.js'
   // Properties returned from our shadow endpoint.
   export let /** @type {string} */ noc
   export let /** @type {string} */ title
@@ -19,13 +19,13 @@
 
 <svelte:head>
   <title>
-    3-Year Outlook for {titleCase(title)} in {province} (NOC {noc})
+    3-Year Market Outlook for {titleCase(title)} in {province} (NOC {noc})
   </title>
 </svelte:head>
 
 <h1>{titleCase(title)}</h1>
 <h2 class={`outlook-${outlook}`}>
-  3-Year Market Outlook: <b>{outlook_verbose}</b>
+  BC's 3-Year Market Outlook: <b>{outlook_verbose}</b>
 </h2>
 
 <ul>
