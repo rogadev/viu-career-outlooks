@@ -4,13 +4,13 @@
   import { state } from '$lib/stores/searching.js'
 </script>
 
+<svelte:head>
+  <title>VIU's Career Outlook Tool - Search Careers by Credential</title>
+</svelte:head>
+
+<!-- TODO Add filter search results. only show if state = found. -->
+
 <SearchBar />
 {#if $state === 'found'}
   <Results />
 {/if}
-
-<p>This will be the search page.</p>
-
-<p>Load an empty screen with nothing but a search box.</p>
-
-<p>Then, click search and render results.</p>
