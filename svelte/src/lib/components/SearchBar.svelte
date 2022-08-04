@@ -1,26 +1,22 @@
 <script>
   import { state, keywordFields } from '$lib/stores/searching.js'
+  import { search } from '$lib/search.js'
 
   // Staging values to be sent to our search via the store array variable "keywordFields".
   let /** @type {string} */ credentialValue, /** @type {string} */ keywordsValue
 
   const registerSearchClick = () => {
-    // TODO remove state setting from the click function. Move all state logic to the search helper.
-    // Set our store state to "searching".
-    state.set('searching')
     // Send search keywords to the store.
     keywordFields.set({
       credential: credentialValue,
       keywords: keywordsValue,
     })
-    // Perform search
-
-    // Check if we have results
-
-    // Conditionally flip state to either "searching" or "results".
+    // Perform search. (Search function handles updating search state.)
+    search()
   }
 
-  $: disabled = $state === 'searching' || $state instanceof Error
+  $: disabled = $state === 'searching'
+  $: searchError = $state instanceof Error
 </script>
 
 <!-- Credential Selector -->
@@ -64,11 +60,17 @@
 
 {#if disabled}
   <p class="font-semibold py-4">Searching...</p>
+{:else if searchError}
+  <p class="font-semibold py-4 text-red-800">
+    Something went wrong... Please refresh the page.
+  </p>
 {:else}
   <button
     type="button"
     on:click={registerSearchClick}
     class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-[#003B5C] hover:bg-[#00304c] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 my-4"
-    {disabled}>Search</button
+    {disabled}
   >
+    Search
+  </button>
 {/if}
