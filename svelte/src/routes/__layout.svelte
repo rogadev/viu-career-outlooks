@@ -20,7 +20,7 @@
     {/if}
   </div>
   <footer>
-    <p>// TODO - footer</p>
+    <p><!-- -->></p>
   </footer>
 </div>
 
