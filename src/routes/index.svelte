@@ -4,8 +4,12 @@
 
 <div>
   <div class="w-4/5 mx-auto">
-    <h1>Career Finder &amp; Market Outlook Tool</h1>
-    <h2>Plan your future, prepare for success.</h2>
+    <h1 class="text-3xl font-bold pb-4">
+      Career Finder &amp; Market Outlook Tool
+    </h1>
+    <h2 class="text-2xl font-semibold mb-6">
+      Plan your future, prepare for success.
+    </h2>
     <p>
       This tool can help you connect VIU programs and credentials with real
       world career opportunities. Click a career to further explore a deeper
@@ -15,16 +19,12 @@
       employment outlook by occupation.
     </p>
   </div>
+
+  <div class="flex w-full items-center justify-center">
+    <a
+      href="/careers/search"
+      class=" bg-gray-50 px-6 py-2 my-4 mx-auto border rounded drop-shadow hover:bg-gray-100 font-bold"
+      >Get Started</a
+    >
+  </div>
 </div>
-
-<h2>Routes:</h2>
-
-<ul>
-  <li>/outlook/:noc</li>
-</ul>
-
-<ul>
-  <li>/careers/search</li>
-  <li>/careers/by-program</li>
-  <li>/careers/by-program/:nid</li>
-</ul>

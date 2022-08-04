@@ -23,14 +23,14 @@
   </title>
 </svelte:head>
 
-<h1>{titleCase(title)}</h1>
+<h1 class=" text-3xl mb-5">{titleCase(title)}</h1>
 <h2 class={`outlook-${outlook}`}>
   BC's 3-Year Market Outlook: <b>{outlook_verbose}</b>
 </h2>
 
 <ul>
   <li class="detail-section">
-    <b>Job titles in this group:</b>
+    <b>Careers in this job market:</b>
     <ul class="list-disc ml-5">
       {#each jobList() as job}
         <li>{job}</li>

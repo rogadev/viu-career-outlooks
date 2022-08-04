@@ -73,7 +73,7 @@
   <button
     type="button"
     on:click={registerSearchClick}
-    class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-[#003B5C] hover:bg-[#00304c] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 my-4"
+    class="inline-flex items-center px-6 py-2 border border-transparent text-sm leading-4 rounded-md shadow-sm text-white bg-[#003B5C] hover:bg-[#00304c] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 my-4 font-bold"
     {disabled}
   >
     Search
