@@ -1,4 +1,4 @@
-import { state, keywordFields } from '$lib/stores/searching.js'
+import { state, keywordFields, results } from '$lib/stores/searching.js'
 
 let credentialField = ''
 let keywordsField = ''
@@ -29,19 +29,11 @@ export const search = async () => {
     const error = new Error(e)
     console.error(e)
     state.set(error)
-    return {
-      status: 500,
-      message: 'Internal Server Error',
-      error: error,
-    }
   }
 
   // Set search state to 'found'
   state.set('found')
 
   // Return results
-  return {
-    status: 200,
-    body: searchData,
-  }
+  results.set(searchData)
 }
