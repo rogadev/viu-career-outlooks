@@ -3,7 +3,7 @@
  * @param {string} str  Input string to title case.
  * @returns {string} The title case of the input string.
  */
-export const titleCase = (str) => {
+const titleCase = (str) => {
   // Break the string into portions if the word contains brackets. Do this, then recursively call this function on each portion outside of the brackets.
   if (str.includes('(') && str.includes(')')) {
     const startIndex = str.indexOf('(')
@@ -41,3 +41,5 @@ export const titleCase = (str) => {
     })
     .join(' ')
 }
+
+export default titleCase
