@@ -1,5 +1,8 @@
 <script>
+  // @ts-nocheck
+
   import { results } from '$lib/stores/searching.js'
+  import titleCase from '$lib/helpers/titleCase.js'
 
   let jobObjects = $results.jobs
   /**
@@ -13,21 +16,17 @@
       jobList.forEach((/** @type {string} */ jobTitle) => {
         jobs.push({
           noc: noc,
-          jobTitle: jobTitle,
+          jobTitle: titleCase(jobTitle),
         })
       })
     }
   )
-  console.log(jobs)
 </script>
 
 {#each jobs as job}
-  <div class="job">
-    <div class="noc">
-      {job.noc}
-    </div>
-    <div class="job-title">
-      {job.jobTitle}
-    </div>
+  <div>
+    <a target="_blank" href={'/outlook/' + job.noc}>{job.jobTitle}</a>
   </div>
 {/each}
+
+<!-- TODO add styling -->
