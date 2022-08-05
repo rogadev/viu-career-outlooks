@@ -2,6 +2,7 @@
   import SearchBar from '$lib/components/SearchBar.svelte'
   import Results from '$lib/components/Results.svelte'
   import { state } from '$lib/stores/searching.js'
+  import FilterBar from '$lib/components/FilterBar.svelte'
 </script>
 
 <svelte:head>
@@ -12,5 +13,6 @@
 
 <SearchBar />
 {#if $state === 'found'}
+  <FilterBar />
   <Results />
 {/if}
