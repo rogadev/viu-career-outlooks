@@ -1,4 +1,6 @@
 <script>
+  // @ts-nocheck
+
   import titleCase from '$lib/helpers/titleCase.js'
   // Properties returned from our shadow endpoint.
   export let /** @type {string} */ noc
