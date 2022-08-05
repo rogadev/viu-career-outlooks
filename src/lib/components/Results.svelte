@@ -8,7 +8,7 @@
   /**
    * @type {Array<Object>}
    */
-  let jobs = [{ noc: '', jobTitle: '' }]
+  let jobs = []
   jobObjects.forEach(
     (/** @type {{ noc: string; jobs: Array<string>; }} */ obj) => {
       let noc = obj.noc
@@ -23,10 +23,21 @@
   )
 </script>
 
-{#each jobs as job}
-  <div>
-    <a target="_blank" href={'/outlook/' + job.noc}>{job.jobTitle}</a>
-  </div>
-{/each}
-
-<!-- TODO add styling -->
+<div
+  aria-live="polite"
+  class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-y-4 gap-x-2"
+>
+  {#each jobs as job}
+    <a
+      target="_blank"
+      href={'/outlook/' + job.noc}
+      class="self-center justify-center drop-shadow"
+    >
+      <div
+        class="mb-2 px-4 py-2 bg-blue-50 border rounded-lg border-blue-100  hover:bg-blue-200 hover:border-blue-200 font-semibold"
+      >
+        {job.jobTitle}
+      </div>
+    </a>
+  {/each}
+</div>
