@@ -23,9 +23,9 @@
   </title>
 </svelte:head>
 
-<h1 class=" text-3xl mb-5">{titleCase(title)}</h1>
+<h1 class="text-3xl mb-5 font-bold">{titleCase(title)}</h1>
 <h2 class={`outlook-${outlook}`}>
-  BC's 3-Year Market Outlook: <b>{outlook_verbose}</b>
+  BC's 3-Year Market Outlook is <b>{outlook_verbose}</b>
 </h2>
 
 <ul>
@@ -86,7 +86,7 @@
   }
 
   .outlook-2 {
-    color: white;
+    color: black;
     background-color: yellow;
   }
 
