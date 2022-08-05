@@ -11,6 +11,10 @@
       Plan your future, prepare for success.
     </h2>
     <p>
+      Your education is a big investment in your future. It's important to know
+      that you're making the right choice.
+    </p>
+    <p>
       This tool can help you connect VIU programs and credentials with real
       world career opportunities. Click a career to further explore a deeper
       description of the industry, educational requirements, and the perhaps
