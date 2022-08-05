@@ -1,9 +1,22 @@
-<p>
-  This will be another input field that further reduces the number of search
-  results.
-</p>
+<script>
+  import { jobs as results } from '$lib/stores/searching.js'
 
-<p>
-  Use debouncing, respond to the parent with the new filtered search term.
-  Parent will handle filtering down results.
-</p>
+  let allSearchResults = $results
+
+  let filterInput = ''
+
+  let filteredResults
+
+  $: {
+    if (filterInput === '') filteredResults = allSearchResults
+    else {
+      console.log(allSearchResults)
+      filteredResults = allSearchResults.filter((result) => {
+        return result.title.toLowerCase().includes(filterInput.toLowerCase())
+      })
+      console.log(filteredResults)
+    }
+  }
+</script>
+
+<input type="text" id="filter-input" bind:value={filterInput} />

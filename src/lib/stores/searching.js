@@ -10,3 +10,15 @@ export const state = writable(
 export const keywordFields = writable({ credential: '', keywords: '' })
 
 export const results = writable()
+
+export const jobs = writable([])
+results.subscribe((results) => {
+  const jobs = results.jobs
+  jobs.forEach((/** @type {{ noc: string; jobs: string[]; }} */ job) => {
+    const noc = job.noc
+    const titles = job.jobs
+    titles.forEach((title) => {
+      jobs.push({ noc, title })
+    })
+  })
+})
