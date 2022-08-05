@@ -4,12 +4,15 @@
     href="/"
     class="flex items-center justify-between md:justify-start"
   >
-    <img
-      id="brand-logo"
-      src="/img/viu_logo.svg"
-      alt="VIU Logo"
-      class="h-[70px]"
-    />
+    <a href="https://www.viu.ca">
+      <!-- TODO Consider trying to pre-flight warn navigating away to VIU.ca -->
+      <img
+        id="brand-logo"
+        src="/img/viu_logo.svg"
+        alt="VIU Logo"
+        class="h-[70px]"
+      />
+    </a>
     <h1
       id="brand-title"
       class="font-extrabold text-3xl text-center mx-auto md:text-left md:ml-4"
