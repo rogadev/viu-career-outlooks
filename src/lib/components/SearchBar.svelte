@@ -63,19 +63,21 @@
 </div>
 <!-- Submit Button -->
 
-{#if disabled}
-  <p class="font-semibold py-4">Searching...</p>
-{:else if searchError}
-  <p class="font-semibold py-4 text-red-800">
-    Something went wrong... Please refresh the page.
-  </p>
-{:else}
-  <button
-    type="button"
-    on:click={registerSearchClick}
-    class="inline-flex items-center px-6 py-2 border border-transparent text-sm leading-4 rounded-md shadow-sm text-white bg-[#003B5C] hover:bg-[#00304c] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 my-4 font-bold"
-    {disabled}
-  >
-    Search
-  </button>
-{/if}
+<div aria-live="polite">
+  {#if disabled}
+    <p role="status" class="font-semibold py-4">Searching...</p>
+  {:else if searchError}
+    <p role="alert" class="font-semibold py-4 text-red-800">
+      Something went wrong... Please refresh the page.
+    </p>
+  {:else}
+    <button
+      type="button"
+      on:click={registerSearchClick}
+      class="inline-flex items-center px-6 py-2 border border-transparent text-sm leading-4 rounded-md shadow-sm text-white bg-[#003B5C] hover:bg-[#00304c] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 my-4 font-bold"
+      {disabled}
+    >
+      Search
+    </button>
+  {/if}
+</div>
