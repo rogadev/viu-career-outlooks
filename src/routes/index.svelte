@@ -27,7 +27,7 @@
   <div class="flex w-full items-center justify-center">
     <a
       href="/careers/search"
-      class=" bg-gray-50 px-6 py-2 my-4 mx-auto border rounded drop-shadow hover:bg-gray-100 font-bold"
+      class="bg-gray-50 px-6 py-2 my-4 mx-auto border rounded drop-shadow hover:bg-gray-100 font-bold"
       >Get Started</a
     >
   </div>
