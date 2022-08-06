@@ -36,6 +36,6 @@
 
 <style lang="postcss">
   .nav-item {
-    @apply px-4 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 text-2xl md:text-xl font-semibold;
+    @apply bg-gray-50 px-6 py-2 my-4 mx-auto border rounded drop-shadow hover:bg-gray-100 font-bold;
   }
 </style>

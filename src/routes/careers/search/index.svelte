@@ -13,6 +13,6 @@
 
 <SearchBar />
 {#if $state === 'found'}
-  <FilterBar />
+  <!-- <FilterBar /> -->
   <Results />
 {/if}
