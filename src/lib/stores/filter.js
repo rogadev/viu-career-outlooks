@@ -29,8 +29,14 @@ const createFilter = () => {
       reset()
       return
     }
-    // TODO filter results from the searchResults and return as new, filtered array.
-    return keyword
+    const allResults = searchResults.subscribe((value) => value)
+    const results = fuzzySearch(keyword, allResults)
+    if (results.success) {
+      outputSearchResults(results)
+      console.log(results)
+    } else {
+      console.error(results)
+    }
   }
 
   return {
@@ -41,3 +47,80 @@ const createFilter = () => {
 }
 
 export const results = createFilter()
+
+const fuzzySearch = (needle, haystake) => {
+  const reulsts = []
+  // TODO
+}
+
+/**
+ * Finds the indexes of the first character that match in the query string.
+ * @param {string} item The item to search through.
+ * @param {string} query The query to search for.
+ * @returns {(number)[]} The indices of the item that match the query.
+ */
+function indexesOfFirstLetter(item, query) {
+  const match = query[0]
+  return item
+    .split('')
+    .map((letter, index) => {
+      if (letter !== match) {
+        return -1
+      }
+
+      return index
+    })
+    .filter((item) => item !== -1)
+}
+
+/**
+ *
+ * @param {string} item
+ * @param {string} query
+ * @returns
+ */
+function nearestIndexesFor(item, query) {
+  /** Array of characters from our query string. */
+  const letters = query.split('')
+
+  /**
+   * @type {Array<Array<number>>}
+   */
+  let indexes = []
+
+  const firstLetterIndex = indexesOfFirstLetter(item, query)
+  firstLetterIndex.forEach((startingIndex, loopingIndex) => {
+    let index = startingIndex + 1
+    let matchIndexes = [startingIndex]
+
+    for (let i = 1; i < letters.length; i++) {
+      const letter = letters[i]
+      const match = letter === item[index]
+
+      if (!match) {
+        break
+      }
+
+      matchIndexes.push(index)
+
+      index++
+    }
+  })
+
+  indexes = indexes.filter((letterIndexes) => letterIndexes !== [])
+
+  if (!indexes.length) {
+    return false
+  }
+
+  return indexes.sort((a, b) => {
+    if (a.length === 1) {
+      return a[0] - b[0]
+    }
+
+    a = a[a.length - 1] - a[0]
+    b = b[b.length - 1] - b[0]
+
+    return a - b
+  })[0]
+}
