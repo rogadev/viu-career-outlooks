@@ -1,8 +1,5 @@
 import { writable } from 'svelte/store'
 import { results as searchResults } from '$lib/stores/searching.js'
-import { search } from '$lib/search'
-
-export const results = writable([])
 
 const createFilter = () => {
   const { subscribe, set, update } = writable([])
@@ -42,3 +39,5 @@ const createFilter = () => {
     filterFor,
   }
 }
+
+export const results = createFilter()
