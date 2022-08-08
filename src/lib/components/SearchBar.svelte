@@ -1,5 +1,5 @@
 <script>
-  import { state, keywordFields } from '$lib/stores/searching.js'
+  import { searchState, keywordFields } from '$lib/stores/searching.js'
   import { search } from '$lib/search.js'
 
   // Staging values to be sent to our search via the store array variable "keywordFields".
@@ -14,9 +14,9 @@
     search()
   }
 
-  $: disabled = $state === 'searching'
+  $: disabled = $searchState === 'searching'
   // @ts-ignore
-  $: searchError = $state instanceof Error
+  $: searchError = $searchState instanceof Error
 </script>
 
 <div role="form">
