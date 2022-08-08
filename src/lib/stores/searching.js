@@ -1,12 +1,20 @@
+// IMPORTS
 import { writable } from 'svelte/store'
 
-/** @type {"idle" | "searching" | "found" | Error} */
-let initialState = 'idle'
-
+/** State store - Stores the current state of the searching store.
+ *
+ * Valid types: 'idle' | 'searching' | 'found' | Error */
 export const state = writable(
-  /** @type {"idle" | "searching" | "found" | Error} */ (initialState)
+  /** @type {"idle" | "searching" | "found" | Error} */ 'idle'
 )
 
-export const keywordFields = writable({ credential: '', keywords: '' })
+/** Keyword field stores, values used for searching. */
+export const keywordFields = {
+  credential: writable(''),
+  keywords: writable(''),
+}
 
+/**
+ * Results store.
+ */
 export const results = writable([])

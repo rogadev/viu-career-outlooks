@@ -7,15 +7,15 @@
 
   const registerSearchClick = () => {
     // Send search keywords to the store.
-    keywordFields.set({
-      credential: credentialValue,
-      keywords: keywordsValue,
-    })
+    keywordFields.credential.set(credentialValue)
+    keywordFields.keywords.set(keywordsValue)
+
     // Perform search. (Search function handles updating search state.)
     search()
   }
 
   $: disabled = $state === 'searching'
+  // @ts-ignore
   $: searchError = $state instanceof Error
 </script>
 
