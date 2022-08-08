@@ -1,12 +1,10 @@
 <svelte:head>
-  <title>VIU's Career Outlook Tool</title>
+  <title>VIU | Graduate Career Outlooks</title>
 </svelte:head>
 
 <div>
   <div class="w-4/5 mx-auto">
-    <h1 class="text-3xl font-bold pb-4">
-      Career Finder &amp; Market Outlook Tool
-    </h1>
+    <h1 class="text-3xl font-bold pb-4">Career Finder &amp; Market Outlooks</h1>
     <h2 class="text-2xl font-semibold mb-6">
       Plan your future, prepare for success.
     </h2>

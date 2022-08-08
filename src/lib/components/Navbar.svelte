@@ -17,7 +17,7 @@
       id="brand-title"
       class="font-extrabold text-3xl text-center mx-auto md:text-left md:ml-4"
     >
-      Career Outlook Tool
+      Career Outlooks
     </h1>
   </a>
 
