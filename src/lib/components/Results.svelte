@@ -1,9 +1,9 @@
 <script>
   // @ts-nocheck
 
-  import { results } from '$lib/stores/searching.js'
+  import { filteredResults } from '$lib/stores/searching.js'
 
-  let jobs = $results
+  $: jobs = $filteredResults
 </script>
 
 <div

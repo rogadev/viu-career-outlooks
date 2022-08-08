@@ -1,10 +1,9 @@
-// IMPORTS
 import { writable } from 'svelte/store'
 
 /** State store - Stores the current state of the searching store.
  *
  * Valid types: 'idle' | 'searching' | 'found' | Error */
-export const state = writable(
+export const searchState = writable(
   /** @type {"idle" | "searching" | "found" | Error} */ 'idle'
 )
 
@@ -18,3 +17,5 @@ export const keywordFields = {
  * Results store.
  */
 export const results = writable([])
+
+export const filteredResults = writable([])
