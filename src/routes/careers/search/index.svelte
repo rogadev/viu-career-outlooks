@@ -9,10 +9,8 @@
   <title>VIU's Career Outlook Tool - Search Careers by Credential</title>
 </svelte:head>
 
-<!-- TODO Add filter search results. only show if state = found. -->
-
 <SearchBar />
 {#if $state === 'found'}
-  <!-- <FilterBar /> -->
+  <FilterBar />
   <Results />
 {/if}

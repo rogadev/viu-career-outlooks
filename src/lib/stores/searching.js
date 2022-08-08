@@ -1,38 +1,20 @@
+// IMPORTS
 import { writable } from 'svelte/store'
 
-/** @type {"idle" | "searching" | "found" | Error} */
-let initialState = 'idle'
-
+/** State store - Stores the current state of the searching store.
+ *
+ * Valid types: 'idle' | 'searching' | 'found' | Error */
 export const state = writable(
-  /** @type {"idle" | "searching" | "found" | Error} */ (initialState)
+  /** @type {"idle" | "searching" | "found" | Error} */ 'idle'
 )
 
-export const keywordFields = writable({ credential: '', keywords: '' })
+/** Keyword field stores, values used for searching. */
+export const keywordFields = {
+  credential: writable(''),
+  keywords: writable(''),
+}
 
+/**
+ * Results store.
+ */
 export const results = writable([])
-
-<<<<<<< Updated upstream
-// export const jobs = writable([])
-// results.subscribe((results) => {
-//   const jobs = results.jobs
-//   jobs.forEach((/** @type {{ noc: string; jobs: string[]; }} */ job) => {
-//     const noc = job.noc
-//     const titles = job.jobs
-//     titles.forEach((title) => {
-//       jobs.push({ noc, title })
-//     })
-//   })
-// })
-=======
-export const jobs = writable([])
-results.subscribe(() => {
-  const resJobs = results.subscribe((res) => res?.jobs)
-  resJobs.forEach((/** @type {{ noc: string; jobs: string[]; }} */ job) => {
-    const noc = job.noc
-    const titles = job.jobs
-    titles.forEach((title) => {
-      jobs.set([...jobs.get(), { noc, title }])
-    })
-  })
-})
->>>>>>> Stashed changes
