@@ -1,5 +1,9 @@
 <script>
   import { getPrograms, getProgram } from './programs'
+  import { searchState, results } from '$lib/stores/searching'
+
+  import Results from '$lib/components/Results.svelte'
+  import FilterBar from '$lib/components/FilterBar.svelte'
 
   /** @type {{nid:number, title:string}[]} */
   let programs = []
@@ -14,8 +18,12 @@
 
   async function setProgram(/** @type {number} */ nid) {
     if (!nid) return (keywords = '')
-    const data = await getProgram(nid)
-    console.log(data)
+    searchState.set('searching')
+    const { jobs } = await getProgram(nid)
+    results.set(jobs)
+    searchState.set('found')
+    // @ts-ignore
+    if (jobs.length < 1) searchState.set(new Error('No results found'))
   }
 
   $: {
@@ -35,3 +43,8 @@
     {/each}
   </select>
 {/await}
+
+{#if $searchState === 'found'}
+  <FilterBar />
+  <Results />
+{/if}
