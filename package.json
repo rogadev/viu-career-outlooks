@@ -9,12 +9,13 @@
 		"prepare": "svelte-kit sync",
 		"check": "svelte-check --tsconfig ./jsconfig.json",
 		"check:watch": "svelte-check --tsconfig ./jsconfig.json --watch",
-		"test": "vitest",
+		"test": "vitest --ui",
 		"coverage": "vitest run --coverage"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "next",
 		"@sveltejs/kit": "next",
+		"@vitest/ui": "^0.21.1",
 		"autoprefixer": "^10.4.8",
 		"postcss": "^8.4.14",
 		"svelte": "^3.44.0",

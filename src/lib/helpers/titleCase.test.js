@@ -1,5 +1,5 @@
 import { it, expect } from 'vitest'
-import { titleCase } from './titleCase.js'
+import titleCase from './titleCase.js'
 
 it('Correctly title cases a given string', () => {
   expect(titleCase('hello world')).toBe('Hello World')
