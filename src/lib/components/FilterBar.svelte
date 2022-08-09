@@ -11,10 +11,8 @@
   $: fuse = new Fuse(haystack, fuseOptions)
 
   $: {
-    console.log(input)
     const fuseResults = fuse.search(input)
     const searchResults = fuseResults.map(({ item }) => item)
-    console.log(searchResults)
     if (searchResults.length > 0) {
       // @ts-ignore
       $filteredResults = searchResults
