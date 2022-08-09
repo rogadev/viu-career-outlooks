@@ -6,7 +6,7 @@
 </script>
 
 <svelte:head>
-  <title>VIU's Career Outlook Tool - Search Careers by Credential</title>
+  <title>VIU | Career Outlooks | Search Careers by Credential</title>
 </svelte:head>
 
 <SearchBar />
