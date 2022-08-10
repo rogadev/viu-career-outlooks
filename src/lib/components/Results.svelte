@@ -12,7 +12,6 @@
 >
   {#each jobs as job}
     <a
-      target="_blank"
       href={'/outlook/' + job.noc}
       class="self-center justify-center drop-shadow h-full"
     >
