@@ -1,6 +1,7 @@
 <script>
   import { searchState, keywordFields } from '$lib/stores/searching.js'
   import { search } from '$lib/search.js'
+  import Button from '$lib/components/viu/Button.svelte'
 
   // Staging values to be sent to our search via the store array variable "keywordFields".
   let /** @type {string} */ credentialValue, /** @type {string} */ keywordsValue
@@ -12,6 +13,16 @@
 
     // Perform search. (Search function handles updating search state.)
     search()
+  }
+
+  /**
+   * Handles user pressing return/enter from the input box.
+   * @param e {KeyboardEvent}
+   */
+  const registerSearchEnter = (/** @type {KeyboardEvent} */ e) => {
+    if (e.key === 'Enter') {
+      registerSearchClick()
+    }
   }
 
   $: disabled = $searchState === 'searching'
@@ -52,11 +63,7 @@
         bind:value={keywordsValue}
         class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
         {disabled}
-        on:keydown={(e) => {
-          if (e.key === 'Enter') {
-            registerSearchClick()
-          }
-        }}
+        on:keydown={registerSearchEnter}
       />
     </div>
     <p class="mt-2 text-sm text-gray-500" id="search-description">
@@ -75,13 +82,6 @@
       Something went wrong... Please refresh the page.
     </p>
   {:else}
-    <button
-      type="button"
-      on:click={registerSearchClick}
-      class="inline-flex items-center px-6 py-2 border border-transparent text-sm leading-4 rounded-md shadow-sm text-white bg-[#003B5C] hover:bg-[#00304c] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 my-4 font-bold"
-      {disabled}
-    >
-      Search
-    </button>
+    <Button on:click={registerSearchClick} {disabled}>Search</Button>
   {/if}
 </div>

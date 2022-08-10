@@ -4,11 +4,16 @@
 
 <style lang="postcss">
   ul {
-    @apply list-disc pl-4 block;
-    margin-block-start: 1em;
-    margin-block-end: 1em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-    padding-inline-start: 40px;
+    color: #3b3b3b;
+    box-sizing: border-box;
+    padding: 0;
+    list-style: none;
+    list-style-type: disc;
+    overflow: auto;
+    margin: 0;
+    margin-bottom: 1em !important;
+    line-height: 1.5em;
+    font-size: 18px;
+    padding-left: 25px;
   }
 </style>

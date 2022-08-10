@@ -30,7 +30,7 @@
     </ContentArea>
   </div>
 
-  <div class="flex w-full items-center justify-center mt-6">
+  <div class="flex w-2/5 mx-auto items-center justify-center mt-6">
     <Button>
       <a href="/careers/search">Get Started</a>
     </Button>

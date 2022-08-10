@@ -28,7 +28,7 @@ module.exports = {
     },
     fontFamily: {
       display: [
-        'ProximaNova',
+        'Proxima Nova',
         'corbel',
         'Arial',
         'sans-serif',
@@ -46,7 +46,7 @@ module.exports = {
         'Noto Color Emoji',
       ],
       body: [
-        'ProximaNova',
+        'Proxima Nova',
         'corbel',
         'Arial',
         'sans-serif',
