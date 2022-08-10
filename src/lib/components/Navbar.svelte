@@ -1,5 +1,5 @@
 <script>
-  import Button from './viu/Button.svelte'
+  import NavButton from './viu/NavButton.svelte'
   import NavBrand from './viu/NavBrand.svelte'
 </script>
 
@@ -27,14 +27,14 @@
     >
       <!-- <li class="nav-item"><a href="/outlook/2175">X</a></li> -->
       <li>
-        <Button>
+        <NavButton>
           <a href="/careers/search">Search Credentials</a>
-        </Button>
+        </NavButton>
       </li>
       <li>
-        <Button>
+        <NavButton>
           <a href="/careers/by-program">Search Program</a>
-        </Button>
+        </NavButton>
       </li>
     </ul>
   </nav>

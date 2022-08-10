@@ -18,7 +18,7 @@
     box-sizing: border-box;
     text-decoration: none;
     display: table;
-    margin: 1.5em 0;
+    margin: 0;
     padding: 0.7em 1em;
     border-radius: 500px;
     border: 1px solid;
