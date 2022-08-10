@@ -16,10 +16,13 @@
     <H2>Plan your future, prepare for success</H2>
     <hr class="mb-6 mt-7 w-[90%] mx-auto" />
     <ContentArea>
-      <P>
-        Your education is a big investment in your future. It's important to
-        know that you're making the right choice.
+      <P
+        >Vancouver Island University wants to help you make an educated decision
+        about your future. Career Outlooks can connect prospective students with
+        the career opportunities available to them upon graduating from a VIU
+        program.
       </P>
+
       <P>
         This tool can help you connect VIU programs and credentials with real
         world career opportunities. Click a career to further explore a deeper
