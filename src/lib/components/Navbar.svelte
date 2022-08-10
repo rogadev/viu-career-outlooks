@@ -1,6 +1,6 @@
 <script>
   import Button from './viu/Button.svelte'
-  import H1 from './viu/H1.svelte'
+  import NavBrand from './viu/NavBrand.svelte'
 </script>
 
 <header
@@ -17,7 +17,7 @@
       />
     </a>
     <div class="ml-6">
-      <H1>Career Outlooks</H1>
+      <NavBrand>Career Outlooks</NavBrand>
     </div>
   </a>
 
