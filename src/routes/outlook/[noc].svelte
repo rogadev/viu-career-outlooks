@@ -111,7 +111,19 @@
     margin-top: 1rem;
   }
 
-  .trends > p {
+  .trends :global(p) {
     font-weight: bold;
+    margin-top: 1rem;
+  }
+
+  .trends :global(ul) {
+    list-style-type: disc;
+    padding: 0;
+    margin-top: 0.5rem;
+  }
+
+  .trends :global(li) {
+    margin-bottom: 0.5rem;
+    margin-left: 1.5rem;
   }
 </style>
