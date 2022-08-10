@@ -13,7 +13,8 @@
 <div>
   <div class="w-4/5 mx-auto">
     <H1>Career Finder &amp; Market Outlooks</H1>
-    <H2>Plan your future, prepare for success.</H2>
+    <H2>Plan your future, prepare for success</H2>
+    <hr class="my-4" />
     <ContentArea>
       <P>
         Your education is a big investment in your future. It's important to
