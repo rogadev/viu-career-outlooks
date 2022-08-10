@@ -28,12 +28,12 @@
       <!-- <li class="nav-item"><a href="/outlook/2175">X</a></li> -->
       <li>
         <NavButton>
-          <a href="/careers/search">Search Credentials</a>
+          <a href="/careers/by-program">Program Search</a>
         </NavButton>
       </li>
       <li>
         <NavButton>
-          <a href="/careers/by-program">Search Program</a>
+          <a href="/careers/search">Credential Search</a>
         </NavButton>
       </li>
     </ul>
