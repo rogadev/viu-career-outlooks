@@ -4,6 +4,7 @@
 
   import Results from '$lib/components/Results.svelte'
   import FilterBar from '$lib/components/FilterBar.svelte'
+  import SelectList from '$lib/components/SelectList.svelte'
 
   /** @type {{nid:number, title:string}[]} */
   let programs = []
@@ -36,7 +37,13 @@
 {#await fetchPrograms()}
   <p>Loading...</p>
 {:then}
-  <select name="nid" id="nid" bind:value={selectedNid}>
+  <!-- <SelectList bind:value={selectedNid} list={programs} /> -->
+  <select
+    name="nid"
+    id="nid"
+    bind:value={selectedNid}
+    class="w-full text-ellipsis"
+  >
     <option value={null} selected>Select a program...</option>
     {#each programs as program}
       <option value={program.nid}>{program.title}</option>
