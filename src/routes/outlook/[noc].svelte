@@ -30,7 +30,7 @@
   </title>
 </svelte:head>
 
-<H1 class="text-3xl mb-5 font-bold">{titleCase(title)}</H1>
+<H1>{titleCase(title)}</H1>
 <h2 class={`outlook-${outlook}`}>
   BC's 3-Year Market Outlook is <b>{outlook_verbose}</b>
 </h2>
@@ -40,7 +40,7 @@
 <ul>
   <li class="detail-section">
     <H3>Careers in this job market</H3>
-    <UL class="list-disc ml-5">
+    <UL>
       {#each jobList() as job}
         <LI>{job}</LI>
       {/each}
@@ -48,7 +48,7 @@
   </li>
   <li class="detail-section">
     <H3>Employment Requirements</H3>
-    <UL class="list-disc ml-5">
+    <UL>
       {#each requirements as requirement}
         <LI>{requirement}</LI>
       {/each}
@@ -57,18 +57,18 @@
   <li class="detail-section">
     <!-- Duties is either an array of objects or an array of strings. -->
     <H3>List of Duties</H3>
-    <UL class="list-disc ml-5">
+    <UL>
       {#if typeof duties[0] === 'string'}
         {#each duties as duty}
           <LI>{duty}</LI>
         {/each}
       {:else}
         {#each duties as duty}
-          <LI class="font-semibold">
+          <LI>
             {duty.title}
-            <UL class="list-disc ml-4 mb-4">
+            <UL>
               {#each duty.items as item}
-                <LI class="font-normal">{item}</LI>
+                <LI>{item}</LI>
               {/each}
             </UL>
           </LI>

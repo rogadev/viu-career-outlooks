@@ -35,9 +35,9 @@
 <h1>Search for career outlooks for any VIU program</h1>
 
 {#await fetchPrograms()}
-  <p>Loading...</p>
+  <p class="text-center py-6">Loading...</p>
 {:then}
-  <!-- <SelectList bind:value={selectedNid} list={programs} /> -->
+  <!-- <SelectList bind:value={selectedNid} options={programs} /> -->
   <select
     name="nid"
     id="nid"
