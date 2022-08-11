@@ -4,20 +4,73 @@
   export let /** @type {{nid:number, title:string}[]} */ options
   export let /** @type {number | null} */ value = null
 
-  $: filteredList = new Fuse(options, {
+  $: list = new Fuse(options, {
     keys: ['title'],
     shouldSort: true,
+    findAllMatches: true,
   })
 
   let input = /** @type {string}  */ ''
-  let showList = /** @type {Boolean} */ false
+  let searchTerm = /** @type {string} */ ''
+  let showDropdown = /** @type {Boolean} */ false
+  let filteredList = /** @type {{nid:number,title:string}[]} */ options
+  /** @type {NodeJS.Timeout} */
+  let debounceTimer
+  /** @type {HTMLInputElement} */
+  let inputElement
 
+  /** Performs fuzzy search on our list of options. Sets our filteredList to new array of results. */
   function search() {
-    return filteredList.search(input)
+    const result = list.search(input).map(({ item }) => item)
+    filteredList = result ? result : []
   }
+
+  /** Find the title of a given list item based on NID.
+   *  @param {number} nid to search for.
+   *  @returns {string} The title of the list item.
+   */
+  function findTitle(/** @type {number} */ nid) {
+    if (!filteredList) return ''
+    const result = filteredList.find((credential) => credential.nid === nid)
+    return result ? result.title : ''
+  }
+
+  /** If we have items in the filtered list,  */
+  function selectFirstItem() {
+    if (filteredList.length === 0) return
+    const { nid } = filteredList[0]
+    chooseOption(nid)
+    inputElement.blur()
+    showDropdown = false
+  }
+
+  /** When we click/tab to select an option from our dropdown list, choose this option and start displaying results. */
+  function chooseOption(/** @type {number} */ nid) {
+    const title = findTitle(nid)
+    input = title
+    value = nid
+    if (showDropdown) showDropdown = false
+  }
+
+  /** Most of the time, when our input changes, we'll want to debounce our search function for better performance. */
+  function debouncedSearch() {
+    clearTimeout(debounceTimer)
+    debounceTimer = setTimeout(search, 300)
+  }
+
+  // Every time our input changes, run the search, debounced.
+  $: input && debouncedSearch()
+
+  // If our input is empty (may have been cleared), reset the value of our filtered list to the full list of options.
+  $: if (input === '') filteredList = options
 </script>
 
-<div>
+<!-- If the relatedTarget on the focusout event is null, it is not related to our input or dropdown. In  that event, close the dropdown menu. -->
+<div
+  on:focusout={(e) => {
+    if (e.relatedTarget === null) showDropdown = false
+  }}
+>
   <div class="relative mt-1">
     <input
       id="combobox"
@@ -26,28 +79,26 @@
       role="combobox"
       aria-controls="options"
       aria-expanded="false"
+      autocomplete="off"
       bind:value={input}
-      on:click={() => {
-        if (input === '') {
-          dataListOpen = !dataListOpen
-        } else {
-          dataListOpen = true
-        }
-      }}
       on:keydown={(e) => {
         if (e.key === 'Enter') {
-          // @ts-ignore
-          if (value) input = findTitle(value)
-          else dataListOpen = false
+          selectFirstItem()
         }
       }}
+      on:focus={() => {
+        showDropdown = true
+      }}
+      bind:this={inputElement}
     />
     <button
       type="button"
       class="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none"
-      on:click={() => (dataListOpen = !dataListOpen)}
+      on:click={() => {
+        showDropdown = !showDropdown
+      }}
     >
-      <!-- Heroicon name: solid/selector -->
+      <!-- Up/Down Arrows - Dropdown open/close toggle icon -->
       <svg
         class="h-5 w-5 text-gray-400"
         xmlns="http://www.w3.org/2000/svg"
@@ -63,7 +114,7 @@
       </svg>
     </button>
 
-    {#if dataListOpen}
+    {#if showDropdown}
       <ul
         class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
         id="options"
@@ -71,23 +122,19 @@
       >
         <!--
         Combobox option, manage highlight styles based on mouseenter/mouseleave and keyboard navigation.
-
         Active: "text-white bg-indigo-600", Not Active: "text-gray-900"
       -->{#each filteredList as item}
           <li
-            on:click={setSelection(item.nid)}
             class="relative cursor-default select-none py-2 pl-3 pr-9 text-gray-900"
-            id="option-0"
+            id={`option-${item.nid}`}
             role="option"
-            tabindex="-1"
           >
             <!-- Selected: "font-semibold" -->
-
-            <span class="block truncate">{item.title}</span>
+            <button type="button" on:click={() => chooseOption(item.nid)}>
+              <span class="block truncate">{item.title}</span>
+            </button>
           </li>
         {/each}
-
-        <!-- More items... -->
       </ul>
     {/if}
   </div>

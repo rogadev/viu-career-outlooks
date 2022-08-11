@@ -57,7 +57,6 @@ export async function GET({ params }) {
         outlook_verbose: results[0].outlook_verbose,
         trends: results[0].trends,
         province: 'British Columbia',
-        eruid: 5900,
       },
     }
   })
