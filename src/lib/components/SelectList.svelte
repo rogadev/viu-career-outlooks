@@ -1,0 +1,94 @@
+<script>
+  import Fuse from 'fuse.js'
+
+  export let /** @type {{nid:number, title:string}[]} */ options
+  export let /** @type {number | null} */ value = null
+
+  $: filteredList = new Fuse(options, {
+    keys: ['title'],
+    shouldSort: true,
+  })
+
+  let input = /** @type {string}  */ ''
+  let showList = /** @type {Boolean} */ false
+
+  function search() {
+    return filteredList.search(input)
+  }
+</script>
+
+<div>
+  <div class="relative mt-1">
+    <input
+      id="combobox"
+      type="text"
+      class="w-full rounded-md border border-gray-300 bg-white py-2 pl-3 pr-12 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
+      role="combobox"
+      aria-controls="options"
+      aria-expanded="false"
+      bind:value={input}
+      on:click={() => {
+        if (input === '') {
+          dataListOpen = !dataListOpen
+        } else {
+          dataListOpen = true
+        }
+      }}
+      on:keydown={(e) => {
+        if (e.key === 'Enter') {
+          // @ts-ignore
+          if (value) input = findTitle(value)
+          else dataListOpen = false
+        }
+      }}
+    />
+    <button
+      type="button"
+      class="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none"
+      on:click={() => (dataListOpen = !dataListOpen)}
+    >
+      <!-- Heroicon name: solid/selector -->
+      <svg
+        class="h-5 w-5 text-gray-400"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+        aria-hidden="true"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+          clip-rule="evenodd"
+        />
+      </svg>
+    </button>
+
+    {#if dataListOpen}
+      <ul
+        class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+        id="options"
+        role="listbox"
+      >
+        <!--
+        Combobox option, manage highlight styles based on mouseenter/mouseleave and keyboard navigation.
+
+        Active: "text-white bg-indigo-600", Not Active: "text-gray-900"
+      -->{#each filteredList as item}
+          <li
+            on:click={setSelection(item.nid)}
+            class="relative cursor-default select-none py-2 pl-3 pr-9 text-gray-900"
+            id="option-0"
+            role="option"
+            tabindex="-1"
+          >
+            <!-- Selected: "font-semibold" -->
+
+            <span class="block truncate">{item.title}</span>
+          </li>
+        {/each}
+
+        <!-- More items... -->
+      </ul>
+    {/if}
+  </div>
+</div>
