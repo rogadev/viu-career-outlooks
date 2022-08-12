@@ -1,5 +1,10 @@
 <script>
   // @ts-nocheck
+  import H1 from '$lib/components/viu/H1.svelte'
+  import H3 from '$lib/components/viu/H3.svelte'
+  import UL from '$lib/components/viu/UL.svelte'
+  import LI from '$lib/components/viu/LI.svelte'
+  import Button from '$lib/components/viu/Button.svelte'
 
   import titleCase from '$lib/helpers/titleCase.js'
   // Properties returned from our shadow endpoint.
@@ -25,91 +30,100 @@
   </title>
 </svelte:head>
 
-<h1 class="text-3xl mb-5 font-bold">{titleCase(title)}</h1>
+<H1>{titleCase(title)}</H1>
 <h2 class={`outlook-${outlook}`}>
   BC's 3-Year Market Outlook is <b>{outlook_verbose}</b>
 </h2>
 
+<Button on:click={() => history.back()}>Back</Button>
+
 <ul>
   <li class="detail-section">
-    <b>Careers in this job market:</b>
-    <ul class="list-disc ml-5">
+    <H3>Careers in this job market</H3>
+    <UL>
       {#each jobList() as job}
-        <li>{job}</li>
+        <LI>{job}</LI>
       {/each}
-    </ul>
+    </UL>
   </li>
   <li class="detail-section">
-    <b>Employment Requirements:</b>
-    <ul class="list-disc ml-5">
+    <H3>Employment Requirements</H3>
+    <UL>
       {#each requirements as requirement}
-        <li>{requirement}</li>
+        <LI>{requirement}</LI>
       {/each}
-    </ul>
+    </UL>
   </li>
   <li class="detail-section">
     <!-- Duties is either an array of objects or an array of strings. -->
-    <b>List of Duties:</b>
-    <ul class="list-disc ml-5">
+    <H3>List of Duties</H3>
+    <UL>
       {#if typeof duties[0] === 'string'}
         {#each duties as duty}
-          <li>{duty}</li>
+          <LI>{duty}</LI>
         {/each}
       {:else}
         {#each duties as duty}
-          <li class="font-semibold">
+          <LI>
             {duty.title}
-            <ul class="list-disc ml-4 mb-4">
+            <UL>
               {#each duty.items as item}
-                <li class="font-normal">{item}</li>
+                <LI>{item}</LI>
               {/each}
-            </ul>
-          </li>
+            </UL>
+          </LI>
         {/each}
       {/if}
-    </ul>
+    </UL>
   </li>
   <li class="detail-section">
-    <b>Trends in {province}:</b>
+    <H3>Trends in {province}</H3>
     <!-- TODO Need to find a way to style this section. -->
-    {@html trends}
+    <div class="trends">
+      {@html trends}
+    </div>
   </li>
 </ul>
 
-<style>
-  .outlook-0 {
-    color: white;
-    background-color: #000;
-  }
-
-  .outlook-1 {
-    color: white;
-    background-color: red;
-  }
-
-  .outlook-2 {
-    color: black;
-    background-color: yellow;
-  }
-
-  .outlook-3 {
-    color: white;
-    background-color: green;
-  }
-
+<style lang="postcss">
   .outlook-0,
   .outlook-1,
   .outlook-2,
   .outlook-3 {
-    padding: 0.5rem;
-    border-radius: 0.5rem;
+    @apply px-4 py-2 rounded-full text-white w-fit my-5;
+  }
+
+  .outlook-0 {
+    background-color: #000;
+  }
+  .outlook-1 {
+    background-color: red;
+  }
+  .outlook-2 {
+    color: black;
+    background-color: yellow;
+  }
+  .outlook-3 {
+    background-color: green;
   }
 
   .detail-section {
     margin-top: 1rem;
   }
 
-  ul {
+  .trends :global(p) {
+    font-weight: bold;
     margin-top: 1rem;
+  }
+
+  .trends :global(ul) {
+    list-style-type: disc;
+    padding: 0;
+    margin-top: 0.5rem;
+  }
+
+  .trends :global(li) {
+    margin-bottom: 0.5rem;
+    margin-left: 1.5rem;
   }
 </style>

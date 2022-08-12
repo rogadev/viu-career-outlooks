@@ -1,4 +1,5 @@
 <script>
+  // TODO - I should probably delete this... as we are not using modals anymore.
   const details = {
     noc: 123,
     title: 'awesome title',
