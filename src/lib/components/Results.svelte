@@ -10,8 +10,12 @@
   aria-live="polite"
   class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-y-4 gap-x-2"
 >
-  {#if !jobs}
-    <p>No results found for this credential, at this time.</p>
+  {#if !jobs.length}
+    <p>
+      No results found for this credential, at this time. This is likely due to
+      poor Stats Canada data. In this app you can also try searching Stats
+      Canada Natioanl Occupancy Codes by job title.
+    </p>
   {:else}
     {#each jobs as job}
       <a
