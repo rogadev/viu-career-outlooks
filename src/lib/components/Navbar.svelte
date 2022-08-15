@@ -21,11 +21,10 @@
     </div>
   </a>
 
-  <nav aria-label="Main">
+  <!-- <nav aria-label="Main">
     <ul
       class="flex items-center justify-evenly mmd:gap-4 mmd:mx-4 mt-4 mmd:mt-0 text-center"
     >
-      <!-- <li class="nav-item"><a href="/outlook/2175">X</a></li> -->
       <li>
         <NavButton>
           <a href="/careers/by-program">Program Search</a>
@@ -37,5 +36,5 @@
         </NavButton>
       </li>
     </ul>
-  </nav>
+  </nav> -->
 </header>
