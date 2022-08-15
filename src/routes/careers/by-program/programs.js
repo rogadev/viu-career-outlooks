@@ -9,7 +9,7 @@ const getPrograms = async () => {
     const response = await fetch(
       'https://viu-career-outlook.herokuapp.com/api/v1/programs/searchable'
     )
-    const data = await response.json()
+    const { data } = await response.json()
     return data
   } catch (e) {
     console.error(e)
@@ -22,7 +22,7 @@ const getProgram = async (/** @type {number} */ nid) => {
   const response = await fetch(
     `https://viu-career-outlook.herokuapp.com/api/v1/jobs/program/${nid}`
   )
-  const data = await response.json()
+  const { data } = await response.json()
   return data
 }
 

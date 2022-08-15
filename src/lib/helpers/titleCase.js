@@ -4,6 +4,7 @@
  * @returns {string} The title case of the input string.
  */
 const titleCase = (str) => {
+  if (!str) return ''
   // Break the string into portions if the word contains brackets. Do this, then recursively call this function on each portion outside of the brackets.
   if (str.includes('(') && str.includes(')')) {
     const startIndex = str.indexOf('(')

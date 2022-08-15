@@ -20,11 +20,11 @@
   async function setProgram(/** @type {number} */ nid) {
     if (!nid) return (keywords = '')
     searchState.set('searching')
-    const { jobs } = await getProgram(nid)
+    const jobs = await getProgram(nid)
     results.set(jobs)
     searchState.set('found')
     // @ts-ignore
-    if (jobs.length < 1) searchState.set(new Error('No results found'))
+    if (!jobs.length > 0) searchState.set(new Error('No results found'))
   }
 
   $: {

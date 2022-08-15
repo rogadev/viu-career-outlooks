@@ -1,4 +1,5 @@
 import { loading } from '$lib/stores/loading'
+import { debug } from 'svelte/internal'
 
 /** @type {import('@sveltejs/kit').RequestHandler<{ noc: string }>} */
 export async function GET({ params }) {
@@ -16,7 +17,7 @@ export async function GET({ params }) {
       const response = await fetch(
         `https://viu-career-outlook.herokuapp.com/api/v1/outlook/${noc}`
       )
-      const data = await response.json()
+      const { data } = await response.json()
       trends = data.trends
       outlook_verbose = data.outlook_verbose
       outlook = data.potential
@@ -32,7 +33,7 @@ export async function GET({ params }) {
       const response = await fetch(
         `https://viu-career-outlook.herokuapp.com/api/v1/noc/${noc}`
       )
-      const data = await response.json()
+      const { data } = await response.json()
       title = data.title
       jobs = data.jobs
       requirements = data.requirements
