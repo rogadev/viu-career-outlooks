@@ -29,8 +29,11 @@ const getProgram = async (/** @type {number} */ nid) => {
     const response = await fetch(
       `https://viu-career-outlook.herokuapp.com/api/v1/jobs/program/${nid}`
     )
-    const { data } = await response.json()
-    return data ?? []
+    if (response.status === 200) {
+      const { data } = await response.json()
+      return data
+    }
+    return []
   } catch (e) {
     console.error(e)
     // @ts-ignore
