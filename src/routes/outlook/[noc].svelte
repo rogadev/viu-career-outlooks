@@ -5,6 +5,7 @@
   import UL from '$lib/components/viu/UL.svelte'
   import LI from '$lib/components/viu/LI.svelte'
   import Button from '$lib/components/viu/Button.svelte'
+  import StickyBackButton from '$lib/components/StickyBackButton.svelte'
 
   import titleCase from '$lib/helpers/titleCase.js'
   // Properties returned from our shadow endpoint.
@@ -31,11 +32,11 @@
 </svelte:head>
 
 <H1>{titleCase(title)}</H1>
+
 <h2 class={`outlook-${outlook}`}>
   BC's 3-Year Market Outlook is <b>{outlook_verbose}</b>
 </h2>
-
-<Button><a href="/">Back</a></Button>
+<StickyBackButton />
 
 <ul>
   <li class="detail-section">
@@ -90,7 +91,7 @@
   .outlook-1,
   .outlook-2,
   .outlook-3 {
-    @apply px-4 py-2 rounded-full text-white w-fit my-5;
+    @apply px-4 py-3 rounded shadow text-white w-fit my-5;
   }
 
   .outlook-0 {
