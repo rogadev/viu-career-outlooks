@@ -6,7 +6,6 @@
 
   import Results from '$lib/components/Results.svelte'
   import FilterBar from '$lib/components/FilterBar.svelte'
-  // import SelectList from '$lib/components/SelectList.svelte'
 
   /** @type {number} */
   let selectedNid
