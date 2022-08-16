@@ -1,10 +1,11 @@
 /**
  * Title case a given string, ignoring aything inside brackets.
  * @param {string} str  Input string to title case.
- * @returns {string} The title case of the input string.
+ * @returns {string | Error} The title case of the input string.
  */
 const titleCase = (str) => {
-  if (!str) return ''
+  if (!str)
+    return new Error(`No string was provided to titleCase(). Received ${str}`)
   // Break the string into portions if the word contains brackets. Do this, then recursively call this function on each portion outside of the brackets.
   if (str.includes('(') && str.includes(')')) {
     const startIndex = str.indexOf('(')

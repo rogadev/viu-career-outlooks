@@ -35,7 +35,7 @@
   BC's 3-Year Market Outlook is <b>{outlook_verbose}</b>
 </h2>
 
-<Button on:click={() => history.back()}>Back</Button>
+<Button><a href="/">Back</a></Button>
 
 <ul>
   <li class="detail-section">
