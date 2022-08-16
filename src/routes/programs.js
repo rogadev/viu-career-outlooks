@@ -12,6 +12,7 @@ const getPrograms = async () => {
         'https://viu-career-outlook.herokuapp.com/api/v1/programs/searchable'
       )
       const { data } = await response.json()
+      programs.set(data)
       return data
     } catch (e) {
       console.error(e)

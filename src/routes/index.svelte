@@ -2,20 +2,16 @@
   import { getPrograms, getProgram } from './programs'
   import { searchState, results } from '$lib/stores/searching'
 
+  import { programs } from '$lib/stores/programs'
+
   import Results from '$lib/components/Results.svelte'
   import FilterBar from '$lib/components/FilterBar.svelte'
-  import SelectList from '$lib/components/SelectList.svelte'
+  // import SelectList from '$lib/components/SelectList.svelte'
 
-  /** @type {{nid:number, title:string}[]} */
-  let programs = []
   /** @type {number} */
   let selectedNid
   /** @type {string} */
   let keywords
-
-  async function fetchPrograms() {
-    programs = await getPrograms()
-  }
 
   async function setProgram(/** @type {number} */ nid) {
     if (!nid) return (keywords = '')
@@ -25,6 +21,12 @@
     searchState.set('found')
     // @ts-ignore
     if (!jobs.length) searchState.set(new Error('No results found'))
+  }
+
+  async function fetchPrograms() {
+    if (!$programs.length) {
+      await getPrograms()
+    }
   }
 
   $: {
@@ -45,7 +47,7 @@
     class="w-full text-ellipsis my-4"
   >
     <option value={null} selected>Select a program...</option>
-    {#each programs as program}
+    {#each $programs as program}
       <option value={program.nid}>{program.title}</option>
     {/each}
   </select>
