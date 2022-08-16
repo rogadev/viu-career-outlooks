@@ -24,7 +24,7 @@
     results.set(jobs)
     searchState.set('found')
     // @ts-ignore
-    if (!jobs.length > 0) searchState.set(new Error('No results found'))
+    if (!jobs.length) searchState.set(new Error('No results found'))
   }
 
   $: {
@@ -35,14 +35,14 @@
 <h1>Search for career outlooks for any VIU program</h1>
 
 {#await fetchPrograms()}
-  <p class="text-center py-6">Loading... This may take a moment.</p>
+  <p class="text-center my-4 py-4">App loading... This may take a moment.</p>
 {:then}
   <!-- <SelectList bind:value={selectedNid} options={programs} /> -->
   <select
     name="nid"
     id="nid"
     bind:value={selectedNid}
-    class="w-full text-ellipsis"
+    class="w-full text-ellipsis my-4"
   >
     <option value={null} selected>Select a program...</option>
     {#each programs as program}
