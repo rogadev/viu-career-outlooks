@@ -12,14 +12,21 @@
   /** @type {string} */
   let keywords
 
+  // @ts-ignore
+  $: errorState = $searchState instanceof Error
+
   async function setProgram(/** @type {number} */ nid) {
     if (!nid) return (keywords = '')
     searchState.set('searching')
     const jobs = await getProgram(nid)
-    results.set(jobs)
-    searchState.set('found')
-    // @ts-ignore
-    if (!jobs.length) searchState.set(new Error('No results found'))
+    if (!jobs.length) {
+      results.set([])
+      // @ts-ignore
+      searchState.set(new Error('No results found'))
+    } else {
+      results.set(jobs)
+      searchState.set('found')
+    }
   }
 
   async function fetchPrograms() {
@@ -51,6 +58,13 @@
     {/each}
   </select>
 {/await}
+
+{#if errorState}
+  <p>
+    At this time, there are no results for this credential. This is likely due
+    to poor Stats Canada data.
+  </p>
+{/if}
 
 {#if $searchState === 'found'}
   <FilterBar />
