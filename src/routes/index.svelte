@@ -61,8 +61,11 @@
 
 {#if errorState}
   <p>
-    At this time, there are no results for this credential. This is likely due
-    to poor Stats Canada data.
+    At this time, there are no results for this credential. Touch base with our <a
+      class="text-blue-700 cursor-pointer underline"
+      href="mailto:web@viu.ca"
+      target="_blank">web team via email</a
+    > to let us know.
   </p>
 {/if}
 
