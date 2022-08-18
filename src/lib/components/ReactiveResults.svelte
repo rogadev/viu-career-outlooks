@@ -8,9 +8,8 @@
 >
   {#if !list.length}
     <p>
-      No results found for this credential, at this time. This is likely due to
-      poor Stats Canada data. In this app you can also try searching Stats
-      Canada Natioanl Occupancy Codes by job title.
+      No results found for this credential, at this time. Contact the Web Team
+      to update the VIU program list.
     </p>
   {:else}
     {#each list as job}
@@ -21,7 +20,7 @@
         <div
           class="mb-2 px-4 py-2 bg-blue-50 border rounded-lg border-blue-100  hover:bg-blue-200 hover:border-blue-200 font-semibold h-full"
         >
-          {job.title}
+          {job}
         </div>
       </a>
     {/each}
