@@ -14,7 +14,15 @@ export async function GET({ params }) {
 
   await Promise.all([fetchProgram(nid), fetchJobs(nid)]).catch(console.error)
 
-  if (!jobs.length) return { status: 404 }
+  if (!jobs.length)
+    return {
+      status: 200,
+      body: {
+        jobs: [],
+        title: 'Program Not Found.',
+        credential: null,
+      },
+    }
 
   return {
     status: 200,

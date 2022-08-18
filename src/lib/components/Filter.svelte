@@ -1,5 +1,5 @@
 <script>
-  export let /** @type {{noc:string, title:string}[]} */ haystack
+  export let /** @type {string[]} */ haystack
 
   import Fuse from 'fuse.js'
   import Button from './viu/Button.svelte'

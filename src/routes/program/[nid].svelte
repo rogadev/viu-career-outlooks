@@ -2,7 +2,7 @@
   import H1 from '$lib/components/viu/H1.svelte'
   import Filter from '$lib/components/Filter.svelte'
 
-  export let /** @type {{noc:string, title:string}[]}*/ jobs
+  export let /** @type {string[]}*/ jobs
   export let /** @type {string}*/ title
   export let /** @type {string} */ credential
 </script>
