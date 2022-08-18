@@ -4,8 +4,9 @@
 
   export let /** @type {{noc:string, title:string}[]}*/ jobs
   export let /** @type {string}*/ title
+  export let /** @type {string} */ credential
 </script>
 
-<H1>{title}</H1>
+<H1>{title} {credential}</H1>
 
 <Filter haystack={jobs} />

@@ -9,14 +9,12 @@
 
   /** @type {number} */
   let selectedNid
-  /** @type {string} */
-  let keywords
 
   // @ts-ignore
   $: errorState = $searchState instanceof Error
 
   async function setProgram(/** @type {number} */ nid) {
-    if (!nid) return (keywords = '')
+    if (!nid) return 
     searchState.set('searching')
     const jobs = await getProgram(nid)
     if (!jobs.length) {
