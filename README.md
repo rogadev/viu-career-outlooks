@@ -85,6 +85,10 @@ The root of this project is the Career Outlooks search-by-credential page. The f
 
 Program pages can use their VIU NID to link to this tool and display a list of career paths available with a fuzzy filter to search through results.
 
+### `/outlook/[noc]`
+
+
+
 ## Made With SvelteKit
 
 This project was built with the beta version of [SvelteKit](https://kit.svelte.dev/). The SvelteKit docs can be found [here](https://kit.svelte.dev/docs/introduction).
