@@ -2,6 +2,8 @@ import { pushIfUnique } from '$lib/helpers/array.helpers'
 
 /** @type {string | null} */
 let programTitle = null
+/** @type {string | null} */
+let credential = null
 /** @type {Object[]} */
 let jobs = []
 
@@ -10,8 +12,7 @@ export async function GET({ params }) {
   const nid = params.nid
   if (!nid) return { status: 404 }
 
-  await fetchJobs(nid)
-  await fetchProgram(nid)
+  await Promise.all([fetchProgram(nid), fetchJobs(nid)]).catch(console.error)
 
   if (!jobs.length) return { status: 404 }
 
@@ -21,24 +22,36 @@ export async function GET({ params }) {
     body: {
       jobs,
       title: programTitle,
+      credential,
     },
   }
 }
 
 async function fetchJobs(/** @type {string | number} */ nid) {
-  const response = await fetch(
-    `https://viu-career-outlook.herokuapp.com/api/v1/jobs/program/${nid}`
-  )
-  const { data } = await response.json()
-  data.forEach((/** @type {{nid:String, title:String;}} */ job) =>
-    pushIfUnique(jobs, job)
-  )
+  try {
+    const response = await fetch(
+      `https://viu-career-outlook.herokuapp.com/api/v1/jobs/program/${nid}`
+    )
+    if (response.status !== 200) return
+    const { data } = await response.json()
+    data.forEach((/** @type {{nid:String, title:String;}} */ job) =>
+      pushIfUnique(jobs, job)
+    )
+  } catch (e) {
+    console.error(e)
+  }
 }
 
 async function fetchProgram(/** @type {string | number} */ nid) {
-  const response = await fetch(
-    `https://viu-career-outlook.herokuapp.com/api/v1/program/${nid}`
-  )
-  const { data } = await response.json()
-  programTitle = data.title
+  try {
+    const response = await fetch(
+      `https://viu-career-outlook.herokuapp.com/api/v1/program/${nid}`
+    )
+    if (response.status !== 200) return
+    const { data } = await response.json()
+    programTitle = data.title
+    credential = data.credential
+  } catch (e) {
+    console.error(e)
+  }
 }
