@@ -9,4 +9,11 @@
 
 <H1>{title} {credential}</H1>
 
-<Filter haystack={jobs} />
+{#if !jobs.length}
+  <p>
+    No results found for this credential, at this time. Contact the Web Team to
+    update the VIU program list.
+  </p>
+{:else}
+  <Filter haystack={jobs} />
+{/if}

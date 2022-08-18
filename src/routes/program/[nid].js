@@ -35,7 +35,7 @@ async function fetchJobs(/** @type {string | number} */ nid) {
     if (response.status !== 200) return
     const { data } = await response.json()
     data.forEach((/** @type {{nid:String, title:String;}} */ job) =>
-      pushIfUnique(jobs, job)
+      pushIfUnique(jobs, job.title)
     )
   } catch (e) {
     console.error(e)
