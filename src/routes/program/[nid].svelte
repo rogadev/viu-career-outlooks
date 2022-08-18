@@ -2,7 +2,7 @@
   import H1 from '$lib/components/viu/H1.svelte'
   import Filter from '$lib/components/Filter.svelte'
 
-  export let /** @type {string[]}*/ jobs
+  export let /** @type {{noc:string,title:string}[]}*/ jobs
   export let /** @type {string}*/ title
   export let /** @type {string} */ credential
 </script>
@@ -11,8 +11,8 @@
 
 {#if !jobs.length}
   <p>
-    No results found for this credential, at this time. Contact the Web Team to
-    update the VIU program list.
+    No results found for this credential, at this time. Contact the Web Team if
+    you think there's been a mistake.
   </p>
 {:else}
   <Filter haystack={jobs} />
