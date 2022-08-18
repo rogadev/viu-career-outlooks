@@ -1,5 +1,4 @@
 import { loading } from '$lib/stores/loading'
-import { debug } from 'svelte/internal'
 
 /** @type {import('@sveltejs/kit').RequestHandler<{ noc: string }>} */
 export async function GET({ params }) {
