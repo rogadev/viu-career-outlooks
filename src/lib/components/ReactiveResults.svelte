@@ -20,7 +20,7 @@
         <div
           class="mb-2 px-4 py-2 bg-blue-50 border rounded-lg border-blue-100  hover:bg-blue-200 hover:border-blue-200 font-semibold h-full"
         >
-          {job}
+          {job.title}
         </div>
       </a>
     {/each}
