@@ -4,6 +4,6 @@
 
 <div class="container sticky top-4">
   <Button>
-    <a href="/">Back</a>
+    <div on:click={() => history.back()}>Back</div>
   </Button>
 </div>
