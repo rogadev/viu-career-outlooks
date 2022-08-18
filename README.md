@@ -1,7 +1,7 @@
 # About Career Outlooks
 
 <h3 style="text-align:center;margin-top:20px;">Ryan Roga, Web Application Developer</h3>
-<div style="width:50%;margin:0 auto;">
+<div style="width:50%;margin:0.5em auto">
   <div style="display:flex;justify-content:space-evenly;margin-bottom:20px;">
     <a href="https://github.com/rogadev">
       <img src="readme_img/GitHub-Light-32px.png" height="25px" />
@@ -18,7 +18,7 @@
   </div>
 </div>
 
-This project was developed by student web developer [Ryan Roga](https://github.com/rogadev) during his 2022 summer internship at [VIU](https://www.viu.ca) as part of the [ITAS Web and Mobile Development Diploma](https://www.viu.ca/programs/trades-applied-technology/information-technology-and-applied-systems-web-and-mobile) program.
+This project was developed by [VIU](https://www.viu.ca) student web developer [Ryan Roga](https://github.com/rogadev) during his 2022 summer internship as part of the [ITAS Web and Mobile Development Diploma](https://www.viu.ca/programs/trades-applied-technology/information-technology-and-applied-systems-web-and-mobile) program.
 
 Your post-secondary education path is a big decision. Investing in your future should be something you put a lot of time, energy, and thought into. Surprisingly, many students embark on their educational journey without knowing what a given credential will afford them in the real world.
 
@@ -70,3 +70,25 @@ npm run build
 You can preview the production build with `npm run preview`.
 
 > To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+
+## ENV Variables
+
+There are no environment variables needed to run the SvelteKit app. All API keys and other variables are saved in [the backend API](https://github.com/rogadev/viu-eo-api) which uses a cors policy which restricts cross-origin access.
+
+## Routes
+
+### `/`
+
+The root of this project is the Career Outlooks search-by-credential page. The features on this page consume several of the backend API routes including fetching and caching a list of searchable VIU programs (`/api/v1/programs/searchable`) and displaying results
+
+### `/program/[nid]`
+
+Program pages can use their VIU NID to link to this tool and display a list of career paths available with a fuzzy filter to search through results.
+
+### `/outlook/[noc]`
+
+
+
+## Made With SvelteKit
+
+This project was built with the beta version of [SvelteKit](https://kit.svelte.dev/). The SvelteKit docs can be found [here](https://kit.svelte.dev/docs/introduction).

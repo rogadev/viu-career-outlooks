@@ -1,5 +1,5 @@
 <script>
-  import NavButton from './viu/NavButton.svelte'
+  // import NavButton from './viu/NavButton.svelte'
   import NavBrand from './viu/NavBrand.svelte'
 </script>
 
