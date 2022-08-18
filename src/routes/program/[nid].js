@@ -20,7 +20,7 @@ export async function GET({ params }) {
       body: {
         jobs: [],
         title: 'Program Not Found.',
-        credential: null,
+        credential: '',
       },
     }
 
