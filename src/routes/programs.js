@@ -16,8 +16,6 @@ const getPrograms = async () => {
       return data
     } catch (e) {
       console.error(e)
-      // @ts-ignore
-      return new Error(e)
     }
   } else {
     return programList
@@ -36,8 +34,6 @@ const getProgram = async (/** @type {number} */ nid) => {
     return []
   } catch (e) {
     console.error(e)
-    // @ts-ignore
-    return new Error(e)
   }
 }
 

@@ -42,9 +42,10 @@ async function fetchJobs(/** @type {string | number} */ nid) {
     const response = await fetch(
       `https://viu-career-outlook.herokuapp.com/api/v1/jobs/program/${nid}`
     )
-    if (response.status !== 200) return
+    if (response.status !== 200) return { success: false }
     const { data } = await response.json()
     const { jobs, program } = data
+    return { success: true }
 
     if (jobs.length > 0) {
       jobResults = jobs
@@ -56,5 +57,6 @@ async function fetchJobs(/** @type {string | number} */ nid) {
     }
   } catch (e) {
     console.error(e)
+    return { success: false }
   }
 }
