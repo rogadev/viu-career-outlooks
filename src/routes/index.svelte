@@ -14,9 +14,9 @@
   $: errorState = $searchState instanceof Error
 
   async function setProgram(/** @type {number} */ nid) {
-    if (!nid) return 
+    if (!nid) return
     searchState.set('searching')
-    const jobs = await getProgram(nid)
+    const { jobs } = await getProgram(nid)
     if (!jobs.length) {
       results.set([])
       // @ts-ignore
