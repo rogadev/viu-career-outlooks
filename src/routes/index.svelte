@@ -30,6 +30,10 @@
   $: nidToFetch = $selectedProgram?.nid ?? '0000'
 </script>
 
+<svelte:head>
+  <title>VIU | Career Outlooks</title>
+</svelte:head>
+
 {#await fetchProgramList()}
   <p class="text-center my-4 py-4">Loading VIU program list - standby...</p>
 {:then}

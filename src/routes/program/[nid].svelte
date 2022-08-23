@@ -7,6 +7,10 @@
   export let /** @type {string} */ credential
 </script>
 
+<svelte:head>
+  <title>{title} | Career Opportunties</title>
+</svelte:head>
+
 <H1>{title} {credential}</H1>
 
 {#if !jobs.length}
