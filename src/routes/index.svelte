@@ -1,73 +1,42 @@
 <script>
   import { getPrograms, getProgram } from './programs'
-  import { searchState, results } from '$lib/stores/searching'
+  import {
+    programs,
+    programSelected,
+    selectedProgram,
+  } from '$lib/stores/programs'
+  import ProgramsFilter from '$lib/components/ProgramsFilter.svelte'
+  import H2 from '$lib/components/viu/H2.svelte'
+  import FetchedResults from '$lib/components/FetchedResults.svelte'
+  import H3 from '$lib/components/viu/H3.svelte'
 
-  import { programs } from '$lib/stores/programs'
+  // If we have programs in our store, it should load these without the need for an additional fetch() request.
+  /** @type {{nid:string,title:string}[]} */
+  let programList = $programs.map((v) => v)
 
-  import Results from '$lib/components/Results.svelte'
-  import FilterBar from '$lib/components/FilterBar.svelte'
-
-  /** @type {number} */
-  let selectedNid
+  // Note that we only fetch our list of programs if we don't yet have any in our store.
+  async function fetchProgramList() {
+    if (!programList.length) {
+      programList = await getPrograms() // getPrograms() will populate our store for future loads of this component/view
+    }
+    return
+  }
 
   // @ts-ignore
-  $: errorState = $searchState instanceof Error
+  $: programTitle = $selectedProgram?.title || ''
 
-  async function setProgram(/** @type {number} */ nid) {
-    if (!nid) return
-    searchState.set('searching')
-    const { jobs } = await getProgram(nid)
-    if (!jobs.length) {
-      results.set([])
-      // @ts-ignore
-      searchState.set(new Error('No results found'))
-    } else {
-      results.set(jobs)
-      searchState.set('found')
-    }
-  }
-
-  async function fetchPrograms() {
-    if (!$programs.length) {
-      await getPrograms()
-    }
-  }
-
-  $: {
-    setProgram(selectedNid)
-  }
+  // @ts-ignore
+  $: nidToFetch = $selectedProgram?.nid ?? '0000'
 </script>
 
-<h1>Search for career outlooks for any VIU program</h1>
-
-{#await fetchPrograms()}
-  <p class="text-center my-4 py-4">App loading... This may take a moment.</p>
+{#await fetchProgramList()}
+  <p class="text-center my-4 py-4">Loading VIU program list - standby...</p>
 {:then}
-  <!-- <SelectList bind:value={selectedNid} options={programs} /> -->
-  <select
-    name="nid"
-    id="nid"
-    bind:value={selectedNid}
-    class="w-full text-ellipsis my-4"
-  >
-    <option value={null} selected>Select a program...</option>
-    {#each $programs as program}
-      <option value={program.nid}>{program.title}</option>
-    {/each}
-  </select>
+  {#if !$programSelected}
+    <H2>Search for career outlooks for any VIU program</H2>
+
+    <ProgramsFilter programs={programList} />
+  {:else}
+    <FetchedResults nid={nidToFetch} />
+  {/if}
 {/await}
-
-{#if errorState}
-  <p>
-    At this time, there are no results for this credential. Touch base with our <a
-      class="text-blue-700 cursor-pointer underline"
-      href="mailto:web@viu.ca"
-      target="_blank">web team via email</a
-    > to let us know.
-  </p>
-{/if}
-
-{#if $searchState === 'found'}
-  <FilterBar />
-  <Results />
-{/if}
