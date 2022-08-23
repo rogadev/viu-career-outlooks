@@ -45,7 +45,6 @@ async function fetchJobs(/** @type {string | number} */ nid) {
     if (response.status !== 200) return { success: false }
     const { data } = await response.json()
     const { jobs, program } = data
-    return { success: true }
 
     if (jobs.length > 0) {
       jobResults = jobs
