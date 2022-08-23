@@ -16,6 +16,7 @@
 
   // Note that we only fetch our list of programs if we don't yet have any in our store.
   async function fetchProgramList() {
+    // TODO handle erros and show a message to the user.
     if (!programList.length) {
       programList = await getPrograms() // getPrograms() will populate our store for future loads of this component/view
     }

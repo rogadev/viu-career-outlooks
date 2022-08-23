@@ -1,6 +1,5 @@
 <script>
   import titleCase from '$lib/helpers/titleCase'
-  import Result from './Result.svelte'
   import Button from './viu/Button.svelte'
   import H1 from './viu/H1.svelte'
   import H3 from './viu/H3.svelte'
