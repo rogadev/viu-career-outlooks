@@ -4,16 +4,19 @@
   export let /** @type {{title:string, noc:string}[]} */ list
 </script>
 
-<div
-  aria-live="polite"
-  class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-y-4 gap-x-2"
->
-  {#if !list.length}
-    <p>
-      No results found for this credential, at this time. Contact the Web Team
-      to update the VIU program list.
-    </p>
-  {:else}
+{#if !list.length}
+  <p>
+    No results found for this credential, at this time. <a
+      class="text-blue-600 cursor-pointer font-semibold hover:text-blue-800"
+      href="mailto:web@viu.ca"
+      target="_blank">Contact the Web Team</a
+    > to update the VIU program list.
+  </p>
+{:else}
+  <div
+    aria-live="polite"
+    class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-y-4 gap-x-2"
+  >
     {#each list as job}
       <a
         href={'/outlook/' + job.noc}
@@ -26,5 +29,5 @@
         </div>
       </a>
     {/each}
-  {/if}
-</div>
+  </div>
+{/if}

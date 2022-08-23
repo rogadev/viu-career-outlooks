@@ -30,27 +30,31 @@
   }
 </script>
 
-<div class="flex flex-col my-4">
-  <label for="filter-input" class="font-bold"
-    >Filter results by typing below:</label
-  >
-  <div class="flex items-center gap-6 mb-4">
-    <input
-      type="text"
-      name="filter-input"
-      id="filter-input"
-      bind:value={input}
-      class="mr-4 w-full "
-      placeholder="Search..."
-    />
-    <Button on:click={clearInput}>Clear</Button>
+{#if filteredResults.length > 0}
+  <div class="flex flex-col my-4">
+    <label for="filter-input" class="font-bold"
+      >Filter results by typing below:</label
+    >
+    <div class="flex items-center gap-6 mb-4">
+      <input
+        type="text"
+        name="filter-input"
+        id="filter-input"
+        bind:value={input}
+        class="mr-4 w-full "
+        placeholder="Search..."
+      />
+      <Button on:click={clearInput}>Clear</Button>
+    </div>
   </div>
-</div>
-<div class="mt-0 mb-6">
-  <H3>Career Paths</H3>
-  <p>
-    Select a career from the list to see detailed information including the BC's
-    3-year market trends and outlook
-  </p>
-</div>
+  <div class="mt-0 mb-6">
+    <H3>Career Paths</H3>
+    <p>
+      Tap or click on an option below to see detailed information about the
+      selected career path. These details include market trends and BC's 3-year
+      employment outlook.
+    </p>
+  </div>
+{/if}
+
 <ReactiveResults list={filteredResults} />

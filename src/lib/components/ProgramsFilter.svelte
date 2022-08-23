@@ -12,7 +12,9 @@
 
   const fuseOptions = {
     shouldSort: true,
-    keys: ['title'],
+    keys: ['title', 'viu_search_keywords'],
+    threshold: 0.425,
+    ignoreLocation: true,
   }
 
   $: fuse = new Fuse(programs, fuseOptions)
