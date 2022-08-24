@@ -79,16 +79,32 @@ There are no environment variables needed to run the SvelteKit app. All API keys
 
 ### `/`
 
-The root of this project is the Career Outlooks search-by-credential page. The features on this page consume several of the backend API routes including fetching and caching a list of searchable VIU programs (`/api/v1/programs/searchable`) and displaying results
+[Example 🔗](https://viu-career-outlook.vercel.app/)
+
+The root of this app allows users to search through all VIU credentials available in the API's list of searchable VIU programs (`/api/v1/programs/searchable`).
+
+Users can further filter search results, filter job results for keywords, and reset the search to find other programs career opportunities.
 
 ### `/program/[nid]`
 
-Program pages can use their VIU NID to link to this tool and display a list of career paths available with a fuzzy filter to search through results.
+[Example 🔗](https://viu-career-outlook.vercel.app/program/7222)
+
+Program pages can use their VIU NID to link to this tool and display a list of career paths available. A search bar allows users to do a fuzzy search to sift through job results.
 
 ### `/outlook/[noc]`
 
+[Example 🔗](https://viu-career-outlook.vercel.app/outlook/2175)
 
+This route is used in the app itself, but also linked to in the Drupal view. This is the details view that highlights the requirements, duties, market trends and employment outlook for a given unit group.
 
 ## Made With SvelteKit
 
 This project was built with the beta version of [SvelteKit](https://kit.svelte.dev/). The SvelteKit docs can be found [here](https://kit.svelte.dev/docs/introduction).
+
+The app uses shadow endpoints (also know as BFF or backend for frontend) to provide some server-side logic that can be processed on the backend quickly, then served up to the frontend.
+
+> NOTE: shadow endpoints (now called API routes or endpoints) have changed significantly since the start of this project. Although the function is the same, the file naming convention and some functionality may break if updated. Find out more [here](https://kit.svelte.dev/docs/routing#server).
+
+## The API
+
+Our frontend project wouldn't work without the backend API that was built for it. You can find documentation on this side of the project in [this repo](https://github.com/rogadev/viu-eo-api).
