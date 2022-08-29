@@ -1,5 +1,5 @@
 /**
- * Title case a given string, ignoring aything inside brackets.
+ * Title case a given string, ignoring anything inside brackets.
  * @param {string} str  Input string to title case.
  * @returns {string | Error} The title case of the input string.
  */

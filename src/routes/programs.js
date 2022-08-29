@@ -8,9 +8,7 @@ let programList = programs.subscribe((v) => v)
 const getPrograms = async () => {
   if (!programList.length) {
     try {
-      const response = await fetch(
-        'https://viu-career-outlook.herokuapp.com/api/v1/programs/searchable'
-      )
+      const response = await fetch('/api/v1/programs')
       const { data } = await response.json()
       programs.set(data)
       return data

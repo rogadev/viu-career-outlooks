@@ -29,6 +29,7 @@
 	"type": "module",
 	"dependencies": {
 		"@tailwindcss/forms": "^0.5.2",
-		"fuse.js": "^6.6.2"
+		"fuse.js": "^6.6.2",
+		"node-cache": "^5.1.2"
 	}
 }

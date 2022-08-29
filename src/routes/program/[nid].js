@@ -39,12 +39,10 @@ export async function GET({ params }) {
 
 async function fetchJobs(/** @type {string | number} */ nid) {
   try {
-    const response = await fetch(
-      `https://viu-career-outlook.herokuapp.com/api/v1/jobs/program/${nid}`
-    )
+    const response = await fetch(`/api/v1/jobs-program-program/${nid}`)
     if (response.status !== 200) return { success: false }
-    const { data } = await response.json()
-    const { jobs, program } = data
+    console.log('asdf', await response.json())
+    const { jobs, program } = await response.json()
 
     if (jobs.length > 0) {
       jobResults = jobs
