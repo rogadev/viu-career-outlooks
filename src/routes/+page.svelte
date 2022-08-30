@@ -22,9 +22,6 @@
   }
 
   // @ts-ignore
-  $: programTitle = $selectedProgram?.title || ''
-
-  // @ts-ignore
   $: nidToFetch = $selectedProgram?.nid ?? '0000'
 </script>
 
