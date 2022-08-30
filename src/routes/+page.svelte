@@ -34,7 +34,6 @@
 {:then}
   {#if !$programSelected}
     <H2>Search for career outlooks for any VIU program</H2>
-
     <ProgramsFilter programs={programList} />
   {:else}
     <FetchedResults nid={nidToFetch} />
