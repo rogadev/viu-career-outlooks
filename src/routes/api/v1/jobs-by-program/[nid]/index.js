@@ -1,3 +1,4 @@
+import { json as json$1 } from '@sveltejs/kit'
 // HELPERS
 import generateKeywordCombinations from '$lib/server/helpers/generateKeywordCombinations'
 import pushJobIfUnique from '$lib/server/helpers/pushJobIfUnique'
@@ -5,7 +6,7 @@ import pushJobIfUnique from '$lib/server/helpers/pushJobIfUnique'
 // DATA
 import unitGroups from '$lib/server/data/noc_2016_unit_groups.json'
 import viuPrograms from '$lib/server/data/viu_programs.json'
-import enforceArray from '$lib/server/helpers/enforceArray'
+// import enforceArray from '$lib/server/helpers/enforceArray'
 
 /**
  * @typedef Job
@@ -16,12 +17,12 @@ import enforceArray from '$lib/server/helpers/enforceArray'
 /** @type {import('@sveltejs/kit').RequestHandler<{ nid: string }>} */
 export async function GET({ params }) {
   const { nid } = params // extract nid
-  if (!validNID(nid)) return { status: 400 } // validate nid param
+  if (!validNID(nid)) return new Response(undefined, { status: 400 }) // validate nid param
 
   const program = viuPrograms.find(
     ({ nid: programNid }) => programNid.toString() === nid
   ) // find program by nid
-  if (!program) return { status: 500 } // After initial validation of nid param, we SHOULD have a program. If not, something went horribly wrong.
+  if (!program) return new Response(undefined, { status: 500 }) // After initial validation of nid param, we SHOULD have a program. If not, something went horribly wrong.
 
   const {
     title,
@@ -29,7 +30,7 @@ export async function GET({ params }) {
     noc_search_keywords: knownKeywords = false,
     known_noc_groups: knownGroups = false,
   } = program // extract program data
-  if (!title || !credential) return { status: 500 } // validate program data - if missing title or credential, we have a server/data problem.
+  if (!title || !credential) return new Response(undefined, { status: 500 }) // validate program data - if missing title or credential, we have a server/data problem.
 
   /** @type {Job[]} */
   const jobs = [] // collector array
@@ -52,13 +53,10 @@ export async function GET({ params }) {
 
   console.log(`Found ${jobs.length} jobs.`) // log the number of jobs found
 
-  return {
-    status: 200,
-    body: {
-      program,
-      jobs,
-    },
-  }
+  return json$1({
+    program,
+    jobs,
+  })
 }
 
 /**

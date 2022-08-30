@@ -5,10 +5,11 @@ let credential = null
 /** @type {Object[]} */
 let jobResults = []
 
-/** @type {import('@sveltejs/kit').RequestHandler<{ nid: string | number }>} */
-export async function GET({ params }) {
+/** @type {import('@sveltejs/kit').PageServerLoad<{ nid: string | number }>} */
+export async function load({ params }) {
   const nid = params.nid
-  if (!nid) return { status: 404 }
+  if (!nid) throw new Error("@migration task: Migrate this return statement (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292699)");
+  return { status: 404 }
 
   try {
     await fetchJobs(nid)
@@ -18,23 +19,16 @@ export async function GET({ params }) {
 
   if (!jobResults.length)
     return {
-      status: 200,
-      body: {
-        jobs: [],
-        title: 'Program Not Found.',
-        credential: '',
-      },
-    }
+  jobs: [],
+  title: 'Program Not Found.',
+  credential: '',
+}
 
   return {
-    status: 200,
-    // @ts-ignore
-    body: {
-      jobs: jobResults,
-      title: programTitle,
-      credential,
-    },
-  }
+  jobs: jobResults,
+  title: programTitle,
+  credential,
+}
 }
 
 async function fetchJobs(/** @type {string | number} */ nid) {

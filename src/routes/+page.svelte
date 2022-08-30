@@ -1,5 +1,4 @@
 <script>
-  import { getPrograms, getProgram } from './programs'
   import {
     programs,
     programSelected,
@@ -8,19 +7,18 @@
   import ProgramsFilter from '$lib/components/ProgramsFilter.svelte'
   import H2 from '$lib/components/viu/H2.svelte'
   import FetchedResults from '$lib/components/FetchedResults.svelte'
-  import H3 from '$lib/components/viu/H3.svelte'
+  import getPrograms from '$lib/server/functions/getPrograms'
 
   // If we have programs in our store, it should load these without the need for an additional fetch() request.
   /** @type {{nid:string,title:string}[]} */
-  let programList = $programs.map((v) => v)
+  $: programList = $programs.map((v) => v)
 
-  // Note that we only fetch our list of programs if we don't yet have any in our store.
-  async function fetchProgramList() {
-    // TODO handle erros and show a message to the user.
+  function fetchProgramList() {
     if (!programList.length) {
-      programList = await getPrograms() // getPrograms() will populate our store for future loads of this component/view
+      const searchablePrograms = getPrograms()
+      // @ts-ignore
+      programs.set(searchablePrograms)
     }
-    return
   }
 
   // @ts-ignore

@@ -1,4 +1,6 @@
 <script>
+  throw new Error("@migration task: Add data prop (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292707)");
+
   import H1 from '$lib/components/viu/H1.svelte'
   import Filter from '$lib/components/Filter.svelte'
 
