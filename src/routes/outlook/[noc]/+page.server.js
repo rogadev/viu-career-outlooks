@@ -173,7 +173,7 @@ function refactorOutlookWithLogicalPotential(outlook) {
  * @param {String} provinceId The province code relevant to this search.
  * @returns Object containing key value pairs of data related to the outlook of the given unit group in the given province.
  */
-const fetchProvincialOutlook = async (noc, provinceId) => {
+async function fetchProvincialOutlook(noc, provinceId) {
   // example query: GET https://lmi-outlooks-esdc-edsc-apicast-production.api.canada.ca/clmix-wsx/gcapis/outlooks?noc=1111&rtp=1&rid=10
 
   try {
@@ -193,7 +193,7 @@ const fetchProvincialOutlook = async (noc, provinceId) => {
  * @param {Number} potential - The outlook potential, represented as a value from 0 to 3.
  * @returns The verbose description of the outlook potential.
  */
-const verbifyOutlookValue = (potential) => {
+function verbifyOutlookValue(potential) {
   switch (Number(potential)) {
     case 1:
       return 'Limited'
