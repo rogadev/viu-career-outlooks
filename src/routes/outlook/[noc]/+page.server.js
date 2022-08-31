@@ -124,8 +124,9 @@ export async function load({ params }) {
       outlook = data.potential
     } catch (errors) {
       reject(errors)
+      console.error(errors)
       // @ts-ignore
-      throw error(500, errors)
+      // throw error(500, errors)
     }
     resolve({ trends, outlook, outlook_verbose })
   })
@@ -142,8 +143,9 @@ export async function load({ params }) {
       duties = unitGroup?.duties
     } catch (errors) {
       reject(errors)
+      console.error(errors)
       // @ts-ignore
-      throw error(500, errors)
+      // throw error(500, errors)
     }
     resolve({ title, jobs, requirements, duties })
   })
