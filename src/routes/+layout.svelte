@@ -27,7 +27,7 @@
     border: 1rem solid #003b5c;
     margin: 0;
     background-color: #fff;
-    min-height: 100vh;
+    min-height: 110vh;
   }
 
   div.slot-wrapper {

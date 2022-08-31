@@ -4,25 +4,29 @@
   import H3 from '$lib/components/viu/H3.svelte'
   import UL from '$lib/components/viu/UL.svelte'
   import LI from '$lib/components/viu/LI.svelte'
-  import Button from '$lib/components/viu/Button.svelte'
   import StickyBackButton from '$lib/components/StickyBackButton.svelte'
 
   import titleCase from '$lib/helpers/titleCase.js'
-  // Properties returned from our shadow endpoint.
-  export let /** @type {string} */ noc
-  export let /** @type {string} */ title
-  export let /** @type {string} */ jobs
-  export let /** @type {string} */ requirements
-  export let /** @type {string} */ duties
-  export let /** @type {string} */ outlook
-  export let /** @type {string} */ outlook_verbose
-  export let /** @type {string} */ trends
-  export let /** @type {string} */ province
+  export let errors
+  export let data
+  let noc = data.noc
+  let title = data.title
+  let jobs = data.jobs
+  let requirements = data.requirements
+  let duties = data.duties
+  let outlook = data.outlook
+  let outlook_verbose = data.outlook_verbose
+  let trends = data.trends
+  let province = data.province
 
   $: jobList = () => {
     const list = String(jobs).split(',')
     return list.map((job) => titleCase(job))
   }
+
+  $: if (errors) console.error(errors)
+
+  $: titleCaseCitle = titleCase(title)
 </script>
 
 <svelte:head>
@@ -31,7 +35,7 @@
   </title>
 </svelte:head>
 
-<H1>{titleCase(title)}</H1>
+<H1>{titleCaseCitle}</H1>
 
 <h2 class={`outlook-${outlook}`}>
   BC's 3-Year Market Outlook is <b>{outlook_verbose}</b>
@@ -79,7 +83,6 @@
   </li>
   <li class="detail-section">
     <H3>Trends in {province}</H3>
-    <!-- TODO Need to find a way to style this section. -->
     <div class="trends">
       {@html trends}
     </div>
