@@ -55,8 +55,6 @@ const refactorOutlookWithLogicalPotential = (outlook) => {
  * @returns Object containing key value pairs of data related to the outlook of the given unit group in the given province.
  */
 const fetchProvincialOutlook = async (noc, provinceId) => {
-  // example query: GET https://lmi-outlooks-esdc-edsc-apicast-production.api.canada.ca/clmix-wsx/gcapis/outlooks?noc=1111&rtp=1&rid=10
-
   try {
     const response = await fetch(
       `https://lmi-outlooks-esdc-edsc-apicast-production.api.canada.ca/clmix-wsx/gcapis/outlooks?noc=${noc}&rtp=1&rid=${provinceId}&lang=en`,
@@ -118,10 +116,12 @@ export async function load({ params }) {
         data = cachedData
       }
 
+      console.log('Logging data', data)
       // Set Resolve Values
       trends = data.trends
       outlook_verbose = data.outlook_verbose
       outlook = data.potential
+      console.log('logging outlook/potential', outlook)
     } catch (errors) {
       reject(errors)
       console.error(errors)
