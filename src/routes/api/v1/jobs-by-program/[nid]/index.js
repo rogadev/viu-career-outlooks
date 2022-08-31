@@ -109,7 +109,6 @@ function addJobsWithKeywordsAndCredential(collector, keywords, credential) {
           group.jobs.forEach((title) => {
             // @ts-ignore
             collector = pushJobIfUnique({ noc, title }, collector)
-            // TODO test without 'collector ='
           })
       })
     })
@@ -194,7 +193,6 @@ function addJobsFromKnownGroups(collector, knownGroups) {
       jobs.forEach((title) => {
         // @ts-ignore
         collector = pushJobIfUnique({ noc, title }, collector)
-        // TODO test without 'jobs ='
       })
     }
   })
