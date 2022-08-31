@@ -15,9 +15,6 @@
       <slot />
     {/if}
   </div>
-  <footer>
-    <p><!-- --></p>
-  </footer>
 </div>
 
 <style>
@@ -32,10 +29,5 @@
 
   div.slot-wrapper {
     padding: 1.5rem;
-  }
-
-  footer {
-    width: 100%;
-    height: 2.5rem;
   }
 </style>
