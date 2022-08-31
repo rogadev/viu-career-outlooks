@@ -9,7 +9,10 @@ const outlooksCache = new NodeCache({ stdTTL: ttl })
 // LOCAL DATA
 import unitGroups from '$lib/server/data/noc_2016_unit_groups.json'
 
-const missingApiKey = () => {
+/**
+ * Throws a SvelteKit error if no user key is found in env variables.
+ */
+const handleMissingApiKey = () => {
   throw error(500, 'Missing API key')
 }
 
@@ -17,7 +20,7 @@ const missingApiKey = () => {
 const headers = new Headers()
 headers.append(
   'USER_KEY',
-  import.meta.env.VITE_GC_API_USER_KEY ?? missingApiKey()
+  import.meta.env.VITE_GC_API_USER_KEY ?? handleMissingApiKey() // Will throw error if no api key found in env variables.
 )
 
 /**
@@ -92,34 +95,36 @@ const verbifyOutlookValue = (potential) => {
   }
 }
 
-// LOAD FUNCTION
+// -------------------- LOAD FUNCTION --------------------
 /** @type {import('./$types').PageServerLoad} */
 export async function load({ params }) {
   loading.set(true)
   const noc = String(params.noc)
+  if (!noc) throw error(404, 'NOC parameter was not provided.')
 
   if (typeof Number.parseInt(noc) !== 'number') {
     loading.set(false)
     throw error(404, `Received bad noc parameter type: ${noc}, ${typeof noc}`)
   }
 
+  const unitGroup = unitGroups.find(
+    (unitGroup) => unitGroup.noc === noc ?? false
+  )
+  if (!unitGroup) throw error(404, `No unit group found for NOC: ${noc}`)
+
   const fetchProvincialOutlookData = new Promise(async (resolve, reject) => {
     /** @type {Outlook} */
     let data
     let trends, outlook_verbose, outlook
     try {
-      // console.log(`Getting BC Provincial outlook for ${noc}`)
       const prov = '59'
       /** @type {Outlook | false} */
       const cachedData = outlooksCache.get(`${noc}-${prov}`) ?? false
       if (!cachedData) {
-        // console.log('Not found in cache. Fetching from API.')
         data = await fetchProvincialOutlook(noc, prov)
-        // Fix Response Data
         data = refactorOutlookWithLogicalPotential(data)
         outlooksCache.set(`${noc}-${prov}`, data)
       } else {
-        // console.log('Found in cache. Using cached data.')
         data = cachedData
       }
 
@@ -130,8 +135,6 @@ export async function load({ params }) {
     } catch (errors) {
       reject(errors)
       console.error(errors)
-      // @ts-ignore
-      // throw error(500, errors)
     }
     resolve({ trends, outlook, outlook_verbose })
   })
@@ -140,8 +143,6 @@ export async function load({ params }) {
     let title, jobs, requirements, duties
     try {
       /** @type {{ noc: string, title: string, jobs: string[], exclusions: string[], requirements: string[], duties: string[]} | { noc: string, title: string, jobs: string[], exclusions: string[], requirements: string[], duties: {}[]} | null} */
-      const unitGroup =
-        unitGroups.find((unitGroup) => unitGroup.noc === noc) ?? null
       title = unitGroup?.title
       jobs = unitGroup?.jobs
       requirements = unitGroup?.requirements
@@ -149,8 +150,6 @@ export async function load({ params }) {
     } catch (errors) {
       reject(errors)
       console.error(errors)
-      // @ts-ignore
-      // throw error(500, errors)
     }
     resolve({ title, jobs, requirements, duties })
   })
@@ -174,42 +173,3 @@ export async function load({ params }) {
     }
   })
 }
-
-/**
- *
- * @param {Number} noc - The NOC code to search for.
- * @returns outlook data related to the NOC code.
- */
-// const getOutlook = async (noc) => {
-//   try {
-//     let outlook = outlooksCache.get(noc)
-//     if (!outlook) {
-//       const response = await fetch(
-//         `https://lmi-outlooks-esdc-edsc-apicast-production.api.canada.ca/clmix-wsx/gcapis/outlooks?noc=1111&rtp=1&rid=59&lang=en`,
-//         {
-//           headers: headers,
-//         }
-//       )
-//       outlook = await response.json()
-//       outlooksCache.set(noc, outlook)
-//     }
-//     outlook = refactorOutlookWithLogicalPotential(outlook)
-//     return outlook
-//   } catch (error) {
-//     // @ts-ignore
-//     return new error(error)
-//   }
-// }
-
-/**
- * Uses the LMI Employment Outlook API to query for the national outlook for a given NOC unit group code. LMI-EO uses NOC 2016 v1.3.
- * @param {String} noc The NOC code of the relevant unit group.
- * @returns Array of outlook objects containing provincial code and "potential" metric. Potential describes outlook as a number from 0-3, 3 being best.
- */
-// const fetchNationalOutlook = async (noc) => {
-//   // example query: GET https://lmi-outlooks-esdc-edsc-apicast-production.api.canada.ca/clmix-wsx/gcapis/outlooks/ca?noc=1111
-//   return await fetch(
-//     `https://lmi-outlooks-esdc-edsc-apicast-production.api.canada.ca/clmix-wsx/gcapis/outlooks/ca?noc=${noc}`,
-//     { headers: headers }
-//   )
-// }

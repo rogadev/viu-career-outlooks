@@ -1,14 +1,16 @@
 <script>
-  // @ts-nocheck
+  // HELPERS
+  import titleCase from '$lib/helpers/titleCase.js'
+
+  // COMPONENTS
   import H1 from '$lib/components/viu/H1.svelte'
   import H3 from '$lib/components/viu/H3.svelte'
   import UL from '$lib/components/viu/UL.svelte'
   import LI from '$lib/components/viu/LI.svelte'
   import StickyBackButton from '$lib/components/StickyBackButton.svelte'
 
-  import titleCase from '$lib/helpers/titleCase.js'
-  export let errors
-  export let data
+  /** @type {any} */ export let errors // Complains if unused.
+  export let data // Backend data props.
   let noc = data.noc
   let title = data.title
   let jobs = data.jobs
@@ -19,14 +21,17 @@
   let trends = data.trends
   let province = data.province
 
+  // Stringifies the job list if comma separated list.
   $: jobList = () => {
     const list = String(jobs).split(',')
     return list.map((job) => titleCase(job))
   }
 
-  $: if (errors) console.error(errors)
+  // Ensures reactive updating if not immediately mate available on load.
+  $: titleCaseTitle = titleCase(title)
 
-  $: titleCaseCitle = titleCase(title)
+  // Logs errors to console if any exist. Svelte may complain if error prop not set and handled.
+  $: if (errors) console.error(errors)
 </script>
 
 <svelte:head>
@@ -35,7 +40,7 @@
   </title>
 </svelte:head>
 
-<H1>{titleCaseCitle}</H1>
+<H1>{titleCaseTitle}</H1>
 
 <h2 class={`outlook-${outlook}`}>
   BC's 3-Year Market Outlook is <b>{outlook_verbose}</b>
@@ -60,9 +65,9 @@
     </UL>
   </li>
   <li class="detail-section">
-    <!-- Duties is either an array of objects or an array of strings. -->
     <H3>List of Duties</H3>
     <UL>
+      <!-- NOTE: Duties is either an array of objects or an array of strings. Handle both -->
       {#if typeof duties[0] === 'string'}
         {#each duties as duty}
           <LI>{duty}</LI>
@@ -79,6 +84,7 @@
           </LI>
         {/each}
       {/if}
+      <!--  -->
     </UL>
   </li>
   <li class="detail-section">
@@ -90,6 +96,7 @@
 </ul>
 
 <style lang="postcss">
+  /* Requires postcss for @apply directive. */
   .outlook-0,
   .outlook-1,
   .outlook-2,
@@ -114,6 +121,8 @@
   .detail-section {
     margin-top: 1rem;
   }
+
+  /* Globals required for 'trends' html string. */
 
   .trends :global(p) {
     font-weight: bold;
