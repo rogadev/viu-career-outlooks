@@ -9,9 +9,16 @@ const outlooksCache = new NodeCache({ stdTTL: ttl })
 // LOCAL DATA
 import unitGroups from '$lib/server/data/noc_2016_unit_groups.json'
 
+const missingApiKey = () => {
+  throw error(500, 'Missing API key')
+}
+
 // LMI-EO API USER KEY REQUEST HEADER
 const headers = new Headers()
-headers.append('USER_KEY', import.meta.env.VITE_GC_API_USER_KEY)
+headers.append(
+  'USER_KEY',
+  import.meta.env.VITE_GC_API_USER_KEY ?? missingApiKey()
+)
 
 /**
  * @typedef Outlook
@@ -116,12 +123,10 @@ export async function load({ params }) {
         data = cachedData
       }
 
-      console.log('Logging data', data)
       // Set Resolve Values
       trends = data.trends
       outlook_verbose = data.outlook_verbose
       outlook = data.potential
-      console.log('logging outlook/potential', outlook)
     } catch (errors) {
       reject(errors)
       console.error(errors)
