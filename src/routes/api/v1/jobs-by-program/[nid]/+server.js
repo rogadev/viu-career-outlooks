@@ -1,4 +1,4 @@
-import { json as json$1 } from '@sveltejs/kit'
+import { json as json$1, error } from '@sveltejs/kit'
 // HELPERS
 import generateKeywordCombinations from '$lib/server/helpers/generateKeywordCombinations'
 import pushJobIfUnique from '$lib/server/helpers/pushJobIfUnique'
@@ -17,12 +17,13 @@ import viuPrograms from '$lib/server/data/viu_programs.json'
 /** @type {import('@sveltejs/kit').RequestHandler<{ nid: string }>} */
 export async function GET({ params }) {
   const { nid } = params // extract nid
-  if (!validNID(nid)) return new Response(undefined, { status: 400 }) // validate nid param
+  if (!validNID(nid))
+    throw error(400, `Invalid NID provided. Validating ${nid}`) // validate nid param
 
   const program = viuPrograms.find(
     ({ nid: programNid }) => programNid.toString() === nid
   ) // find program by nid
-  if (!program) return new Response(undefined, { status: 500 }) // After initial validation of nid param, we SHOULD have a program. If not, something went horribly wrong.
+  if (!program) throw error(500, `No program found. Validating ${program}`) // After initial validation of nid param, we SHOULD have a program. If not, something went horribly wrong.
 
   const {
     title,
@@ -30,7 +31,11 @@ export async function GET({ params }) {
     noc_search_keywords: knownKeywords = false,
     known_noc_groups: knownGroups = false,
   } = program // extract program data
-  if (!title || !credential) return new Response(undefined, { status: 500 }) // validate program data - if missing title or credential, we have a server/data problem.
+  if (!title || !credential)
+    throw error(
+      500,
+      `There was a problem with the server. Validating title and credential: ${title}, ${credential}`
+    ) // validate program data - if missing title or credential, we have a server/data problem.
 
   /** @type {Job[]} */
   const jobs = [] // collector array
@@ -125,9 +130,10 @@ function addJobsWithKeywordsAndCredential(collector, keywords, credential) {
  */
 function expandCredential(credential) {
   if (!credential || typeof credential !== 'string')
-    throw new Error(
-      'expandCredentials() did not receive a valid credential property.'
-    ) // validation
+    throw error(
+      500,
+      `expandCredentials() did not receive a valid credential property.. Validating ${credential}`
+    ) // validate credential param
 
   const expandedCredentials = []
   switch (credential.toLowerCase().trim()) {
@@ -172,8 +178,10 @@ function expandCredential(credential) {
         'trade degree',
         'red seal'
       )
+      break
     default:
-      throw new Error(
+      throw error(
+        500,
         'expandCredentials() did not receive a valid credential property to expand. Accepted properties include: degree, diploma, certificate, trades.'
       )
   }

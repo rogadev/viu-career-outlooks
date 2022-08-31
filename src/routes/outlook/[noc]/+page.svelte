@@ -7,7 +7,7 @@
   import StickyBackButton from '$lib/components/StickyBackButton.svelte'
 
   import titleCase from '$lib/helpers/titleCase.js'
-  // Properties returned from our shadow endpoint.
+  export let errors
   export let data
   let noc = data.noc
   let title = data.title
@@ -23,6 +23,8 @@
     const list = String(jobs).split(',')
     return list.map((job) => titleCase(job))
   }
+
+  $: if (errors) console.error(errors)
 
   $: titleCaseCitle = titleCase(title)
 </script>

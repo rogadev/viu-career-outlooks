@@ -39,10 +39,8 @@
   // TODO replace heroku
   async function fetchJobs() {
     try {
-      const response = await fetch(
-        `https://viu-career-outlook.herokuapp.com/api/v1/jobs/program/${nid}`
-      )
-      const { data } = await response.json()
+      const response = await fetch(`/api/v1/jobs-by-program/${nid}`)
+      const data = await response.json()
       program = data.program
       jobs = data.jobs
     } catch (e) {
