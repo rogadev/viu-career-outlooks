@@ -6,7 +6,10 @@ import NodeCache from 'node-cache'
 const ttl = 60 * 60 * 24 * 30 * 2 // 2 month time to live
 const outlooksCache = new NodeCache({ stdTTL: ttl })
 
-// FETCH HEADER - API KEY
+// LOCAL DATA
+import unitGroups from '$lib/server/data/noc_2016_unit_groups.json'
+
+// LMI-EO API USER KEY REQUEST HEADER
 const headers = new Headers()
 headers.append('USER_KEY', import.meta.env.VITE_GC_API_USER_KEY)
 
@@ -20,26 +23,30 @@ export async function load({ params }) {
     throw error(404, `Received bad noc parameter type: ${noc}, ${typeof noc}`)
   }
 
-  const p1 = new Promise(async (resolve, reject) => {
-    let data, trends, outlook_verbose, outlook
+  const fetchProvincialOutlookData = new Promise(async (resolve, reject) => {
+    /** @type {Outlook} */
+    let data
+    let trends, outlook_verbose, outlook
     try {
-      console.log(`Getting BC Provincial outlook for ${noc}`)
+      // console.log(`Getting BC Provincial outlook for ${noc}`)
       const prov = '59'
-      data = outlooksCache.get(`${noc}-${prov}`)
-      if (!data) {
+      /** @type {Outlook | false} */
+      const cachedData = outlooksCache.get(`${noc}-${prov}`) ?? false
+      if (!cachedData) {
+        // console.log('Not found in cache. Fetching from API.')
         data = await fetchProvincialOutlook(noc, prov)
-      }
-      if (!data) {
-        throw error(404, 'No outlook data found for this NOC')
-      } else {
+        // Fix Response Data
+        data = refactorOutlookWithLogicalPotential(data)
         outlooksCache.set(`${noc}-${prov}`, data)
+      } else {
+        // console.log('Found in cache. Using cached data.')
+        data = cachedData
       }
-      console.log(data.potential)
-      data = refactorOutlookWithLogicalPotential(data)
+
+      // Set Resolve Values
       trends = data.trends
       outlook_verbose = data.outlook_verbose
       outlook = data.potential
-      console.log(data.potential)
     } catch (errors) {
       reject(errors)
       // @ts-ignore
@@ -48,18 +55,16 @@ export async function load({ params }) {
     resolve({ trends, outlook, outlook_verbose })
   })
 
-  const p2 = new Promise(async (resolve, reject) => {
+  const fetchUnitGroupData = new Promise((resolve, reject) => {
     let title, jobs, requirements, duties
     try {
-      // TODO replace heroku
-      const response = await fetch(
-        `https://viu-career-outlook.herokuapp.com/api/v1/noc/${noc}`
-      )
-      const { data } = await response.json()
-      title = data.title
-      jobs = data.jobs
-      requirements = data.requirements
-      duties = data.duties
+      /** @type {{ noc: string, title: string, jobs: string[], exclusions: string[], requirements: string[], duties: string[]} | { noc: string, title: string, jobs: string[], exclusions: string[], requirements: string[], duties: {}[]} | null} */
+      const unitGroup =
+        unitGroups.find((unitGroup) => unitGroup.noc === noc) ?? null
+      title = unitGroup?.title
+      jobs = unitGroup?.jobs
+      requirements = unitGroup?.requirements
+      duties = unitGroup?.duties
     } catch (errors) {
       reject(errors)
       // @ts-ignore
@@ -68,18 +73,21 @@ export async function load({ params }) {
     resolve({ title, jobs, requirements, duties })
   })
 
-  return await Promise.all([p1, p2]).then((results) => {
+  return await Promise.all([
+    fetchProvincialOutlookData,
+    fetchUnitGroupData,
+  ]).then(([outlook, unitGroup]) => {
     loading.set(false)
     return {
       status: 200,
       noc,
-      title: results[1].title,
-      jobs: results[1].jobs,
-      requirements: results[1].requirements,
-      duties: results[1].duties,
-      outlook: results[0].outlook,
-      outlook_verbose: results[0].outlook_verbose,
-      trends: results[0].trends,
+      title: unitGroup.title,
+      jobs: unitGroup.jobs,
+      requirements: unitGroup.requirements,
+      duties: unitGroup.duties,
+      outlook: outlook.outlook,
+      outlook_verbose: outlook.outlook_verbose,
+      trends: outlook.trends,
       province: 'British Columbia',
     }
   })
@@ -90,26 +98,26 @@ export async function load({ params }) {
  * @param {Number} noc - The NOC code to search for.
  * @returns outlook data related to the NOC code.
  */
-const getOutlook = async (noc) => {
-  try {
-    let outlook = outlooksCache.get(noc)
-    if (!outlook) {
-      const response = await fetch(
-        `https://lmi-outlooks-esdc-edsc-apicast-production.api.canada.ca/clmix-wsx/gcapis/outlooks?noc=1111&rtp=1&rid=59&lang=en`,
-        {
-          headers: headers,
-        }
-      )
-      outlook = await response.json()
-      outlooksCache.set(noc, outlook)
-    }
-    outlook = refactorOutlookWithLogicalPotential(outlook)
-    return outlook
-  } catch (error) {
-    // @ts-ignore
-    return new error(error)
-  }
-}
+// const getOutlook = async (noc) => {
+//   try {
+//     let outlook = outlooksCache.get(noc)
+//     if (!outlook) {
+//       const response = await fetch(
+//         `https://lmi-outlooks-esdc-edsc-apicast-production.api.canada.ca/clmix-wsx/gcapis/outlooks?noc=1111&rtp=1&rid=59&lang=en`,
+//         {
+//           headers: headers,
+//         }
+//       )
+//       outlook = await response.json()
+//       outlooksCache.set(noc, outlook)
+//     }
+//     outlook = refactorOutlookWithLogicalPotential(outlook)
+//     return outlook
+//   } catch (error) {
+//     // @ts-ignore
+//     return new error(error)
+//   }
+// }
 
 /**
  * @typedef Outlook
@@ -151,13 +159,13 @@ function refactorOutlookWithLogicalPotential(outlook) {
  * @param {String} noc The NOC code of the relevant unit group.
  * @returns Array of outlook objects containing provincial code and "potential" metric. Potential describes outlook as a number from 0-3, 3 being best.
  */
-const fetchNationalOutlook = async (noc) => {
-  // example query: GET https://lmi-outlooks-esdc-edsc-apicast-production.api.canada.ca/clmix-wsx/gcapis/outlooks/ca?noc=1111
-  return await fetch(
-    `https://lmi-outlooks-esdc-edsc-apicast-production.api.canada.ca/clmix-wsx/gcapis/outlooks/ca?noc=${noc}`,
-    { headers: headers }
-  )
-}
+// const fetchNationalOutlook = async (noc) => {
+//   // example query: GET https://lmi-outlooks-esdc-edsc-apicast-production.api.canada.ca/clmix-wsx/gcapis/outlooks/ca?noc=1111
+//   return await fetch(
+//     `https://lmi-outlooks-esdc-edsc-apicast-production.api.canada.ca/clmix-wsx/gcapis/outlooks/ca?noc=${noc}`,
+//     { headers: headers }
+//   )
+// }
 
 /**
  * Uses the LMI Employment Outlook API to query for the provincial outlook for a given NOC unit group code. LMI-EO uses NOC 2016 v1.3.
@@ -171,7 +179,7 @@ const fetchProvincialOutlook = async (noc, provinceId) => {
   try {
     const response = await fetch(
       `https://lmi-outlooks-esdc-edsc-apicast-production.api.canada.ca/clmix-wsx/gcapis/outlooks?noc=${noc}&rtp=1&rid=${provinceId}&lang=en`,
-      { headers: headers }
+      { headers }
     )
     const data = await response.json()
     return data
