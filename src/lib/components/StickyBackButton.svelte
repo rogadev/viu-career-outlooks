@@ -2,8 +2,8 @@
   import Button from '$lib/components/viu/Button.svelte'
 </script>
 
-<div class="container sticky top-4">
+<div class="container sticky top-4" on:click={() => history.back()}>
   <Button>
-    <div on:click={() => history.back()}>Back</div>
+    <div>Back</div>
   </Button>
 </div>
