@@ -20,3 +20,9 @@ it('Correctly ignores anything inside of brackets', () => {
     'Abc 123. This-Is-A-Test. (CEO)'
   )
 })
+
+it('Correctly capitalized punctuated acronyms.', () => {
+  expect(titleCase('Other Professional, N.e.c.')).toBe(
+    'Other Professional, N.E.C.'
+  )
+})

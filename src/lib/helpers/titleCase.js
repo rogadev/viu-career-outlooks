@@ -19,9 +19,17 @@ const titleCase = (str) => {
     }${betweenBrackets}${afterBrackets ? titleCase(afterBrackets) : ''}`
   }
 
-  return str
+  str = str
     .split(' ')
     .map((word) => {
+      // If the word is an acronym separated by '.', capitalize it.
+      if (word.includes('.') && (word.match(/\./g) || []).length > 1) {
+        return word
+          .split('.')
+          .map((acronym) => acronym.charAt(0).toUpperCase() + acronym.slice(1))
+          .join('.')
+      }
+
       // Look for special characters '-' and '_' and save their index in the array.
       const specialCharIndex = []
       for (let i = 0; i < word.length; i++) {
@@ -42,6 +50,8 @@ const titleCase = (str) => {
       return word.charAt(0).toUpperCase() + word.slice(1)
     })
     .join(' ')
+
+  return str
 }
 
 export default titleCase
