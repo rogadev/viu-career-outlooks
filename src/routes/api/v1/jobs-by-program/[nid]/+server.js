@@ -200,6 +200,12 @@ export async function GET({ params }) {
   // ORGANIC SEARCH
   addJobsWithKeywordsAndCredential(jobs, title, credential)
 
+  if (jobs.length === 0) {
+    console.info(
+      `[PROG-NO-RESULTS] url=https://career-outlooks.viu.ca prog-nid=${nid}`
+    )
+  }
+
   return json$1({
     program,
     jobs,
