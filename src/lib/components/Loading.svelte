@@ -2,10 +2,10 @@
   // This component was adapted from https://github.com/Schum123/svelte-loading-spinners/blob/master/src/Circle3.svelte
   export let size: string | number = '60'
   export let unit: string = 'px'
-  export let ballTopLeft: string = '#FF3E00'
-  export let ballTopRight: string = '#F8B334'
-  export let ballBottomLeft: string = '#40B3FF'
-  export let ballBottomRight: string = '#676778'
+  export let ballTopLeft: string = '#D0006F'
+  export let ballTopRight: string = '#FFA300'
+  export let ballBottomLeft: string = '#00B0B9'
+  export let ballBottomRight: string = '#768682'
   export let duration = '30s'
 </script>
 
