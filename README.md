@@ -71,6 +71,10 @@ You can preview the production build with `npm run preview`.
 
 > To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
 
+## Deploying
+
+Please note that during testing, this app was built on the `adapter-auto` SvelteKit adapter. Vercel requires the auto adapter to deploy and test. Docker will require that you change this to the `adapter-node` adapter. To do this, go into the svelte.config.js and change the top import to `adapter-node` from `adapter-auto`. If you wish, you can also remove adapter-auto from package.json to reduce docker container size. It is recommended that you develop and test in adapter-auto to avoid issues running the app locally, and if/when testing on Vercel.
+
 ## ENV Variables
 
 There are no environment variables needed to run the SvelteKit app. All API keys and other variables are saved in [the backend API](https://github.com/rogadev/viu-eo-api) which uses a cors policy which restricts cross-origin access.
