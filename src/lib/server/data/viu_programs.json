@@ -9,8 +9,12 @@
       "title": "Trades and Applied Technology"
     },
     "viu_search_keywords": "Esthetics and Spa Therapy, Continuing Education, Continuing Studies",
-    "noc_search_keywords": ["estheticians"],
-    "known_noc_groups": ["6562"]
+    "noc_search_keywords": [
+      "estheticians"
+    ],
+    "known_noc_groups": [
+      "6562"
+    ]
   },
   {
     "title": "Computer Science Honours",
@@ -22,7 +26,12 @@
       "title": "Arts, Humanities and Social Sciences"
     },
     "viu_search_keywords": "analytics, artificial intelligence, data, information technology, software engineering",
-    "noc_search_keywords": ["computer science", "analytics", "artificial intelligence", "software engineering"]
+    "noc_search_keywords": [
+      "computer science",
+      "analytics",
+      "artificial intelligence",
+      "software engineering"
+    ]
   },
   {
     "title": "Psychology Honours (BSc)",
@@ -34,7 +43,9 @@
       "title": "Science and Technology"
     },
     "viu_search_keywords": "counseling, counselling, psycology",
-    "noc_search_keywords": ["psychology"]
+    "noc_search_keywords": [
+      "psychology"
+    ]
   },
   {
     "title": "Baking and Pastry Arts Management",
@@ -46,7 +57,9 @@
       "title": "Trades and Applied Technology"
     },
     "viu_search_keywords": "baker",
-    "noc_search_keywords": ["baking"]
+    "noc_search_keywords": [
+      "baking"
+    ]
   },
   {
     "title": "Aquaculture (BSc)",
@@ -58,8 +71,12 @@
       "title": "Science and Technology"
     },
     "viu_search_keywords": null,
-    "noc_search_keywords": ["aquaculture"],
-    "known_noc_groups": ["0823"]
+    "noc_search_keywords": [
+      "aquaculture"
+    ],
+    "known_noc_groups": [
+      "0823"
+    ]
   },
   {
     "title": "Aquaculture (BA)",
@@ -71,8 +88,12 @@
       "title": "Arts, Humanities and Social Sciences"
     },
     "viu_search_keywords": null,
-    "noc_search_keywords": ["aquaculture"],
-    "known_noc_groups": ["0823"]
+    "noc_search_keywords": [
+      "aquaculture"
+    ],
+    "known_noc_groups": [
+      "0823"
+    ]
   },
   {
     "title": "Information Technology and Applied Systems – Web and Mobile Development Diploma",
@@ -84,7 +105,16 @@
       "title": "Trades and Applied Technology"
     },
     "viu_search_keywords": "itas, software engineering",
-    "noc_search_keywords": ["computer science", "analytics", "artificial intelligence", "software engineering", "computer programming", "web design", "web development", "mobile development"]
+    "noc_search_keywords": [
+      "computer science",
+      "analytics",
+      "artificial intelligence",
+      "software engineering",
+      "computer programming",
+      "web design",
+      "web development",
+      "mobile development"
+    ]
   },
   {
     "title": "Professional Indigenous Lands Management Certificate",
@@ -114,7 +144,9 @@
       "health sciences",
       "sports injury management"
     ],
-    "known_noc_groups": ["3144"]
+    "known_noc_groups": [
+      "3144"
+    ]
   },
   {
     "title": "Geography Honours (BA)",
@@ -126,8 +158,13 @@
       "title": "Arts, Humanities and Social Sciences"
     },
     "viu_search_keywords": "urban planning",
-    "noc_search_keywords": [" urban and regional planning", "geography"],
-    "known_noc_groups": ["2153"]
+    "noc_search_keywords": [
+      " urban and regional planning",
+      "geography"
+    ],
+    "known_noc_groups": [
+      "2153"
+    ]
   },
   {
     "title": "Integrated Engineering Technologist Diploma",
@@ -139,7 +176,9 @@
       "title": "Science and Technology"
     },
     "viu_search_keywords": "architecture, aerospace, aviation, civil engineering, civil technologist, engineering, engineering diploma, engineering technologist, mechanical, mechanics, tech sector",
-    "noc_search_keywords": ["engineering technology"]
+    "noc_search_keywords": [
+      "engineering technology"
+    ]
   },
   {
     "title": "Anthropology Honours (BA)",
@@ -151,8 +190,9 @@
       "title": "Arts, Humanities and Social Sciences"
     },
     "viu_search_keywords": null,
-
-    "known_noc_groups": ["4169"]
+    "known_noc_groups": [
+      "4169"
+    ]
   },
   {
     "title": "Indigenous/Xwulmuxw Studies (BA)",
@@ -175,8 +215,13 @@
       "title": "Trades and Applied Technology"
     },
     "viu_search_keywords": "forestry, forester",
-
-    "known_noc_groups": ["8241", "7511", "8211", "8616", "7521"]
+    "known_noc_groups": [
+      "8241",
+      "7511",
+      "8211",
+      "8616",
+      "7521"
+    ]
   },
   {
     "title": "Biology Honours",
@@ -188,8 +233,12 @@
       "title": "Science and Technology"
     },
     "viu_search_keywords": "biotechnology, biotechnologist, botany, dentistry, ecology, environmental, food sciences, Marine, marine biologist, marine biology, nutritionist, phycology, vet, veterinary, veterinarian, vetinary, vetinarian, zoology",
-    "noc_search_keywords": ["biology"],
-    "known_noc_groups": ["2121"]
+    "noc_search_keywords": [
+      "biology"
+    ],
+    "known_noc_groups": [
+      "2121"
+    ]
   },
   {
     "title": "Bachelor of Business Administration (BBA), Majors and Minors",
@@ -201,7 +250,9 @@
       "title": "Business and Management"
     },
     "viu_search_keywords": "analytics, buisness, commerce, supply chain",
-    "noc_search_keywords": ["business administration"]
+    "noc_search_keywords": [
+      "business administration"
+    ]
   },
   {
     "title": "Management (BBA)",
@@ -347,7 +398,9 @@
       "title": "Arts, Humanities and Social Sciences"
     },
     "viu_search_keywords": null,
-    "noc_search_keywords": ["sociology"]
+    "noc_search_keywords": [
+      "sociology"
+    ]
   },
   {
     "title": "Psychology Honours (BA)",
@@ -359,7 +412,9 @@
       "title": "Arts, Humanities and Social Sciences"
     },
     "viu_search_keywords": "counseling, counselling, psycology",
-    "noc_search_keywords": ["psychology"]
+    "noc_search_keywords": [
+      "psychology"
+    ]
   },
   {
     "title": "History Honours (BA)",
@@ -371,7 +426,9 @@
       "title": "Arts, Humanities and Social Sciences"
     },
     "viu_search_keywords": null,
-    "noc_search_keywords": ["History"]
+    "noc_search_keywords": [
+      "History"
+    ]
   },
   {
     "title": "Philosophy Honours (BA)",
@@ -394,7 +451,9 @@
       "title": "Arts, Humanities and Social Sciences"
     },
     "viu_search_keywords": null,
-    "noc_search_keywords": ["english"]
+    "noc_search_keywords": [
+      "english"
+    ]
   },
   {
     "title": "Education Assistant and Community Support",
@@ -422,8 +481,10 @@
       "title": "Tourism, Recreation and Hospitality"
     },
     "viu_search_keywords": null,
-
-    "known_noc_groups": ["6531", "6313"]
+    "known_noc_groups": [
+      "6531",
+      "6313"
+    ]
   },
   {
     "title": "Languages and Culture (Romance Languages) (BA)",
@@ -475,7 +536,9 @@
       "title": "Arts, Humanities and Social Sciences"
     },
     "viu_search_keywords": "architecture, civil engineering, urban planning",
-    "noc_search_keywords": ["urban and regional planning"]
+    "noc_search_keywords": [
+      "urban and regional planning"
+    ]
   },
   {
     "title": "Master of Geographic Information Systems (GIS) Applications",
@@ -498,8 +561,9 @@
       "title": "Arts, Humanities and Social Sciences"
     },
     "viu_search_keywords": null,
-
-    "known_noc_groups": ["4161"]
+    "known_noc_groups": [
+      "4161"
+    ]
   },
   {
     "title": "Bachelor of Arts (BA), Honours, Majors, and Minors",
@@ -548,7 +612,9 @@
       "title": "Arts, Humanities and Social Sciences"
     },
     "viu_search_keywords": "criminal justice, law enforcement, police",
-    "noc_search_keywords": ["law and security"]
+    "noc_search_keywords": [
+      "law and security"
+    ]
   },
   {
     "title": "Theatre",
@@ -560,7 +626,9 @@
       "title": "Art, Design and Performing Arts"
     },
     "viu_search_keywords": "actor, actress, acting",
-    "noc_search_keywords": ["Acting programs"]
+    "noc_search_keywords": [
+      "Acting programs"
+    ]
   },
   {
     "title": "Jazz Studies",
@@ -572,7 +640,9 @@
       "title": "Art, Design and Performing Arts"
     },
     "viu_search_keywords": null,
-    "noc_search_keywords": ["Musical training"]
+    "noc_search_keywords": [
+      "Musical training"
+    ]
   },
   {
     "title": "Bachelor of Tourism Management",
@@ -584,8 +654,12 @@
       "title": "Tourism, Recreation and Hospitality"
     },
     "viu_search_keywords": null,
-    "noc_search_keywords": ["hotel management"],
-    "known_noc_groups": ["6313"]
+    "noc_search_keywords": [
+      "hotel management"
+    ],
+    "known_noc_groups": [
+      "6313"
+    ]
   },
   {
     "title": "Welding",
@@ -597,7 +671,9 @@
       "title": "Trades and Applied Technology"
     },
     "viu_search_keywords": "apprenticeship, plumbing, red seal, welder",
-    "noc_search_keywords": ["welding"]
+    "noc_search_keywords": [
+      "welding"
+    ]
   },
   {
     "title": "Professional Baking and Pastry Arts",
@@ -609,7 +685,10 @@
       "title": "Trades and Applied Technology"
     },
     "viu_search_keywords": "baker, apprenticeship, red seal",
-    "noc_search_keywords": ["baking", "bakers"]
+    "noc_search_keywords": [
+      "baking",
+      "bakers"
+    ]
   },
   {
     "title": "Power Engineering/Process Operator - 4th Class",
@@ -621,7 +700,9 @@
       "title": "Trades and Applied Technology"
     },
     "viu_search_keywords": "mechanical, mechanics",
-    "noc_search_keywords": ["power engineering"]
+    "noc_search_keywords": [
+      "power engineering"
+    ]
   },
   {
     "title": "Marine and Motorcycle Mechanical Technician",
@@ -797,8 +878,11 @@
       "nid": 9,
       "title": "Science and Technology"
     },
-    "viu_search_keywords": null
-    ,"noc_search_keywords":["aquaculture", "fisheries"]
+    "viu_search_keywords": null,
+    "noc_search_keywords": [
+      "aquaculture",
+      "fisheries"
+    ]
   },
   {
     "title": "Computer Science",
@@ -810,7 +894,12 @@
       "title": "Science and Technology"
     },
     "viu_search_keywords": "analytics, artificial intelligence, computer engineering, computers, cyber, cybersecurity, data, information, information technology, security, software engineering",
-    "noc_search_keywords": ["computer science", "analytics", "artificial intelligence", "software engineering"]
+    "noc_search_keywords": [
+      "computer science",
+      "analytics",
+      "artificial intelligence",
+      "software engineering"
+    ]
   },
   {
     "title": "Mathematics (BSc)",
@@ -822,7 +911,10 @@
       "title": "Science and Technology"
     },
     "viu_search_keywords": null,
-    "noc_search_keywords":["math", "mathematics"]
+    "noc_search_keywords": [
+      "math",
+      "mathematics"
+    ]
   },
   {
     "title": "Geography (BSc)",
@@ -834,7 +926,10 @@
       "title": "Science and Technology"
     },
     "viu_search_keywords": "civil engineering, urban planning",
-    "noc_search_keywords":["geographic", "geography"]
+    "noc_search_keywords": [
+      "geographic",
+      "geography"
+    ]
   },
   {
     "title": "Earth Science (BSc)",
@@ -846,7 +941,12 @@
       "title": "Science and Technology"
     },
     "viu_search_keywords": null,
-    "noc_search_keywords":["earth science", "geology", "oceanography", "meterology"]
+    "noc_search_keywords": [
+      "earth science",
+      "geology",
+      "oceanography",
+      "meterology"
+    ]
   },
   {
     "title": "Chemistry (BSc)",
@@ -858,7 +958,9 @@
       "title": "Science and Technology"
     },
     "viu_search_keywords": "bachelor of medicine, biochemistry, chemical engineering, dentistry, environmental, food sciences, medical, medicine, nutritionist, pharmacist, pharmacology, pharmacy, pharmaceuticals",
-    "noc_search_keywords":["chemistry"]
+    "noc_search_keywords": [
+      "chemistry"
+    ]
   },
   {
     "title": "Psychology (BSc)",
@@ -870,7 +972,9 @@
       "title": "Science and Technology"
     },
     "viu_search_keywords": "counseling, counselling, psycology",
-    "noc_search_keywords":["psycology"]
+    "noc_search_keywords": [
+      "psycology"
+    ]
   },
   {
     "title": "Geoscience (BSc)",
@@ -882,7 +986,10 @@
       "title": "Science and Technology"
     },
     "viu_search_keywords": null,
-    "noc_search_keywords":["geoscience", "geology"]
+    "noc_search_keywords": [
+      "geoscience",
+      "geology"
+    ]
   },
   {
     "title": "Computer Science (BSc)",
@@ -894,7 +1001,12 @@
       "title": "Science and Technology"
     },
     "viu_search_keywords": "analytics, artificial intelligence, computer engineering, computers, cyber, cybersecurity, data, information, information technology, security, software engineering",
-    "noc_search_keywords": ["computer science", "analytics", "artificial intelligence", "software engineering"]
+    "noc_search_keywords": [
+      "computer science",
+      "analytics",
+      "artificial intelligence",
+      "software engineering"
+    ]
   },
   {
     "title": "Biology (BSc)",
@@ -928,7 +1040,11 @@
       "title": "Science and Technology"
     },
     "viu_search_keywords": null,
-    "noc_search_keywords": ["fisheries", "aquaculture", "fishing"]
+    "noc_search_keywords": [
+      "fisheries",
+      "aquaculture",
+      "fishing"
+    ]
   },
   {
     "title": "Bachelor of Natural Resource Protection",
@@ -973,7 +1089,12 @@
       "title": "Arts, Humanities and Social Sciences"
     },
     "viu_search_keywords": "analytics, artificial intelligence, computers, cyber, cybersecurity, data, information, information technology, security, software engineering",
-    "noc_search_keywords": ["computer science", "analytics", "artificial intelligence", "software engineering"]
+    "noc_search_keywords": [
+      "computer science",
+      "analytics",
+      "artificial intelligence",
+      "software engineering"
+    ]
   },
   {
     "title": "Chemistry (BA)",
