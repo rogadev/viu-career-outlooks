@@ -40,7 +40,7 @@ After install, do you have security vulnerabilities? If so, see below instructio
 
 ### Security Vulnerabilities
 
-During install, if you run into security vulnerabilities, you can safely upgrade packages using the following command: 
+During install, if you run into security vulnerabilities, you can safely upgrade packages using the following command:
 
 ```bash
 npm audit fix
@@ -97,6 +97,10 @@ Program pages can use their VIU NID to link to this tool and display a list of c
 
 This route is used in the app itself, but also linked to in the Drupal view. This is the details view that highlights the requirements, duties, market trends and employment outlook for a given unit group.
 
+## Components
+
+In the components folder you'll find many components in the root of the directory and a `/viu` folder. VIU components are ones styled specifically to match the VIU brand guidelines. These components are used throughout the app. The rest are components used in the app, but not necessarily styled to match the VIU brand.
+
 ## Made With SvelteKit
 
 This project was built with the beta version of [SvelteKit](https://kit.svelte.dev/). The SvelteKit docs can be found [here](https://kit.svelte.dev/docs/introduction).
@@ -107,4 +111,8 @@ The app uses shadow endpoints (also know as BFF or backend for frontend) to prov
 
 ## The API
 
-Our frontend project wouldn't work without the backend API that was built for it. You can find documentation on this side of the project in [this repo](https://github.com/rogadev/viu-eo-api).
+Previously, I used an external API that I wrote in Node + Express and deployed to Heroku, back when they had a free tier. You can find the old repo for it [here](https://github.com/rogadev/viu-eo-api). Later, I moved this logic into SvelteKit. The reasoning for this is because with all the logic in one app/repo, we don't need to containerize and deploy 2 separate apps.
+
+## Containerizing
+
+Note that there is 1 important env variable to add - the user key for the external GC LMI-EO API which needs to be added before deploying. If for any reason you should lose access to this key or it is revoked, you can register with the GC API service and request a new one from the [GC API website](https://api.canada.ca/en/homepage). Copy the .env.example file and rename it to .env. Then add the key to the file.
