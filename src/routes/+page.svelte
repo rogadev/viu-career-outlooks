@@ -13,9 +13,9 @@
   /** @type {{nid:string,title:string}[]} */
   $: programList = $programs.map((v) => v)
 
-  function fetchProgramList() {
+  async function fetchProgramList() {
     if (!programList.length) {
-      const searchablePrograms = getPrograms()
+      const searchablePrograms = await getPrograms()
       // @ts-ignore
       programs.set(searchablePrograms)
     }
