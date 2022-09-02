@@ -6,6 +6,7 @@
 
   import { clearSelectedProgram } from '$lib/stores/programs'
   import Filter from './Filter.svelte'
+  import Loading from './Loading.svelte'
 
   /** @type {string} */
   export let nid
@@ -67,7 +68,7 @@
   </dialog>
 {:else}
   {#await fetchJobs()}
-    <p>loading...</p>
+    <Loading />
   {:then}
     <!-- Program Area -->
     <div class="py-4">
