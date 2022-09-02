@@ -1,6 +1,9 @@
 <script>
   import '../app.css'
   import Navbar from '$lib/components/Navbar.svelte'
+  import Loading from '$lib/components/Loading.svelte'
+
+  // Navigating essentially comes from the app. If we are still navigating to the page and things are loading, we haven't "loaded" the page yet. Thus loading = true. Once we are done navigating, loading = false.
   import { navigating } from '$app/stores'
   import { loading } from '$lib/stores/loading'
   $: $loading = !!$navigating
@@ -10,7 +13,7 @@
   <Navbar />
   <div class="slot-wrapper">
     {#if $loading}
-      <div>loading...</div>
+      <Loading />
     {:else}
       <slot />
     {/if}

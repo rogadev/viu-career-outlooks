@@ -1,7 +1,7 @@
 <script>
   import H1 from '$lib/components/viu/H1.svelte'
   import Filter from '$lib/components/Filter.svelte'
-  import P from '$lib/components/viu/P.svelte'
+  import Loading from '$lib/components/Loading.svelte'
 
   export let data
   const { nid } = data
@@ -16,6 +16,9 @@
   /** @type {string} */ let credential
   /** @type {Job[]} */ let jobs
 
+  /**
+   * Fetches jobs data from the server. Sets local variables to represent the data returned.
+   */
   const fetchPrograms = async () => {
     const response = await fetch(`/api/v1/jobs-by-program/${nid}`)
     const data = await response.json()
@@ -30,7 +33,7 @@
 </svelte:head>
 
 {#await fetchPrograms()}
-  <P>loading...</P>
+  <Loading />
 {:then}
   <H1>{title} {credential}</H1>
 
