@@ -1,6 +1,8 @@
 <script>
   import titleCase from '$lib/helpers/titleCase'
 
+  import { selectedProgram } from '$lib/stores/programs'
+
   export let /** @type {{title:string, noc:string}[]} */ list
 </script>
 
@@ -8,7 +10,7 @@
   <p>
     No results found for this credential, at this time. <a
       class="text-blue-600 cursor-pointer font-semibold hover:text-blue-800"
-      href="mailto:web@viu.ca"
+      href={`mailto:web@viu.ca?subject=No%20career%20results%20for%20${$selectedProgram.title} (NID: ${$selectedProgram.nid})`}
       target="_blank">Contact the Web Team</a
     > to update the VIU program list.
   </p>
