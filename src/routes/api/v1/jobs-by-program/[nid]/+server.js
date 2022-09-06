@@ -5,7 +5,7 @@ import pushJobIfUnique from '$lib/server/helpers/pushJobIfUnique'
 
 // DATA
 import unitGroups from '$lib/server/data/noc_2016_unit_groups.json'
-import viuPrograms from '$lib/server/data/viu_programs.json'
+import viuPrograms from './viu_programs.json'
 // import enforceArray from '$lib/server/helpers/enforceArray'
 
 // TYPES
