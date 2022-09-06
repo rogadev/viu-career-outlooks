@@ -18,11 +18,7 @@
    * Check the programs store (programList subscribed to store) and if it's empty, fetch the programs from the server.
    */
   async function fetchProgramList() {
-    if (!programList.length) {
-      const searchablePrograms = await getPrograms()
-      // @ts-ignore
-      programs.set(searchablePrograms)
-    }
+    $programs = await getPrograms()
   }
 
   // @ts-ignore
