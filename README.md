@@ -1,6 +1,6 @@
 # Now Live!
 
-See it live on (VIU's Website)[https://career-outlooks.viu.ca].
+See it live on [VIU's Website](https://career-outlooks.viu.ca).
 
 # About Career Outlooks
 
