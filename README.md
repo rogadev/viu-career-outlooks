@@ -1,3 +1,7 @@
+# Now Live!
+
+See it live on (VIU's Website)[https://career-outlooks.viu.ca].
+
 # About Career Outlooks
 
 <h3 style="text-align:center;margin-top:20px;">Ryan Roga, Web Application Developer</h3>
