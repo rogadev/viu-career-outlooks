@@ -38,7 +38,7 @@ const getOutlook = async (noc) => {
  */
 function refactorOutlookWithLogicalPotential(outlook) {
   const { potential } = outlook
-  if (!potential) throw new Error('Outlook potential value not found.', outlook)
+  if (!potential) throw new Error('Outlook potential value not found.')
   let newPotential
   switch (Number(potential)) {
     case 1:
