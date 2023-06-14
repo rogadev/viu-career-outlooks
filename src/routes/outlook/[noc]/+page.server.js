@@ -36,7 +36,9 @@ headers.append(
  * @returns The fixed outlook data with corrected potential value.
  */
 const refactorOutlookWithLogicalPotential = (outlook) => {
-  const potential = outlook.potential
+  const potential = outlook?.potential
+  if (!potential)
+    throw new Error('Outlook potential not found for this unit group.')
   let newPotential
   switch (Number(potential)) {
     case 1:
@@ -122,6 +124,10 @@ export async function load({ params }) {
       const cachedData = outlooksCache.get(`${noc}-${prov}`) ?? false
       if (!cachedData) {
         data = await fetchProvincialOutlook(noc, prov)
+        if (!data)
+          throw new Error(
+            'As of May 12, 2023, the Government of Canada no longer provides a Labour Market Information, Employment Outlooks API. We are working on updating our web app to provide visitors with the most up-to-date labour market information. Please check back again soon.'
+          )
         data = refactorOutlookWithLogicalPotential(data)
         outlooksCache.set(`${noc}-${prov}`, data)
       } else {
