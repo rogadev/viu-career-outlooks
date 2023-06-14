@@ -1,4 +1,6 @@
 <script>
+  // @ts-nocheck
+
   // HELPERS
   import titleCase from '$lib/helpers/titleCase.js'
 
@@ -17,7 +19,7 @@
   let requirements = data.requirements
   let duties = data.duties
   let outlook = data.outlook
-  let outlook_verbose = data.outlook_verbose
+  let outlook_verbose = titleCase(data.outlook_verbose)
   let trends = data.trends
   let province = data.province
 
@@ -41,11 +43,31 @@
 </svelte:head>
 
 <H1>{titleCaseTitle}</H1>
-
-<h2 class={`outlook-${outlook}`}>
-  BC's 3-Year Market Outlook is <b>{outlook_verbose}</b>
-</h2>
 <StickyBackButton />
+
+<div class="flex flex-col justify-center">
+  <h2 class={`outlook-${outlook} mb-1 mx-auto`}>
+    BC's 3-Year Market Outlook is <b>{outlook_verbose}</b>
+  </h2>
+
+  <div class="flex flex-row gap-1 text-center justify-center">
+    <div class="outlook-0 h-[55px] min-w-[55px] mr-4">0</div>
+    <div class="outlook-1 h-[55px] min-w-[55px]">1</div>
+    <div class="outlook-2 h-[55px] min-w-[55px]">2</div>
+    <div class="outlook-3 h-[55px] min-w-[55px]">3</div>
+    <div class="outlook-4 h-[55px] min-w-[55px]">4</div>
+    <div class="outlook-5 h-[55px] min-w-[55px]">5</div>
+  </div>
+
+  <div class="flex flex-row gap-1 text-center mb-10 justify-center">
+    <div class="h-4 min-w-[55px] mr-4">{outlook === 0 ? '⬆️' : ''}</div>
+    <div class="h-4 min-w-[55px]">{outlook === 1 ? '⬆️' : ''}</div>
+    <div class="h-4 min-w-[55px]">{outlook === 2 ? '⬆️' : ''}</div>
+    <div class="h-4 min-w-[55px]">{outlook === 3 ? '⬆️' : ''}</div>
+    <div class="h-4 min-w-[55px]">{outlook === 4 ? '⬆️' : ''}</div>
+    <div class="h-4 min-w-[55px]">{outlook === 5 ? '⬆️' : ''}</div>
+  </div>
+</div>
 
 <ul>
   <li class="detail-section">
@@ -100,22 +122,36 @@
   .outlook-0,
   .outlook-1,
   .outlook-2,
-  .outlook-3 {
-    @apply px-4 py-3 rounded shadow text-white w-fit my-5;
+  .outlook-3,
+  .outlook-4,
+  .outlook-5 {
+    @apply px-4 py-3 rounded-lg shadow-lg text-white w-fit;
   }
 
   .outlook-0 {
-    background-color: #000;
+    background-color: #333333;
+    color: #cccccc;
   }
   .outlook-1 {
-    background-color: red;
+    background-color: #b30000;
+    color: #ffffff;
   }
   .outlook-2 {
-    color: black;
-    background-color: yellow;
+    background-color: #ff6600;
+    color: #ffffff;
   }
   .outlook-3 {
-    background-color: green;
+    background-color: #007bff;
+    color: #ffffff;
+  }
+  .outlook-4 {
+    background-color: #007a33;
+    color: #ffffff;
+  }
+
+  .outlook-5 {
+    background-color: #00cc33;
+    color: #ffffff;
   }
 
   .detail-section {
