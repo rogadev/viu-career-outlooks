@@ -17,7 +17,7 @@
     "@sveltejs/kit": "next",
     "@vitest/ui": "^0.21.1",
     "autoprefixer": "^10.4.8",
-    "postcss": "^8.4.14",
+    "postcss": "^8.4.31",
     "prisma": "^4.15.0",
     "svelte": "^3.44.0",
     "svelte-check": "^2.7.1",
