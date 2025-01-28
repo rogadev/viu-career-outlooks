@@ -1,308 +1,252 @@
-# Development Guidelines
+Below is a concise, all-in-one set of rules and guidelines for a beginner developer working with **React 19**, **Next 15**, **Vercel Postgres + Prisma**, **TailwindCSS**, and **shadcn**. These ensure consistency, security, maintainability, and best practices.
 
-This project follows Next.js 15's standard best practices and conventions.
+---
 
-## Core Principles
+## 1. Project Structure & App Router
 
-1. **App Router & Server Components**
-
-   - Use the App Router by default
-   - Leverage Server Components for improved performance
-   - Client Components only when necessary (use 'use client' directive)
-
-2. **Data Fetching**
-
-   - Use Server Components for data fetching
-   - Implement Route Handlers for API endpoints
-   - Utilize Next.js caching and revalidation patterns
-
-3. **Routing & Layouts**
-
-   - Follow Next.js file-system based routing
-   - Use layout.tsx for shared UI
-   - Implement loading.tsx for Suspense boundaries
-   - Handle errors with error.tsx
-
-4. **Forms & Mutations**
-
-   - Use Server Actions for form submissions
-   - Implement proper error handling and validation
-   - Follow progressive enhancement principles
-
-5. **Static & Dynamic Rendering**
-
-   - Default to static rendering where possible
-   - Use dynamic rendering when needed
-   - Implement proper caching strategies
-
-6. **Authentication**
-
-   - Use Next.js middleware for route protection
-   - Follow OAuth/session best practices
-   - Implement proper CSRF protection
-
-7. **Performance**
-
-   - Use Next.js Image component
-   - Implement proper loading states
-   - Use streaming and Suspense
-   - Follow recommended metadata patterns
-
-8. **TypeScript**
-
-   - Use TypeScript for type safety
-   - Follow Next.js TypeScript conventions
-   - Leverage built-in type definitions
-
-9. **Styling**
-
-   - Use CSS Modules or Tailwind CSS
-   - Follow Next.js styling recommendations
-   - Implement responsive design patterns
-
-10. **Testing**
-    - Use Next.js testing utilities
-    - Follow React Testing Library practices
-    - Implement E2E tests with Playwright
-
-Remember: Follow the [Next.js documentation](https://nextjs.org/docs) for the most up-to-date best practices and patterns.
-
-## Code Standards
-
-1. **TypeScript Strictness**
-
-   - Strict mode is mandatory
-   - All components, functions, and variables must be explicitly typed
-   - No use of `any` or `as` without documented justification
-   - Use Prisma's generated types instead of custom interfaces
-
-2. **Component Structure**
-
-   - Place shared components in `/components` with appropriate subdirectories
-   - Place page-specific components in `_components` folder adjacent to their page/layout
-   - Follow atomic design principles (atoms, molecules, organisms)
-   - One component per file
-   - Use named exports: `export function ComponentName()`
-   - Place page/component-specific Server Actions in `_actions` folder adjacent to the component/page
-   - Co-locate related actions and components to maintain clear dependencies
-   - Example structure:
-     ```
-     app/
-       products/
-         _actions/
-           create-product.ts
-           update-product.ts
-         _components/
-           ProductGrid.tsx
-           ProductFilters.tsx
-         page.tsx
-         ProductForm.tsx
-     ```
-
-3. **State Management**
-
-   - Cart state must use global store (Zustand preferred)
-   - Server state must use React Query or similar caching solution
-   - No prop drilling beyond 2 levels - use context or state management
-
-4. **API Access**
-
-   - All routes and endpoints are public
-   - No authentication required for API access
-   - Implement rate limiting for API protection
-   - Consider caching strategies for optimal performance
-
-5. **Server-Side Operations**
-
-   - Use Server Actions for form submissions and mutations
-   - Use Route Handlers (API routes) when needed for:
-     - RESTful API endpoints
-     - Complex API requirements
-     - External API integrations
-     - WebSocket connections
-   - Implement proper error handling
-   - Follow security best practices for data validation
-
-6. **API Patterns**
-
-   - Prefer Server Actions over API routes for internal operations
-   - Server Actions should be co-located with their components in `_actions` folders
-   - Use Route Handlers (API routes) only for:
-     - External integrations
-     - Webhook endpoints
-     - Public APIs
-     - Real-time functionality (WebSockets)
-   - Server Actions must follow these patterns:
-
-     ```typescript:example
-     'use server'
-
-     import { revalidatePath } from 'next/cache'
-     import { redirect } from 'next/navigation'
-
-     export async function exampleAction(formData: FormData) {
-       // 1. Type and validate inputs
-       // 2. Process action
-       // 3. Revalidate affected paths
-       // 4. Return or redirect
-     }
-     ```
-
-   - Key Server Action principles:
-     - Always use strong typing for inputs
-     - Include proper error handling
-     - Revalidate affected cache entries
-     - Return structured responses
-     - Handle both form submissions and programmatic calls
-
-7. **Database Operations**
-
-   - All Prisma queries must be in dedicated service files under `/lib/services`
-   - Use transactions for operations affecting multiple tables
-   - Include proper error handling and type checking
-   - Example:
-
-   ```typescript:lib/services/product.ts
-   import prisma from '@/lib/db'
-   import type { Prisma } from '@prisma/client'
-
-   export async function createProduct(data: Prisma.ProductCreateInput) {
-     try {
-       return await prisma.$transaction(async (tx) => {
-         const product = await tx.product.create({
-           data,
-           include: {
-             // Include related data as needed
-           }
-         })
-         return product
-       })
-     } catch (error) {
-       // Log error appropriately
-       throw new Error('Failed to create product')
-     }
-   }
-   ```
-
-   - Always use Prisma's generated types
-   - Implement proper error handling for database operations
-   - Configure automatic database backups through Vercel dashboard
-   - Set up database branching for preview deployments
-   - Monitor database performance in Vercel Dashboard
-
-8. **Styling**
-
-   - Use Tailwind classes exclusively
-   - Follow mobile-first approach
-   - Use Shadcn UI components when available
-   - Custom styles must be approved by team lead
-
-9. **Performance**
-
-   - Images must use Next.js Image component
-   - Implement proper loading states
-   - Use React Suspense boundaries
-   - Lazy load non-critical components
-
-10. **Testing**
-
-- Write unit tests for utility functions
-- Include integration tests for critical paths
-- Test admin operations thoroughly
-- Ensure proper error states are handled
-
-11. **Environment & Security**
-    - Never commit `.env` files
-    - Use environment variables for all sensitive data
-    - Follow least privilege principle for admin functions
-    - Document required env variables in `.env.example`
-
-## Deployment Information
-
-- Project is deployed to locally
-
-## Database Configuration
-
-- Use Prisma with PostgreSQL
-- Required environment variables:
+- Project root contains two separate applications:
   ```
-  POSTGRES_PRISMA_URL="postgresql://username:password@host:port/database"    # Uses connection pooling
-  POSTGRES_URL_NON_POOLING="postgresql://username:password@host:port/database"  # Uses direct connection
+  /
+    next/           # Next.js application
+    svelte/         # Svelte application
   ```
-- Configure database in schema.prisma:
-  ```prisma
-  datasource db {
-    provider = "postgresql"
-    url      = env("POSTGRES_PRISMA_URL")      // uses connection pooling
-    directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+- Within the Next.js application (`/next`):
+  - **Use the App Router only** (`/app`). Avoid `/pages`.
+  - Organize routes meaningfully (`/programs/[id]`, `/programs/new`, etc.).
+  - Store reusable components in `/app/components`, grouping by route:
+    - e.g. `/app/components/programs/` for program-related components.
+    - e.g. `/app/components/app/` for global usage (`BackButton`, etc.).
+  - Place utility functions in `/app/lib/utils`.
+  - Keep **public assets** in `/public`:
+    - `/public/icons` for icons.
+    - `/public/images` for images.
+  - **Layouts**: Use `layout.tsx` and `head.tsx` in appropriate folders to share UI structure or metadata across routes.
+
+---
+
+## 2. TailwindCSS & shadcn
+
+- **Tailwind** for styling (minimal, purposeful utility classes).
+- **shadcn components** for consistency and theme cohesion.
+- Check for a shadcn component before creating a new UI element.
+
+---
+
+## 3. Image Handling
+
+- **Use `<Image />`** from `next/image` for automatic optimization and lazy loading.
+- Do **not** use `<img>` unless absolutely necessary.
+- **Workflow**:
+  1. Place image/icon in `/public/images` or `/public/icons`.
+  2. Import `Image` from `'next/image'`.
+  3. Provide alt text for accessibility.
+  4. Choose correct sizes/layout for performance.
+
+---
+
+## 4. API Routes & Data Fetching
+
+### Structure and Organization
+
+- Place all API routes in `/app/api` following a clear, hierarchical structure
+- Group related endpoints in subdirectories:
+  ```
+  app/
+    api/
+      plants/
+        [id]/
+          route.ts        # GET, PUT, DELETE single plant
+        route.ts         # GET (list), POST (create) plants
+      orders/
+        [id]/
+          route.ts
+        route.ts
+  ```
+
+### Implementation Standards
+
+- Every API route must:
+  1. Use TypeScript with strict typing
+  2. Include input validation using Zod
+  3. Return consistent response structures
+  4. Handle errors appropriately
+- Example implementation:
+
+  ```typescript
+  import { NextResponse } from 'next/server'
+  import { z } from 'zod'
+  import prisma from '@/lib/db'
+
+  const createPlantSchema = z.object({
+    name: z.string().min(1),
+    price: z.number().positive(),
+    // ... other fields
+  })
+
+  export async function POST(request: Request) {
+    try {
+      const body = await request.json()
+      const validated = createPlantSchema.parse(body)
+
+      const plant = await prisma.plant.create({
+        data: validated,
+      })
+
+      return NextResponse.json(plant, { status: 201 })
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return NextResponse.json(
+          { error: 'Invalid input', details: error.errors },
+          { status: 400 }
+        )
+      }
+      return NextResponse.json(
+        { error: 'Internal server error' },
+        { status: 500 }
+      )
+    }
   }
   ```
-- Follow Prisma's best practices for database access
-- Connection pooling is configured automatically through the POSTGRES_PRISMA_URL
-- Direct connections are available when needed through POSTGRES_URL_NON_POOLING
 
-### Key Edge Function Considerations:
+### Response Format
 
-- Use Edge Runtime in page/route segments requiring edge deployment
-- Keep bundle sizes minimal - avoid large dependencies
-- Cache aggressively using Next.js built-in caching mechanisms
-- Use streaming responses for improved TTFB
-- Store session data in edge-compatible storage (e.g., Redis, Upstash)
-- Ensure all APIs and database queries are edge-compatible
-- Consider regional deployments for data residency requirements
+- All API responses must follow this structure:
 
-## Consider the Whole Project
+  ```typescript
+  // Success response
+  {
+    data: T,           // Type varies by endpoint
+    metadata?: {       // Optional metadata
+      count?: number,
+      page?: number,
+      // ... other metadata
+    }
+  }
 
-- Check existing components in `/components`
-- Review service patterns in `/lib/services`
-- Consult team lead for architectural decisions
-- Use the project's Discord channel for questions
+  // Error response
+  {
+    error: string,     // Human-readable error message
+    details?: any,     // Optional error details
+    code?: string      // Optional error code
+  }
+  ```
 
-Remember: This is a production application. When in doubt, prioritize maintainability and type safety over clever solutions.
+### Error Handling
 
-## Route Organization
+- Use appropriate HTTP status codes:
+  - 200: Success
+  - 201: Created
+  - 400: Bad Request
+  - 401: Unauthorized
+  - 403: Forbidden
+  - 404: Not Found
+  - 500: Internal Server Error
+- Always catch and handle errors appropriately
+- Log errors in development and production environments
 
-1. **Route Groups**
+### Authentication & Authorization
 
-   - Use Next.js route groups to separate public and internal sections:
-     ```
-     app/
-       (site)/
-         page.tsx           # Public home page
-         products/
-         blog/
-         cart/
-       (dashboard)/
-         page.tsx           # Admin dashboard
-         products/
-         orders/
-         posts/
-     ```
+- Protect sensitive routes using middleware
+- Verify authentication tokens in protected routes
+- Implement role-based access control where needed
 
-2. **(site) Group Standards**
+### Performance & Caching
 
-   - Contains all public-facing store components
-   - Required features:
-     - Product browsing and search
-     - Care tips and blog posts
-     - Shopping cart functionality
-     - Customer notifications (email/in-app)
-     - Order status tracking
-   - Must implement responsive design for all customer-facing pages
-   - Authentication optional except for cart/checkout
+- Implement appropriate caching strategies
+- Use Edge Runtime for global performance where applicable
+- Consider rate limiting for public endpoints
 
-3. **(dashboard) Group Standards**
+### Documentation
 
-   - Contains all internal management tools
-   - Required features:
-     - Product management (CRUD operations)
-     - Inventory control
-     - Content management (blog posts, care tips)
-     - Order processing
-   - Must implement Clerk authentication
-   - All routes must verify staff role
-   - Co-locate management actions with their respective components
+- Include JSDoc comments for all exported functions
+- Document expected request/response formats
+- List required permissions or authentication
+- Provide example usage where helpful
 
-4. **Shared Resources**
+---
 
-   - Common components remain in root `/components`
+## 5. Vercel Postgres & Prisma
+
+- Keep your Prisma schema in `/prisma/schema.prisma` aligned with the Postgres structure.
+- Use the **Prisma Client** in server components or API routes for DB operations.
+- For migrations:
+  ```bash
+  pnpm prisma migrate dev
+  ```
+  (Adjust your script as needed.)
+
+---
+
+## 6. React 19 & Next 15 Best Practices
+
+- Use **function components** with hooks (avoid class components).
+- **Server Components** by default for data-fetching; **Client Components** only for interactive/stateful logic.
+- Manage environment variables in `.env` and access them with `process.env`. Never expose secrets to client components.
+
+---
+
+## 7. TypeScript Best Practices
+
+- **Type everything**: function params, return types, props, and states.
+- Collect shared interfaces/types in `/app/types` or `/app/lib/types.ts` to avoid duplication.
+- Use descriptive interface names (`ProgramDetails`, `UserProfile`, etc.).
+- Enable **strict mode** in `tsconfig.json`:
+  ```json
+  {
+    "compilerOptions": {
+      "strict": true
+      // ...other settings
+    }
+  }
+  ```
+- Set up **ESLint/Prettier** for consistent code quality.
+
+---
+
+## 8. Naming Conventions
+
+- **Components**: `PascalCase` (e.g., `ProgramCard.tsx`).
+- **Interfaces/Types**: `PascalCase` (e.g., `ProgramData`).
+- **Variables & Functions**: `camelCase` (e.g., `fetchPrograms`).
+- **Folders/Files** (non-components): `kebab-case` or `snake_case`, but stay consistent.
+
+---
+
+## 9. Testing & Linting
+
+- Use **unit tests** (e.g., Jest, Vitest) and possibly **integration/end-to-end tests** (e.g., Cypress, Playwright).
+- Lint with **ESLint** + **Prettier** to ensure code style and quality.
+- Include tests for critical workflows (API endpoints, major components, etc.).
+
+---
+
+## 10. Performance Considerations
+
+- Embrace **code-splitting** and **lazy-loading** where appropriate.
+- **Optimize images** and ensure `<Image>` usage is correct (proper size, layout, and `priority` where needed).
+- Keep an eye on bundle sizes, reduce unnecessary dependencies.
+
+---
+
+## 11. Accessibility
+
+- Provide meaningful `alt` text for images, label form elements, and maintain proper heading hierarchy.
+- Use ARIA attributes if needed, but rely on semantic HTML first.
+- Ensure all interactive components (especially from shadcn) are keyboard-accessible.
+
+---
+
+## 12. Summary Workflow Example
+
+1. **Create a route** under `/next/app/(routeGroup)/programs/[id]` for details.
+2. **Add a component** in `/next/app/components/programs/ProgramCard.tsx`.
+3. **Fetch data** via `/next/app/api/programs/[id]/route.ts` using Prisma.
+4. **Style** with Tailwind and shadcn if available.
+5. **Use `<Image />`** for any images.
+6. **Place** shared types in `/next/app/types/` or `/next/app/lib/types.ts`.
+7. **Test** the new component and route (unit & integration).
+8. **Commit** your changes, ensuring lint checks pass.
+
+---
+
+Following these guidelines will help maintain a robust, secure, and scalable application in **Next 15** with **React 19**, **Vercel Postgres + Prisma**, **TailwindCSS**, and **shadcn**.
