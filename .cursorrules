@@ -1,0 +1,252 @@
+Below is a concise, all-in-one set of rules and guidelines for a beginner developer working with **React 19**, **Next 15**, **Vercel Postgres + Prisma**, **TailwindCSS**, and **shadcn**. These ensure consistency, security, maintainability, and best practices.
+
+---
+
+## 1. Project Structure & App Router
+
+- Project root contains two separate applications:
+  ```
+  /
+    next/           # Next.js application
+    svelte/         # Svelte application
+  ```
+- Within the Next.js application (`/next`):
+  - **Use the App Router only** (`/app`). Avoid `/pages`.
+  - Organize routes meaningfully (`/programs/[id]`, `/programs/new`, etc.).
+  - Store reusable components in `/app/components`, grouping by route:
+    - e.g. `/app/components/programs/` for program-related components.
+    - e.g. `/app/components/app/` for global usage (`BackButton`, etc.).
+  - Place utility functions in `/app/lib/utils`.
+  - Keep **public assets** in `/public`:
+    - `/public/icons` for icons.
+    - `/public/images` for images.
+  - **Layouts**: Use `layout.tsx` and `head.tsx` in appropriate folders to share UI structure or metadata across routes.
+
+---
+
+## 2. TailwindCSS & shadcn
+
+- **Tailwind** for styling (minimal, purposeful utility classes).
+- **shadcn components** for consistency and theme cohesion.
+- Check for a shadcn component before creating a new UI element.
+
+---
+
+## 3. Image Handling
+
+- **Use `<Image />`** from `next/image` for automatic optimization and lazy loading.
+- Do **not** use `<img>` unless absolutely necessary.
+- **Workflow**:
+  1. Place image/icon in `/public/images` or `/public/icons`.
+  2. Import `Image` from `'next/image'`.
+  3. Provide alt text for accessibility.
+  4. Choose correct sizes/layout for performance.
+
+---
+
+## 4. API Routes & Data Fetching
+
+### Structure and Organization
+
+- Place all API routes in `/app/api` following a clear, hierarchical structure
+- Group related endpoints in subdirectories:
+  ```
+  app/
+    api/
+      plants/
+        [id]/
+          route.ts        # GET, PUT, DELETE single plant
+        route.ts         # GET (list), POST (create) plants
+      orders/
+        [id]/
+          route.ts
+        route.ts
+  ```
+
+### Implementation Standards
+
+- Every API route must:
+  1. Use TypeScript with strict typing
+  2. Include input validation using Zod
+  3. Return consistent response structures
+  4. Handle errors appropriately
+- Example implementation:
+
+  ```typescript
+  import { NextResponse } from 'next/server'
+  import { z } from 'zod'
+  import prisma from '@/lib/db'
+
+  const createPlantSchema = z.object({
+    name: z.string().min(1),
+    price: z.number().positive(),
+    // ... other fields
+  })
+
+  export async function POST(request: Request) {
+    try {
+      const body = await request.json()
+      const validated = createPlantSchema.parse(body)
+
+      const plant = await prisma.plant.create({
+        data: validated,
+      })
+
+      return NextResponse.json(plant, { status: 201 })
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return NextResponse.json(
+          { error: 'Invalid input', details: error.errors },
+          { status: 400 }
+        )
+      }
+      return NextResponse.json(
+        { error: 'Internal server error' },
+        { status: 500 }
+      )
+    }
+  }
+  ```
+
+### Response Format
+
+- All API responses must follow this structure:
+
+  ```typescript
+  // Success response
+  {
+    data: T,           // Type varies by endpoint
+    metadata?: {       // Optional metadata
+      count?: number,
+      page?: number,
+      // ... other metadata
+    }
+  }
+
+  // Error response
+  {
+    error: string,     // Human-readable error message
+    details?: any,     // Optional error details
+    code?: string      // Optional error code
+  }
+  ```
+
+### Error Handling
+
+- Use appropriate HTTP status codes:
+  - 200: Success
+  - 201: Created
+  - 400: Bad Request
+  - 401: Unauthorized
+  - 403: Forbidden
+  - 404: Not Found
+  - 500: Internal Server Error
+- Always catch and handle errors appropriately
+- Log errors in development and production environments
+
+### Authentication & Authorization
+
+- Protect sensitive routes using middleware
+- Verify authentication tokens in protected routes
+- Implement role-based access control where needed
+
+### Performance & Caching
+
+- Implement appropriate caching strategies
+- Use Edge Runtime for global performance where applicable
+- Consider rate limiting for public endpoints
+
+### Documentation
+
+- Include JSDoc comments for all exported functions
+- Document expected request/response formats
+- List required permissions or authentication
+- Provide example usage where helpful
+
+---
+
+## 5. Vercel Postgres & Prisma
+
+- Keep your Prisma schema in `/prisma/schema.prisma` aligned with the Postgres structure.
+- Use the **Prisma Client** in server components or API routes for DB operations.
+- For migrations:
+  ```bash
+  pnpm prisma migrate dev
+  ```
+  (Adjust your script as needed.)
+
+---
+
+## 6. React 19 & Next 15 Best Practices
+
+- Use **function components** with hooks (avoid class components).
+- **Server Components** by default for data-fetching; **Client Components** only for interactive/stateful logic.
+- Manage environment variables in `.env` and access them with `process.env`. Never expose secrets to client components.
+
+---
+
+## 7. TypeScript Best Practices
+
+- **Type everything**: function params, return types, props, and states.
+- Collect shared interfaces/types in `/app/types` or `/app/lib/types.ts` to avoid duplication.
+- Use descriptive interface names (`ProgramDetails`, `UserProfile`, etc.).
+- Enable **strict mode** in `tsconfig.json`:
+  ```json
+  {
+    "compilerOptions": {
+      "strict": true
+      // ...other settings
+    }
+  }
+  ```
+- Set up **ESLint/Prettier** for consistent code quality.
+
+---
+
+## 8. Naming Conventions
+
+- **Components**: `PascalCase` (e.g., `ProgramCard.tsx`).
+- **Interfaces/Types**: `PascalCase` (e.g., `ProgramData`).
+- **Variables & Functions**: `camelCase` (e.g., `fetchPrograms`).
+- **Folders/Files** (non-components): `kebab-case` or `snake_case`, but stay consistent.
+
+---
+
+## 9. Testing & Linting
+
+- Use **unit tests** (e.g., Jest, Vitest) and possibly **integration/end-to-end tests** (e.g., Cypress, Playwright).
+- Lint with **ESLint** + **Prettier** to ensure code style and quality.
+- Include tests for critical workflows (API endpoints, major components, etc.).
+
+---
+
+## 10. Performance Considerations
+
+- Embrace **code-splitting** and **lazy-loading** where appropriate.
+- **Optimize images** and ensure `<Image>` usage is correct (proper size, layout, and `priority` where needed).
+- Keep an eye on bundle sizes, reduce unnecessary dependencies.
+
+---
+
+## 11. Accessibility
+
+- Provide meaningful `alt` text for images, label form elements, and maintain proper heading hierarchy.
+- Use ARIA attributes if needed, but rely on semantic HTML first.
+- Ensure all interactive components (especially from shadcn) are keyboard-accessible.
+
+---
+
+## 12. Summary Workflow Example
+
+1. **Create a route** under `/next/app/(routeGroup)/programs/[id]` for details.
+2. **Add a component** in `/next/app/components/programs/ProgramCard.tsx`.
+3. **Fetch data** via `/next/app/api/programs/[id]/route.ts` using Prisma.
+4. **Style** with Tailwind and shadcn if available.
+5. **Use `<Image />`** for any images.
+6. **Place** shared types in `/next/app/types/` or `/next/app/lib/types.ts`.
+7. **Test** the new component and route (unit & integration).
+8. **Commit** your changes, ensuring lint checks pass.
+
+---
+
+Following these guidelines will help maintain a robust, secure, and scalable application in **Next 15** with **React 19**, **Vercel Postgres + Prisma**, **TailwindCSS**, and **shadcn**.
