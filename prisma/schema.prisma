@@ -4,23 +4,69 @@ generator client {
 
 datasource db {
   provider  = "postgresql"
-  url       = env("POSTGRES_PRISMA_URL")
-  directUrl = env("POSTGRES_URL_NON_POOLING")
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model Outlook {
-  id                   String   @id @default(uuid())
-  createdAt            DateTime @default(now())
-  updatedAt            DateTime @updatedAt
-  noc                  String
-  title                String
-  outlook              String
-  trends               String
-  date                 String
-  province             String
-  economic_region_code String
-  economic_region_name String
-  lang                 String   @default("EN")
+  id                 Int            @id @default(autoincrement())
+  noc                String
+  economicRegionCode String
+  title              String
+  outlook            String
+  trends             String
+  trendsHash         String
+  releaseDate        DateTime
+  province           String
+  lang               String         @default("EN")
+  economicRegion     EconomicRegion @relation(fields: [economicRegionCode], references: [economicRegionCode])
+  unitGroup          UnitGroup      @relation(fields: [noc], references: [noc])
 
-  @@map("outlook")
+  @@unique([noc, economicRegionCode, lang, releaseDate, province, title, trendsHash, outlook])
+}
+
+model Program {
+  nid               Int         @id
+  title             String
+  duration          String?
+  viuSearchKeywords String?
+  nocSearchKeywords String[]
+  knownNocGroups    String[]
+  programAreaNid    Int
+  credential        Credential
+  programArea       ProgramArea @relation(fields: [programAreaNid], references: [id])
+}
+
+model ProgramArea {
+  id       Int       @id @default(autoincrement())
+  nid      Int
+  title    String    @unique
+  programs Program[]
+}
+
+model UnitGroup {
+  noc        String           @id
+  occupation String
+  outlook    Outlook[]
+  sections   SectionsEntity[] @relation("SectionsEntity")
+}
+
+model SectionsEntity {
+  id        Int       @id @default(autoincrement())
+  noc       String
+  title     String
+  items     String[]
+  unitGroup UnitGroup @relation("SectionsEntity", fields: [noc], references: [noc])
+}
+
+model EconomicRegion {
+  economicRegionCode String    @id
+  economicRegionName String
+  outlooks           Outlook[]
+}
+
+enum Credential {
+  Certificate
+  Degree
+  Diploma
 }
