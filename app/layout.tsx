@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
 import Navigation from '@/components/Navigation'
-
+import Footer from '@/components/Footer'
 const geistSans = Geist({
   variable: '--font-geist-sans',
   subsets: ['latin'],
@@ -30,10 +30,8 @@ export default function RootLayout({
       >
         <div className='flex flex-col min-h-screen'>
           <Navigation />
-          <main className='flex-grow container mx-auto p-4'>{children}</main>
-          <footer className='bg-secondary text-secondary-foreground p-4'>
-            <div className='container mx-auto'>{/* Footer content */}</div>
-          </footer>
+          <div className='flex-grow container mx-auto p-4'>{children}</div>
+          <Footer />
         </div>
       </body>
     </html>

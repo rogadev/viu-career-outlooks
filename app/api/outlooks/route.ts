@@ -6,42 +6,40 @@ import { z } from 'zod';
  * Query parameter schema for the outlooks API
  */
 const querySchema = z.object({
-  id: z.string().uuid().optional(),
+  id: z.coerce.number().optional(),
   noc: z.string().optional(),
   page: z.coerce.number().min(1).optional().default(1),
   limit: z.coerce.number().min(1).optional().default(10),
   fields: z.string().optional(),
   province: z.string().length(2).toUpperCase().optional(),
-  erc: z.string().length(4).optional()
+  erc: z.string().length(4).optional(),
+  end: z.enum(['top', 'bottom']).optional(),
 });
 
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
 
-    // Parse and validate query parameters with defaults
+    // Parse and validate query parameters
     const query = querySchema.safeParse({
-      id: searchParams.get('id') || undefined,
+      id: searchParams.get('id'),
       noc: searchParams.get('noc') || undefined,
-      page: searchParams.get('page') || 1,
-      limit: searchParams.get('limit') || 10,
+      page: searchParams.get('page'),
+      limit: searchParams.get('limit'),
       fields: searchParams.get('fields') || undefined,
       province: searchParams.get('province') || undefined,
-      erc: searchParams.get('erc') || undefined
+      erc: searchParams.get('erc') || undefined,
+      end: searchParams.get('end'),
     });
 
-    // Handle validation errors
     if (!query.success) {
       return NextResponse.json(
-        {
-          message: 'Invalid input parameters',
-          details: query.error.errors
-        },
+        { error: 'Invalid input parameters' },
         { status: 400 }
       );
     }
 
-    // If ID is provided, return single outlook
+    // Handle single outlook fetch
     if (query.data.id) {
       const outlook = await prisma.outlook.findUnique({
         where: { id: query.data.id },
@@ -55,37 +53,46 @@ export async function GET(request: Request) {
           releaseDate: true,
           province: true,
           lang: true,
-          economicRegion: true,
-          unitGroup: true
-          // trendsHash is excluded
-        }
+          economicRegion: {
+            select: {
+              economicRegionName: true,
+            },
+          },
+          unitGroup: true,
+        },
       });
 
       if (!outlook) {
         return NextResponse.json(
-          { message: 'Outlook not found' },
+          { error: 'Outlook not found' },
           { status: 404 }
         );
       }
 
-      return NextResponse.json(outlook);
+      return NextResponse.json({ data: outlook });
     }
 
     // Build the where clause for filtering
     const where = {
       ...(query.data.noc ? { noc: query.data.noc } : {}),
       ...(query.data.province ? { province: query.data.province } : {}),
-      ...(query.data.erc ? { economicRegionCode: query.data.erc } : {})
+      ...(query.data.erc ? { economicRegionCode: query.data.erc } : {}),
+      ...(query.data.end === 'top' || query.data.end === 'bottom'
+        ? {
+          outlook: query.data.end === 'top' ? 'very good' : 'very limited',
+        }
+        : {}),
     };
 
-    // Calculate pagination
-    const skip = (query.data.page - 1) * query.data.limit;
+    // Calculate pagination with guaranteed limit value
+    const limit = query.data.limit; // limit is now guaranteed to be defined
+    const skip = (query.data.page - 1) * limit;
 
     // Get paginated results
     const outlooks = await prisma.outlook.findMany({
       where,
       skip,
-      take: query.data.limit,
+      take: limit,
       select: {
         id: true,
         noc: true,
@@ -96,10 +103,13 @@ export async function GET(request: Request) {
         releaseDate: true,
         province: true,
         lang: true,
-        economicRegion: true,
-        unitGroup: true
-        // trendsHash is excluded
-      }
+        economicRegion: {
+          select: {
+            economicRegionName: true,
+          },
+        },
+        unitGroup: true,
+      },
     });
 
     // Get total count for pagination
@@ -109,40 +119,15 @@ export async function GET(request: Request) {
       data: outlooks,
       pagination: {
         page: query.data.page,
-        limit: query.data.limit,
+        limit,
         total,
-        pages: Math.ceil(total / query.data.limit)
-      }
+        pages: Math.ceil(total / limit),
+      },
     });
-
   } catch (error) {
-    // Use a different logging approach
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-    process.stderr.write(`Outlook API Error: ${errorMessage}\n`);
-
-    if (error instanceof z.ZodError) {
-      return NextResponse.json(
-        {
-          message: 'Invalid input parameters',
-          details: error.errors
-        },
-        { status: 400 }
-      );
-    }
-
-    // Handle Prisma errors
-    if (error instanceof Error) {
-      return NextResponse.json(
-        {
-          message: 'Database error',
-          details: error.message
-        },
-        { status: 500 }
-      );
-    }
-
+    console.error('Error in outlooks API:', error);
     return NextResponse.json(
-      { message: 'Internal server error' },
+      { error: 'Internal server error' },
       { status: 500 }
     );
   }
