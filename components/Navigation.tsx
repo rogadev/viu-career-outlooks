@@ -42,7 +42,7 @@ export default function Navigation() {
             aria-label='VIU Home'
             className='flex items-center gap-3'
           >
-            <Logo width={40} height={40} className='w-8 h-8 sm:w-10 sm:h-10' />
+            <Logo width={40} height={40} />
             <span className='text-white text-base sm:text-xl font-semibold'>
               VIU Career Outlooks
             </span>
