@@ -1,6 +1,13 @@
-// Define the type for SVG props
+/**
+ * Type definition for SVG icon components
+ * Inherits all standard SVG element props from React
+ */
 type IconProps = React.ComponentProps<'svg'>
 
+/**
+ * Navigation configuration object containing footer links and social media information
+ * Split into two sections: main navigation links and social media links with icons
+ */
 const navigation = {
   main: [
     { name: 'About', href: '#' },
@@ -75,37 +82,48 @@ const navigation = {
   ],
 }
 
-export default function Example() {
+/**
+ * Footer component that displays navigation links and social media icons
+ * Features responsive design with different spacing for mobile and desktop
+ * Includes main navigation links, social media icons, and copyright notice
+ *
+ * @returns {ReactElement} A footer element with navigation and social links
+ */
+export default function Footer() {
   return (
     <footer className='bg-white'>
-      <div className='mx-auto max-w-7xl overflow-hidden px-6 py-20 sm:py-24 lg:px-8'>
+      <div className='mx-auto max-w-7xl overflow-hidden px-4 py-12 sm:px-6 sm:py-20 lg:px-8 lg:py-24'>
+        {/* Main navigation links with responsive text size and spacing */}
         <nav
           aria-label='Footer'
-          className='-mb-6 flex flex-wrap justify-center gap-x-12 gap-y-3 text-sm/6'
+          className='-mb-6 flex flex-wrap justify-center gap-x-6 gap-y-4 text-xs sm:gap-x-12 sm:text-sm/6'
         >
           {navigation.main.map((item) => (
             <a
               key={item.name}
               href={item.href}
-              className='text-gray-600 hover:text-gray-900'
+              className='text-gray-600 hover:text-gray-900 transition-colors'
             >
               {item.name}
             </a>
           ))}
         </nav>
-        <div className='mt-16 flex justify-center gap-x-10'>
+
+        {/* Social media icons with hover effects and accessibility features */}
+        <div className='mt-10 sm:mt-16 flex justify-center gap-x-6 sm:gap-x-10'>
           {navigation.social.map((item) => (
             <a
               key={item.name}
               href={item.href}
-              className='text-gray-600 hover:text-gray-800'
+              className='text-gray-600 hover:text-gray-800 transition-colors'
             >
               <span className='sr-only'>{item.name}</span>
-              <item.icon aria-hidden='true' className='size-6' />
+              <item.icon aria-hidden='true' className='size-5 sm:size-6' />
             </a>
           ))}
         </div>
-        <p className='mt-10 text-center text-sm/6 text-gray-600'>
+
+        <p className='mt-8 sm:mt-10 text-center text-xs sm:text-sm/6 text-gray-600'>
           &copy; 2025 Ryan Roga. All rights reserved.
         </p>
       </div>

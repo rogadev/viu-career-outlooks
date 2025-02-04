@@ -6,10 +6,11 @@ import { prisma } from '@/lib/db'
 import Link from 'next/link'
 
 export default async function Home() {
+  // Retrieve user's selected economic region from cookies, falling back to default if not set
   const cookieStore = await cookies()
   const erc = cookieStore.get(ERC_COOKIE_NAME)?.value || DEFAULT_ERC
 
-  // Fetch regions at the page level
+  // Fetch all economic regions for the selector, sorted alphabetically
   const regions = await prisma.economicRegion.findMany({
     orderBy: {
       economicRegionName: 'asc',
@@ -17,10 +18,9 @@ export default async function Home() {
   })
 
   return (
-    <>
-      {/* Programs & Careers Grid */}
+    <div className='mt-6'>
+      {/* Main content is organized in a responsive grid layout */}
       <div className='grid gap-8 md:grid-cols-2 mb-12'>
-        {/* Credentials Section */}
         <section className='p-6 rounded-lg border'>
           <h2 className='text-2xl font-semibold mb-4 text-primary'>
             Browse VIU Credentials
@@ -36,7 +36,6 @@ export default async function Home() {
           </Link>
         </section>
 
-        {/* Career Paths Section */}
         <section className='p-6 rounded-lg border'>
           <h2 className='text-2xl font-semibold mb-4 text-primary'>
             Explore Career Paths
@@ -53,34 +52,33 @@ export default async function Home() {
         </section>
       </div>
 
-      {/* Employment Outlook Section */}
       <section>
         <h2 className='text-2xl font-semibold mb-6 text-primary'>
           Employment Outlook
         </h2>
 
+        {/* RegionSelector updates the erc cookie when user changes region */}
         <RegionSelector regions={regions} defaultErc={erc} />
 
+        {/* Employment outlook cards use overflow-x-auto to handle long content on mobile */}
         <div className='grid gap-8 md:grid-cols-2'>
-          {/* Top Opportunities */}
-          <div className='p-6 rounded-lg border flex flex-col'>
+          <div className='p-6 rounded-lg border flex flex-col overflow-x-auto'>
             <h3 className='text-xl font-semibold mb-4'>Top Opportunities</h3>
-            <div className='flex-1'>
+            <div className='flex-1 min-w-0'>
               <TopEmploymentOutlooks type='top' erc={erc} />
             </div>
           </div>
 
-          {/* Areas of Concern */}
-          <div className='p-6 rounded-lg border flex flex-col'>
+          <div className='p-6 rounded-lg border flex flex-col overflow-x-auto'>
             <h3 className='text-xl font-semibold mb-4'>
               Limited Opportunities
             </h3>
-            <div className='flex-1'>
+            <div className='flex-1 min-w-0'>
               <TopEmploymentOutlooks type='bottom' erc={erc} />
             </div>
           </div>
         </div>
       </section>
-    </>
+    </div>
   )
 }

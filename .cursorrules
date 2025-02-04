@@ -13,13 +13,18 @@ Below is a concise, all-in-one set of rules and guidelines for a beginner develo
 - Within the Next.js application (`/next`):
   - **Use the App Router only** (`/app`). Avoid `/pages`.
   - Organize routes meaningfully (`/programs/[id]`, `/programs/new`, etc.).
-  - Store reusable components in `/app/components`, grouping by route:
-    - e.g. `/app/components/programs/` for program-related components.
-    - e.g. `/app/components/app/` for global usage (`BackButton`, etc.).
-  - Place utility functions in `/app/lib/utils`.
+  - ⚠️ **CRITICAL: NEVER create components in `/app/`** ⚠️
+    - ALL components MUST go in `/components/` - NO EXCEPTIONS
+    - This includes both shared and route-specific components
+    - Bad: `/app/programs/components/ProgramCard.tsx` ❌
+    - Good: `/components/programs/ProgramCard.tsx` ✅
+  - Store reusable components in `/components`:
+    - e.g. `/components/programs/` for program-related components
+    - e.g. `/components/shared/` for global usage (`BackButton`, etc.)
+  - Place utility functions in `/lib/utils`.
   - Keep **public assets** in `/public`:
-    - `/public/icons` for icons.
-    - `/public/images` for images.
+    - `/public/icons` for icons
+    - `/public/images` for images
   - **Layouts**: Use `layout.tsx` and `head.tsx` in appropriate folders to share UI structure or metadata across routes.
 
 ---
@@ -188,6 +193,11 @@ Below is a concise, all-in-one set of rules and guidelines for a beginner develo
 ## 7. TypeScript Best Practices
 
 - **Type everything**: function params, return types, props, and states.
+- **Component Return Types**:
+  - Always use `ReactElement` from `react` instead of `JSX.Element`
+  - Bad: `const Component = (): JSX.Element => { ... }` ❌
+  - Good: `const Component = (): ReactElement => { ... }` ✅
+  - Import it as: `import { ReactElement } from 'react'`
 - Collect shared interfaces/types in `/app/types` or `/app/lib/types.ts` to avoid duplication.
 - Use descriptive interface names (`ProgramDetails`, `UserProfile`, etc.).
 - Enable **strict mode** in `tsconfig.json`:
