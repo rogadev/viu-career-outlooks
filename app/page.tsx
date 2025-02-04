@@ -1,10 +1,9 @@
 import TopEmploymentOutlooks from '@/components/home/TopEmploymentOutlooks'
-import CredentialBrowser from '@/components/home/CredentialBrowser'
-import JobBrowser from '@/components/home/JobBrowser'
 import RegionSelector from '@/components/global/RegionSelector'
 import { cookies } from 'next/headers'
 import { DEFAULT_ERC, ERC_COOKIE_NAME } from '@/lib/constants'
 import { prisma } from '@/lib/db'
+import Link from 'next/link'
 
 export default async function Home() {
   const cookieStore = await cookies()
@@ -29,7 +28,12 @@ export default async function Home() {
           <p className='text-muted-foreground mb-4'>
             Explore our programs, courses, diplomas, and degrees.
           </p>
-          <CredentialBrowser />
+          <Link
+            href='/credentials'
+            className='inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2'
+          >
+            Browse Credentials
+          </Link>
         </section>
 
         {/* Career Paths Section */}
@@ -40,7 +44,12 @@ export default async function Home() {
           <p className='text-muted-foreground mb-4'>
             Find jobs related to VIU programs and their employment outlook.
           </p>
-          <JobBrowser />
+          <Link
+            href='/career-paths'
+            className='inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2'
+          >
+            Explore Careers
+          </Link>
         </section>
       </div>
 
