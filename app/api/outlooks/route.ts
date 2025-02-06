@@ -9,7 +9,7 @@ const querySchema = z.object({
   id: z.coerce.number().optional(),
   noc: z.string().optional(),
   page: z.coerce.number().min(1).optional().default(1),
-  limit: z.coerce.number().min(1).optional().default(10),
+  limit: z.coerce.number().min(1).optional().default(100),
   fields: z.string().optional(),
   province: z.string().length(2).toUpperCase().optional(),
   erc: z.string().length(4).optional(),
@@ -22,14 +22,14 @@ export async function GET(request: Request) {
 
     // Parse and validate query parameters
     const query = querySchema.safeParse({
-      id: searchParams.get('id'),
+      id: searchParams.get('id') || undefined,
       noc: searchParams.get('noc') || undefined,
-      page: searchParams.get('page'),
-      limit: searchParams.get('limit'),
+      page: searchParams.get('page') || undefined,
+      limit: searchParams.get('limit') || undefined,
       fields: searchParams.get('fields') || undefined,
       province: searchParams.get('province') || undefined,
       erc: searchParams.get('erc') || undefined,
-      end: searchParams.get('end'),
+      end: searchParams.get('end') || undefined,
     });
 
     if (!query.success) {
