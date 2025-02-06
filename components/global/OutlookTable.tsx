@@ -8,17 +8,14 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { cn } from '@/lib/utils'
-import { Outlook } from '@prisma/client'
 import { Suspense, useState } from 'react'
 import OutlookItem from './OutlookItem'
 import OutlookItemSkeleton from './OutlookItemSkeleton'
 import { PaginationControl } from './PaginationControl'
+import type { OutlookWithRelations } from '@/types/outlook'
 
 interface OutlookTableProps {
-  outlooks: (Omit<Outlook, 'trendsHash'> & {
-    economicRegion: { economicRegionName: string }
-    unitGroup: { occupation: string }
-  })[]
+  outlooks: OutlookWithRelations[]
   variant?: 'short' | 'long'
   className?: string
   hideColumns?: string[] // Array of column names to hide

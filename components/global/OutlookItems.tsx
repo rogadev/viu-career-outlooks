@@ -20,6 +20,26 @@ const querySchema = z.object({
  * balance between freshness and performance.
  */
 
+// Add type to match our select statement
+type OutlookResult = {
+  id: number
+  noc: string
+  economicRegionCode: string
+  title: string
+  outlook: string
+  trends: string
+  trendsHash: string
+  releaseDate: Date
+  province: string
+  lang: string
+  economicRegion: {
+    economicRegionName: string
+  }
+  unitGroup: {
+    occupation: string
+  }
+}
+
 async function getOutlooks(query: z.infer<typeof querySchema>) {
   try {
     // Parse and validate query parameters with defaults
@@ -80,8 +100,14 @@ async function getOutlooks(query: z.infer<typeof querySchema>) {
       prisma.outlook.count({ where }),
     ])
 
+    // Update the map function to use our type
+    const outlooksWithProgramId = outlooks.map((outlook: OutlookResult) => ({
+      ...outlook,
+      programNid: null, // Add null programNid if not present
+    }))
+
     return {
-      data: outlooks,
+      data: outlooksWithProgramId,
       pagination: {
         page: q.data.page,
         limit: q.data.limit,

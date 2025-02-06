@@ -75,6 +75,25 @@ Below is a concise, all-in-one set of rules and guidelines for a beginner develo
   2. Include input validation using Zod
   3. Return consistent response structures
   4. Handle errors appropriately
+  5. **⚠️ IMPORTANT: Always await dynamic route parameters.**
+     - Example of correct usage:
+       ```typescript
+       export async function POST(
+         request: Request,
+         { params }: { params: { nid: string } }
+       ) {
+         const nid = (await params).nid // < CORRECT
+       }
+       ```
+     - Incorrect usage that will break the code:
+       ```typescript
+       export async function POST(
+         request: Request,
+         { params }: { params: { nid: string } }
+       ) {
+         const nid = params.nid // < THIS WILL BREAK
+       }
+       ```
 - Example implementation:
 
   ```typescript

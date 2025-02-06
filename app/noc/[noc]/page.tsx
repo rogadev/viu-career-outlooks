@@ -30,6 +30,9 @@ export default async function NocPage({ params }: NocPageProps) {
     notFound()
   }
 
+  // order sections in reverse order
+  unitGroup.sections = unitGroup.sections.reverse()
+
   // Get all outlooks for this NOC across regions
   const outlooks = await prisma.outlook.findMany({
     where: { noc },
@@ -43,6 +46,7 @@ export default async function NocPage({ params }: NocPageProps) {
       releaseDate: true,
       province: true,
       lang: true,
+      programNid: true,
       economicRegion: {
         select: {
           economicRegionName: true,
@@ -71,56 +75,66 @@ export default async function NocPage({ params }: NocPageProps) {
   })
 
   return (
-    <main className='container mx-auto px-4 pt-6 sm:pt-10 space-y-6 sm:space-y-8'>
+    <main className='w-full'>
       {/* Sticky Header Section */}
-      <header className='sticky top-0 sm:top-[10px] bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-50 py-3 sm:py-4 -mx-4 px-4'>
-        <div className='flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-0'>
-          <div>
-            <h1 className='text-2xl sm:text-3xl font-bold tracking-tight'>
-              {unitGroup.occupation}
-            </h1>
-            <p className='text-muted-foreground mt-1 sm:mt-2'>NOC {noc}</p>
+      <div className='sticky top-0 sm:top-[10px] bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-50 py-3 sm:py-4 w-full'>
+        <div className='container mx-auto px-4'>
+          <div className='flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-0'>
+            <div className='overflow-hidden'>
+              <h1 className='text-2xl sm:text-3xl font-bold tracking-tight break-words'>
+                {unitGroup.occupation}
+              </h1>
+              <p className='text-muted-foreground mt-1 sm:mt-2'>NOC {noc}</p>
+            </div>
+            <Button
+              variant='outline'
+              size='sm'
+              asChild
+              className='w-full sm:w-auto'
+            >
+              <Link href='/' className='flex items-center gap-2'>
+                <ArrowLeft className='h-4 w-4' />
+                Back
+              </Link>
+            </Button>
           </div>
-          <Button
-            variant='outline'
-            size='sm'
-            asChild
-            className='w-full sm:w-auto'
-          >
-            <Link href='/' className='flex items-center gap-2'>
-              <ArrowLeft className='h-4 w-4' />
-              Back
-            </Link>
-          </Button>
         </div>
-      </header>
+      </div>
 
-      {/* Unit Group Details */}
-      <div className='grid gap-4 sm:gap-6'>
-        {unitGroup.sections.map((section) => (
-          <section key={section.id}>
-            <h2 className='text-lg sm:text-xl font-semibold mb-2 sm:mb-3'>
-              {section.title}
-            </h2>
-            <ul className='list-disc pl-4 sm:pl-6 space-y-1.5 sm:space-y-2'>
-              {section.items.map((item, index) => (
-                <li
-                  key={index}
-                  className='text-muted-foreground text-sm sm:text-base'
-                >
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </section>
-        ))}
+      {/* Content Container */}
+      <div className='container mx-auto px-4 pt-6 sm:pt-10'>
+        {/* Unit Group Details */}
+        <div className='max-w-full'>
+          <div className='grid gap-4 sm:gap-6'>
+            {unitGroup.sections.map((section) => (
+              <section key={section.id}>
+                <h2 className='text-lg sm:text-xl font-semibold mb-2 sm:mb-3 break-words'>
+                  {section.title}
+                </h2>
+                <ul className='list-disc pl-4 sm:pl-6 space-y-1.5 sm:space-y-2'>
+                  {section.items.map((item, index) => (
+                    <li
+                      key={index}
+                      className='text-muted-foreground text-sm sm:text-base break-words pr-4'
+                    >
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            ))}
 
-        {/* Employment Outlooks */}
-        <OutlookSection
-          outlooks={reorderedOutlooks}
-          defaultErc={PREFERRED_REGION}
-          regions={regions}
-        />
+            {/* Employment Outlooks */}
+            <OutlookSection
+              outlooks={reorderedOutlooks.map((outlook) => ({
+                ...outlook,
+                programNid: outlook.programNid ?? null,
+              }))}
+              defaultErc={PREFERRED_REGION}
+              regions={regions}
+            />
+          </div>
+        </div>
       </div>
     </main>
   )
