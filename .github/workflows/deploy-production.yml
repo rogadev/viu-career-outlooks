@@ -29,8 +29,5 @@ jobs:
       
     - name: Deploy to production
       run: |
-        # Add deployment steps here - this might involve:
-        # - Deploying to a server
-        # - Triggering a deployment on a hosting service
-        # - Updating a container registry
+        # Add deployment steps here
         echo "Deploying to production environment..." 

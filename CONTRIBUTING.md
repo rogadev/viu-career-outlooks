@@ -34,6 +34,9 @@
      ```
    - Ensure all existing tests pass
    - Add new tests for new features
+   - **Important**: Write tests in JavaScript (`.jsx` files), not TypeScript
+     - See our [Testing Guidelines](./docs/testing.md) for details
+     - This avoids the need for `ts-node` in CI/CD environments
 
 5. **Code Review Process**
 

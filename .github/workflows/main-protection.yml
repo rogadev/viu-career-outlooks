@@ -60,6 +60,8 @@ jobs:
     needs: validate
     runs-on: ubuntu-latest
     if: github.event.pull_request.merged == true
+    env:
+      CI: true
 
     steps:
       - name: Checkout code
@@ -81,5 +83,5 @@ jobs:
 
       - name: Deploy to production
         run: |
-          # Add your deployment steps here
+          # Add deployment steps here
           echo "Deploying to production environment..."
