@@ -27,35 +27,6 @@ jobs:
       - name: Run tests
         run: npm test
 
-      - name: Check PR approvals
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const pullRequest = context.payload.pull_request;
-            const { data: reviews } = await github.rest.pulls.listReviews({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: pullRequest.number,
-            });
-            
-            // Find approved reviews that haven't been dismissed
-            const approvals = reviews.filter(review => 
-              review.state === 'APPROVED' && 
-              !reviews.some(r => 
-                r.id > review.id && 
-                r.user.id === review.user.id && 
-                r.state !== 'APPROVED'
-              )
-            );
-            
-            const uniqueApprovers = [...new Set(approvals.map(review => review.user.login))];
-            
-            if (uniqueApprovers.length < 1) {
-              core.setFailed('At least 1 approval is required to merge to main');
-            } else {
-              console.log(`PR has been approved by ${uniqueApprovers.length} reviewer(s): ${uniqueApprovers.join(', ')}`);
-            }
-
   deploy:
     needs: validate
     runs-on: ubuntu-latest

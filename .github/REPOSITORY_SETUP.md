@@ -20,6 +20,8 @@ To fully enforce our development workflow, the repository needs specific branch 
    - ✅ Require conversation resolution before merging
    - ✅ Do not allow bypassing the above settings
 
+> **Note**: The GitHub Actions workflow no longer checks for PR approvals independently since this is enforced by these branch protection rules.
+
 ### For `dev` branch:
 
 1. Go to repository **Settings** > **Branches** > **Branch protection rules** > **Add rule**
