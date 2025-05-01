@@ -34,3 +34,20 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Contributing
+
+We welcome contributions! Please see our [Contributing Guide](./CONTRIBUTING.md) for details on:
+
+- Development workflow
+- Branch strategy
+- Testing requirements
+- Code review process
+
+### Quick Start for Contributors
+
+1. Fork the repository
+2. Clone your fork
+3. Switch to dev branch: `git checkout dev`
+4. Create your feature branch: `git checkout -b feature/amazing-feature`
+5. Follow our [Contributing Guide](./CONTRIBUTING.md) for next steps
