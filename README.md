@@ -51,3 +51,13 @@ We welcome contributions! Please see our [Contributing Guide](./CONTRIBUTING.md)
 3. Switch to dev branch: `git checkout dev`
 4. Create your feature branch: `git checkout -b feature/amazing-feature`
 5. Follow our [Contributing Guide](./CONTRIBUTING.md) for next steps
+
+### Workflow Enforcement
+
+This project uses GitHub Actions to enforce our development workflow:
+
+- PRs to `dev` require passing tests and linting
+- PRs to `main` require at least one approval and passing tests
+- Merging to `main` automatically triggers deployment to production
+
+Always develop in `dev` first and only merge to `main` when ready for production deployment.

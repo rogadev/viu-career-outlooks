@@ -1,0 +1,63 @@
+name: Main Branch Protection
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'pnpm'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+          run_install: false
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Run linter
+        run: pnpm lint
+
+      - name: Run tests
+        run: pnpm test
+
+      - name: Check PR approvals
+        uses: dimkir/check-pr-approved@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          min-approvals: 1 # Require at least 1 approval
+
+  deploy:
+    needs: validate
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Build for production
+        run: |
+          # Add your build steps here
+          echo "Building for production..."
+
+      - name: Deploy to production
+        run: |
+          # Add your deployment steps here
+          echo "Deploying to production..."
