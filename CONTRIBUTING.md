@@ -34,6 +34,9 @@
      ```
    - Ensure all existing tests pass
    - Add new tests for new features
+   - **Important**: Write tests in JavaScript (`.jsx` files), not TypeScript
+     - See our [Testing Guidelines](./docs/testing.md) for details
+     - This avoids the need for `ts-node` in CI/CD environments
 
 5. **Code Review Process**
 
@@ -47,6 +50,27 @@
    - Requires approval from at least one reviewer
    - All tests must pass before merging
    - Merging to `main` will automatically deploy to production
+
+## Automated Workflow Enforcement
+
+This project uses GitHub Actions to automatically enforce our development workflow:
+
+1. **Pull Request Validation**
+
+   - All PRs to `dev` undergo automated testing and linting
+   - Tests must pass before merge is allowed
+
+2. **Main Branch Protection**
+
+   - PRs to `main` require at least one approval
+   - All tests must pass
+   - Code must be reviewed before merging
+
+3. **Automated Deployment**
+   - Merging to `main` automatically triggers deployment to production
+   - Production deployment only happens after successful tests
+
+You can find these workflow configurations in the `.github/workflows` directory.
 
 ## Important Notes
 

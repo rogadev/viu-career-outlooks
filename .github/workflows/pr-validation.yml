@@ -1,0 +1,28 @@
+name: Pull Request Validation
+
+on:
+  pull_request:
+    branches: [dev]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    env:
+      CI: true
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run linter
+        run: npm run lint
+
+      - name: Run tests
+        run: npm test

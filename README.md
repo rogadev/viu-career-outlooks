@@ -35,6 +35,18 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
+## Testing
+
+This project uses Jest and React Testing Library for testing. Tests are written in JavaScript rather than TypeScript to avoid additional dependencies in CI/CD pipelines.
+
+Run tests locally with:
+
+```bash
+pnpm test
+```
+
+For more details on writing and running tests, see our [Testing Guidelines](./docs/testing.md).
+
 ## Contributing
 
 We welcome contributions! Please see our [Contributing Guide](./CONTRIBUTING.md) for details on:
@@ -51,3 +63,13 @@ We welcome contributions! Please see our [Contributing Guide](./CONTRIBUTING.md)
 3. Switch to dev branch: `git checkout dev`
 4. Create your feature branch: `git checkout -b feature/amazing-feature`
 5. Follow our [Contributing Guide](./CONTRIBUTING.md) for next steps
+
+### Workflow Enforcement
+
+This project uses GitHub Actions to enforce our development workflow:
+
+- PRs to `dev` require passing tests and linting
+- PRs to `main` require at least one approval and passing tests
+- Merging to `main` automatically triggers deployment to production
+
+Always develop in `dev` first and only merge to `main` when ready for production deployment.
