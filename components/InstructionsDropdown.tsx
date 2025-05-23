@@ -25,17 +25,17 @@ interface InstructionsDropdownProps {
 
 /**
  * A collapsible dropdown component that shows/hides instructions text.
- * 
+ *
  * This component provides a clean way to display instructions that users can
  * toggle on/off to reduce visual clutter. Perfect for forms, tutorials, or
  * any content where instructions might be helpful but not always needed.
- * 
+ *
  * Features:
  * - Smooth expand/collapse animation
  * - Rotating chevron icon for visual feedback
  * - Accessible with proper ARIA attributes
  * - Responsive design with shadcn components
- * 
+ *
  * @param props - Component props
  * @param props.instructions - The instruction text to display when expanded
  * @returns A button that toggles instruction visibility with smooth animations
@@ -58,19 +58,15 @@ export default function InstructionsDropdown({
   }`
 
   return (
-    {/* 
-      Collapsible wrapper component from shadcn
-      - Controls the overall expand/collapse functionality
-      - 'open' prop controls current state
-      - 'onOpenChange' callback updates our local state when toggled
-      - 'w-full' ensures the component takes full width of its container
-      - 'mb-4' adds bottom margin for spacing from other content
-    */}
-    <Collapsible 
-      className='mb-4 w-full' 
-      open={isOpen} 
-      onOpenChange={setIsOpen}
-    >
+    <Collapsible className='mb-4 w-full' open={isOpen} onOpenChange={setIsOpen}>
+      {/* 
+        Collapsible wrapper component from shadcn
+        - Controls the overall expand/collapse functionality
+        - 'open' prop controls current state
+        - 'onOpenChange' callback updates our local state when toggled
+        - 'w-full' ensures the component takes full width of its container
+        - 'mb-4' adds bottom margin for spacing from other content
+      */}
       {/* 
         CollapsibleTrigger wraps the button that users click to toggle
         'asChild' prop passes the trigger functionality to our Button component
@@ -91,15 +87,13 @@ export default function InstructionsDropdown({
             - Size h-4 w-4 keeps it proportional to text
           */}
           <ChevronDown className={chevronClasses} />
-          
+
           {/* 
             Button text that changes based on current state
             - Blue color and underline make it look like a typical link
             - Text dynamically updates to show current action
           */}
-          <span className='text-blue-600 underline'>
-            {buttonText}
-          </span>
+          <span className='text-blue-600 underline'>{buttonText}</span>
         </Button>
       </CollapsibleTrigger>
 
@@ -110,10 +104,7 @@ export default function InstructionsDropdown({
         - 'id' attribute connects to aria-controls for accessibility
         - 'mt-2' adds top margin to separate from the trigger button
       */}
-      <CollapsibleContent 
-        id={CONTENT_ID} 
-        className='mt-2'
-      >
+      <CollapsibleContent id={CONTENT_ID} className='mt-2'>
         {/* 
           Instructions container with shadcn card styling
           - 'rounded-lg border' gives it a modern card appearance
@@ -135,10 +126,7 @@ export default function InstructionsDropdown({
         Hidden description for screen readers
         Provides additional context about what this component does
       */}
-      <div 
-        id='instructions-description' 
-        className='sr-only'
-      >
+      <div id='instructions-description' className='sr-only'>
         Toggle to show or hide detailed instructions for this section
       </div>
     </Collapsible>

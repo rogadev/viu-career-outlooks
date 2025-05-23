@@ -21,6 +21,21 @@ const RESPONSIVE_HIDDEN_COLUMNS = {
   'Economic Region': 'hidden sm:table-cell',
 } as const
 
+/**
+ * Type-safe column keys that match the OutlookItemSkeleton column definitions
+ * This ensures consistency between table headers and skeleton placeholders
+ */
+type ColumnKey =
+  | 'noc'
+  | 'title'
+  | 'economic region'
+  | 'province'
+  | 'outlook'
+  | 'unit group'
+  | 'release date'
+  | 'language'
+  | 'region code'
+
 interface OutlookTableProps {
   /** Array of outlook data to display in the table */
   outlooks: OutlookWithRelations[]
@@ -28,8 +43,11 @@ interface OutlookTableProps {
   variant?: 'short' | 'long'
   /** Additional CSS classes to apply to the table container */
   className?: string
-  /** Array of column names to hide (case-insensitive matching) */
-  hideColumns?: string[]
+  /**
+   * Array of column names to hide (type-safe column keys only)
+   * Must use exact column names as defined in the table structure
+   */
+  hideColumns?: ColumnKey[]
   /** When true, disables click events on table rows for non-interactive display */
   disableClick?: boolean
   /** Number of items to display per page for pagination */
@@ -62,14 +80,14 @@ const calculatePagination = (
 /**
  * Generates the table headers based on variant and hidden columns
  * @param variant - Display variant ('short' or 'long')
- * @param hideColumns - Array of column names to hide
+ * @param hideColumns - Array of type-safe column keys to hide
  * @returns Array of visible header names
  */
 const generateTableHeaders = (
   variant: 'short' | 'long',
-  hideColumns: string[]
+  hideColumns: ColumnKey[]
 ): string[] => {
-  // Base headers that are always available
+  // Base headers that are always available (mapped to display format)
   const baseHeaders = ['NOC', 'Title', 'Economic Region', 'Province', 'Outlook']
 
   // Additional headers shown only in 'long' variant
@@ -84,12 +102,22 @@ const generateTableHeaders = (
   const allHeaders =
     variant === 'short' ? baseHeaders : [...baseHeaders, ...extendedHeaders]
 
-  // Filter out headers that should be hidden (case-insensitive comparison)
+  // Map display headers to their corresponding column keys for filtering
+  const headerToColumnKey: Record<string, ColumnKey> = {
+    NOC: 'noc',
+    Title: 'title',
+    'Economic Region': 'economic region',
+    Province: 'province',
+    Outlook: 'outlook',
+    'Unit Group': 'unit group',
+    'Release Date': 'release date',
+    Language: 'language',
+    'Region Code': 'region code',
+  }
+
+  // Filter out headers that should be hidden using type-safe column key matching
   return allHeaders.filter(
-    (header) =>
-      !hideColumns.some(
-        (hiddenCol) => hiddenCol.toLowerCase() === header.toLowerCase()
-      )
+    (header) => !hideColumns.includes(headerToColumnKey[header])
   )
 }
 

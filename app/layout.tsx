@@ -71,8 +71,6 @@ export default function RootLayout({
 }>): ReactElement {
   return (
     <html lang='en'>
-      {' '}
-      {/* Sets document language for accessibility and SEO */}
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen`}
         /**

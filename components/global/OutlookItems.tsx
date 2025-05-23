@@ -1,6 +1,7 @@
+import OutlookTable from './OutlookTable'
 import { prisma } from '@/lib/db'
 import { z } from 'zod'
-import OutlookTable from './OutlookTable'
+import { Prisma } from '@prisma/client'
 
 /**
  * Query parameter schema for the outlooks API
@@ -55,9 +56,12 @@ type OutlookResult = {
 /**
  * Extended outlook type that includes programNid
  * This represents the final shape of data passed to the OutlookTable component
+ *
+ * Note: programNid is a number to match the database schema (Int? in Prisma)
+ * and be compatible with OutlookWithRelations type
  */
 type OutlookWithProgram = OutlookResult & {
-  programNid: string | null
+  programNid: number | null
 }
 
 /**
@@ -154,7 +158,7 @@ async function getOutlooks(query: z.infer<typeof querySchema>) {
  * Builds the WHERE clause for the Prisma query based on provided filters
  *
  * @param filters - Object containing optional filter parameters
- * @returns Prisma where clause object
+ * @returns Prisma where clause object for outlook queries
  */
 function buildWhereClause({
   province,
@@ -164,8 +168,8 @@ function buildWhereClause({
   province?: string
   erc?: string
   end?: 'top' | 'bottom'
-}) {
-  const where: Record<string, any> = {}
+}): Prisma.OutlookWhereInput {
+  const where: Prisma.OutlookWhereInput = {}
 
   // Filter by employment outlook extremes
   if (end === 'top') {

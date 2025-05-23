@@ -112,7 +112,8 @@ export default function EmploymentOutlooks({
         setIsLoading(true)
 
         // Fetch employment outlook data from our API
-        const results = await fetchEmploymentOutlooks(program.nid)
+        // Note: program.nid is a number from the database, but the API expects a string for the URL path
+        const results = await fetchEmploymentOutlooks(String(program.nid))
 
         // Sort results to show best employment outlooks first
         // This helps users quickly identify the most promising career paths

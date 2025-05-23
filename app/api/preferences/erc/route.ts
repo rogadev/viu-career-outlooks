@@ -73,7 +73,7 @@ export async function POST(request: Request) {
 
     try {
       requestBody = await request.json();
-    } catch (parseError) {
+    } catch {
       return NextResponse.json(
         {
           error: 'Invalid JSON format in request body',

@@ -5,19 +5,27 @@ import { z } from 'zod';
 /**
  * Type Definitions
  * These interfaces define the shape of our data for better type safety
+ * They match the actual data structure returned by Prisma queries
  */
 interface OutlookData {
-  id: string;
-  noc: string;
-  economicRegionCode: string;
-  title: string;
-  outlook: string;
-  trends: string | null;
-  releaseDate: Date;
-  province: string;
-  lang: string;
-  economicRegion: string;
-  unitGroup: string;
+  id: number;                   // Primary key from database (auto-increment integer)
+  noc: string;                  // National Occupational Classification code
+  economicRegionCode: string;   // Code identifying the economic region
+  title: string;                // Job title/occupation name
+  outlook: string;              // Employment outlook rating (e.g., "very good")
+  trends: string | null;        // Employment trend information (nullable)
+  releaseDate: Date;            // When this outlook data was published
+  province: string;             // Province abbreviation (e.g., "BC", "ON")
+  lang: string;                 // Language code (EN/FR)
+  // Related data from joined tables
+  economicRegion: {             // Economic region details (from relation)
+    economicRegionCode: string;
+    economicRegionName: string;
+  };
+  unitGroup: {                  // Unit group classification (from relation)
+    noc: string;                // NOC code (same as above, but from relation)
+    occupation: string;         // Occupation title from NOC classification
+  };
 }
 
 interface ApiResponse {
@@ -32,7 +40,7 @@ interface ApiResponse {
 
 interface ApiError {
   error: string;
-  details?: any;
+  details?: string | Record<string, unknown>;
   code?: string;
 }
 
@@ -102,7 +110,12 @@ export async function GET(request: Request): Promise<NextResponse<ApiResponse | 
       return NextResponse.json(
         {
           error: 'Invalid input parameters',
-          details: queryValidation.error.errors,
+          // Convert ZodIssue[] to Record<string, unknown> format for compatibility with ApiError
+          // This provides structured error information for debugging and client-side handling
+          details: {
+            validationErrors: queryValidation.error.errors,
+            invalidFields: queryValidation.error.errors.map(err => err.path.join('.'))
+          },
           code: 'VALIDATION_ERROR'
         } as ApiError,
         { status: 400 }
@@ -195,7 +208,12 @@ export async function GET(request: Request): Promise<NextResponse<ApiResponse | 
       return NextResponse.json(
         {
           error: 'Invalid input parameters',
-          details: error.errors,
+          // Convert ZodIssue[] to Record<string, unknown> format for compatibility with ApiError
+          // This provides structured error information for debugging and client-side handling
+          details: {
+            validationErrors: error.errors,
+            invalidFields: error.errors.map(err => err.path.join('.'))
+          },
           code: 'VALIDATION_ERROR'
         } as ApiError,
         { status: 400 }

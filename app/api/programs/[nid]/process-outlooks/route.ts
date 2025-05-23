@@ -216,10 +216,24 @@ export async function POST(
   request: Request,
   context: { params: Promise<{ nid: string; }>; }
 ) {
-  try {
-    // Extract and await the dynamic route parameter (required in Next.js 15)
-    const { nid } = await context.params;
+  // Extract the dynamic route parameter BEFORE the try block
+  // This ensures 'nid' is available in both try and catch blocks for logging
+  // In Next.js 15, route parameters must be awaited before use
+  let nid: string;
 
+  try {
+    const params = await context.params;
+    nid = params.nid;
+  } catch (paramError: unknown) {
+    // Handle case where route parameters can't be extracted
+    console.error('Failed to extract route parameters:', paramError);
+    return NextResponse.json(
+      { error: 'Invalid route parameters' },
+      { status: 400 }
+    );
+  }
+
+  try {
     // Find the program by its numeric ID
     const program = await prisma.program.findUnique({
       where: { nid: parseInt(nid) },
@@ -280,6 +294,8 @@ export async function POST(
     });
 
   } catch (error: unknown) {
+    // Now 'nid' is accessible here since it was declared outside the try block
+    // This helps with debugging by including the program ID in error logs
     console.error('Error processing outlooks for program:', { nid, error });
     return NextResponse.json(
       { error: 'Internal server error' },

@@ -18,11 +18,11 @@ interface NavigationItem {
 
 /**
  * Navigation items configuration array.
- * 
+ *
  * Structure explanation:
  * - name: Display text shown to users
  * - href: Destination URL (internal relative paths or external absolute URLs)
- * 
+ *
  * Notes:
  * - Internal links use relative paths starting with '/' for Next.js routing
  * - External links (like VIU) use complete URLs with protocol
@@ -37,22 +37,22 @@ const navigationItems: NavigationItem[] = [
 
 /**
  * Responsive Navigation Component
- * 
+ *
  * This component implements a responsive navigation pattern:
  * - Desktop (lg screens and up): Horizontal menu with visible links
  * - Mobile/Tablet (below lg): Collapsible hamburger menu
- * 
+ *
  * Responsive Strategy:
  * - Uses Tailwind's 'lg:' prefix for large screen breakpoint (1024px+)
  * - Mobile menu is hidden by default and toggles with smooth animations
  * - Logo and hamburger button always visible on mobile
- * 
+ *
  * Accessibility Features:
  * - Proper ARIA labels and controls for screen readers
  * - Keyboard navigation support through semantic HTML
  * - Focus management with focus:ring utilities
  * - aria-expanded attribute indicates menu state to assistive technology
- * 
+ *
  * @returns {ReactElement} A fully responsive navigation bar component
  */
 export default function Navigation() {
@@ -84,13 +84,14 @@ export default function Navigation() {
    * @param isMobile - Whether this is for mobile or desktop menu
    */
   const getLinkClasses = (isMobile: boolean): string => {
-    const baseClasses = 'text-white hover:text-secondary-light transition-colors duration-200'
-    
+    const baseClasses =
+      'text-white hover:text-secondary-light transition-colors duration-200'
+
     if (isMobile) {
       // Mobile links: block layout with padding and background hover effect
       return `block px-3 py-2 text-sm sm:text-base ${baseClasses} hover:bg-primary-light rounded-md`
     }
-    
+
     // Desktop links: inline layout with horizontal padding
     return `px-3 py-2 text-sm sm:text-base ${baseClasses}`
   }
@@ -98,41 +99,37 @@ export default function Navigation() {
   /**
    * Dynamic classes for mobile menu container
    * Implements smooth slide-down animation using CSS transitions
-   * 
+   *
    * Animation Explanation:
    * - max-h-0 + opacity-0: Completely hidden state
-   * - max-h-64 + opacity-100: Fully visible state  
+   * - max-h-64 + opacity-100: Fully visible state
    * - overflow-hidden: Prevents content spillover during animation
    * - transition-all: Animates both height and opacity changes
    * - duration-300: 300ms animation timing
    * - ease-in-out: Smooth acceleration/deceleration curve
    */
   const mobileMenuClasses = `lg:hidden transition-all duration-300 ease-in-out ${
-    isOpen
-      ? 'max-h-64 opacity-100'
-      : 'max-h-0 opacity-0 overflow-hidden'
+    isOpen ? 'max-h-64 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
   }`
 
   return (
-    {/* 
-      Main navigation container with VIU brand colors
-      - bg-primary: VIU's primary brand color background
-      - border-b border-primary-light: Subtle bottom border for visual separation
-    */}
     <nav className='bg-primary border-b border-primary-light'>
+      {/* 
+        Main navigation container with VIU brand colors
+        - bg-primary: VIU's primary brand color background
+        - border-b border-primary-light: Subtle bottom border for visual separation
+      */}
       {/* 
         Content container with responsive padding
         - container mx-auto: Centers content and provides max-width
         - px-4 py-3: Consistent padding on all screen sizes
       */}
       <div className='container mx-auto px-4 py-3'>
-        
         {/* 
           Top navigation bar layout
           Uses flexbox for optimal alignment between logo and menu controls
         */}
         <div className='flex items-center justify-between'>
-          
           {/* 
             Logo and branding section
             - Combines VIU logo with text branding
@@ -146,7 +143,7 @@ export default function Navigation() {
           >
             {/* Logo component with fixed dimensions for consistency */}
             <Logo width={40} height={40} />
-            
+
             {/* 
               Responsive branding text
               - text-base on mobile, text-xl on small screens and up
@@ -203,10 +200,7 @@ export default function Navigation() {
           - Open: max-height 16rem (64 * 0.25rem), opacity 100%
           - Duration: 300ms with ease-in-out timing function
         */}
-        <div
-          className={mobileMenuClasses}
-          id='mobile-menu'
-        >
+        <div className={mobileMenuClasses} id='mobile-menu'>
           {/* 
             Mobile menu content container
             - space-y-1: Vertical spacing between menu items

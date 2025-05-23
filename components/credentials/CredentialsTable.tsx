@@ -188,11 +188,16 @@ export default function CredentialsTable({
                   - Full-width text-left styling maintains table cell appearance
                   - Focus-visible styles provide clear keyboard navigation feedback
                   - Supports both click and keyboard interactions
+                  
+                  Note: program.nid is a number from the database, but navigation 
+                  functions expect string parameters for URL routing
                 */}
                 <button
                   className='w-full text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-sm'
-                  onClick={() => handleProgramNavigation(program.nid)}
-                  onKeyDown={(e) => handleKeyboardNavigation(e, program.nid)}
+                  onClick={() => handleProgramNavigation(String(program.nid))}
+                  onKeyDown={(e) =>
+                    handleKeyboardNavigation(e, String(program.nid))
+                  }
                   aria-describedby={`program-${program.nid}-details`}
                 >
                   {program.title}

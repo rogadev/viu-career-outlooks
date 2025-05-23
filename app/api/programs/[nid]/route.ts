@@ -83,7 +83,7 @@ export async function GET(
     // Check if it's a Prisma-specific error (database connection, constraint violations, etc.)
     if (error && typeof error === 'object' && 'code' in error) {
       // Prisma errors have a 'code' property that can help identify the specific issue
-      console.error('Prisma error code:', (error as any).code);
+      console.error('Prisma error code:', (error as { code: string; }).code);
 
       // For database-specific errors, we might want different handling in the future
       // For now, treat them as general server errors but log the specifics

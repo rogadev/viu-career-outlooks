@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { z } from 'zod';
+import { Prisma } from '@prisma/client';
 
 /**
  * Default pagination values
@@ -66,10 +67,10 @@ type ValidatedQuery = z.infer<typeof querySchema>;
 /**
  * Builds the database where clause based on query parameters
  * @param query - Validated query parameters
- * @returns Prisma where clause object
+ * @returns Prisma where clause object for outlook queries
  */
-function buildWhereClause(query: ValidatedQuery) {
-  const where: Record<string, any> = {};
+function buildWhereClause(query: ValidatedQuery): Prisma.OutlookWhereInput {
+  const where: Prisma.OutlookWhereInput = {};
 
   // Filter by National Occupational Classification code
   if (query.noc) {
@@ -110,13 +111,13 @@ async function fetchSingleOutlook(id: number) {
 
 /**
  * Fetches multiple outlooks with filtering and pagination
- * @param where - Prisma where clause for filtering
+ * @param where - Prisma where clause for filtering outlook records
  * @param page - Page number (1-indexed)
  * @param limit - Number of items per page
  * @returns Promise resolving to paginated outlook data and metadata
  */
 async function fetchPaginatedOutlooks(
-  where: Record<string, any>,
+  where: Prisma.OutlookWhereInput,
   page: number,
   limit: number
 ) {

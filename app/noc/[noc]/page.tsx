@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import OutlookSection from '@/components/noc/OutlookSection'
+import { OutlookWithRelations } from '@/types/outlook'
 
 // NOC Page component props interface
 interface NocPageProps {
@@ -88,7 +89,7 @@ async function getEmploymentOutlooks(noc: string) {
  * This ensures the most relevant regional data appears first in the list
  */
 function prioritizeRegionalOutlook(
-  outlooks: any[],
+  outlooks: OutlookWithRelations[],
   preferredRegionCode: string
 ) {
   return [...outlooks].sort((a, b) => {

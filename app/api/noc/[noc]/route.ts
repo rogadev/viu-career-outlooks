@@ -66,13 +66,16 @@ export async function GET(
     });
 
     // Step 3: Extract unique economic regions from the outlook data
-    // We use a Map to deduplicate regions by their ID, as multiple outlooks
-    // might exist for the same region (e.g., different time periods)
+    // We use a Map to deduplicate regions by their economicRegionCode, as multiple outlooks
+    // might exist for the same region (e.g., different time periods or languages)
+    // 
+    // Important: EconomicRegion model uses economicRegionCode as the primary key,
+    // not an auto-incrementing id field like other models
     const uniqueRegionsMap = new Map();
     careerOutlooks.forEach(outlook => {
       if (outlook.economicRegion) {
         uniqueRegionsMap.set(
-          outlook.economicRegion.id,
+          outlook.economicRegion.economicRegionCode,
           outlook.economicRegion
         );
       }
@@ -100,7 +103,7 @@ export async function GET(
     console.error('Error fetching NOC details:', error);
 
     // Determine if this is a database connection error or other specific error
-    let errorMessage = 'Internal server error';
+    const errorMessage = 'Internal server error';
     let errorDetails = 'An unexpected error occurred while fetching NOC data';
 
     // If it's a Prisma error, we might want to handle it differently

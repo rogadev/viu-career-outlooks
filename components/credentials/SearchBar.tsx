@@ -11,9 +11,15 @@ import CredentialsTable from './CredentialsTable'
 
 // Constants for Fuse.js search configuration
 // These values are extracted for easier maintenance and testing
+// Note: 'as const' is removed to ensure the keys array is mutable (required by Fuse.js)
 const SEARCH_CONFIG = {
-  // Keys to search within each program object
-  keys: ['title', 'name', 'description', 'keywords', 'programCode'],
+  // Keys to search within each program object - these correspond to actual Program model fields
+  keys: [
+    'title', // Program title (main searchable field)
+    'viuSearchKeywords', // Additional keywords for searching
+    'nocSearchKeywords', // NOC-related search terms (array of strings)
+    'programArea.title', // Search within the related program area title (nested field)
+  ],
   // Lower threshold = more strict matching (0.0 = perfect match, 1.0 = match anything)
   threshold: 0.6,
   // Minimum number of characters required before search begins
@@ -22,7 +28,7 @@ const SEARCH_CONFIG = {
   ignoreLocation: true,
   // Sort results by relevance score (best matches first)
   shouldSort: true,
-} as const
+}
 
 // Debounce delay in milliseconds - prevents excessive API calls while user is typing
 const DEBOUNCE_DELAY = 300
