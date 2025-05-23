@@ -28,7 +28,7 @@ model Outlook {
 }
 
 model Program {
-  nid               Int              @id
+  nid               Int         @id
   title             String
   duration          String?
   viuSearchKeywords String?
@@ -36,8 +36,7 @@ model Program {
   knownNocGroups    String[]
   programAreaNid    Int
   credential        Credential
-  programArea       ProgramArea      @relation(fields: [programAreaNid], references: [id])
-  programOutlooks   ProgramOutlook[]
+  programArea       ProgramArea @relation(fields: [programAreaNid], references: [id])
   outlooks          Outlook[]
 }
 
@@ -69,16 +68,6 @@ model EconomicRegion {
   economicRegionCode String    @id
   economicRegionName String
   outlooks           Outlook[]
-}
-
-model ProgramOutlook {
-  id          Int      @id @default(autoincrement())
-  programId   Int      @unique
-  results     Json
-  processedAt DateTime @default(now())
-  program     Program  @relation(fields: [programId], references: [nid])
-
-  @@index([programId])
 }
 
 enum Credential {
