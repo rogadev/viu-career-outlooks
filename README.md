@@ -1,51 +1,197 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# VIU Career Outlooks
+
+A web application for exploring Vancouver Island University (VIU) credentials and their associated career paths with employment outlook data. Users can browse VIU programs, discover related occupations, and view 3-year employment projections across British Columbia's economic regions.
+
+## Tech Stack
+
+- **Framework:** [Next.js 15](https://nextjs.org/) with App Router and Turbopack
+- **Language:** [TypeScript](https://www.typescriptlang.org/)
+- **UI:** [React 19](https://react.dev/)
+- **Styling:** [TailwindCSS](https://tailwindcss.com/) with [shadcn/ui](https://ui.shadcn.com/) components
+- **Database:** [Neon PostgreSQL](https://neon.tech/) (serverless Postgres)
+- **ORM:** [Prisma](https://www.prisma.io/)
+- **Package Manager:** [pnpm](https://pnpm.io/)
+- **Deployment:** [Vercel](https://vercel.com/)
+
+## Prerequisites
+
+- [Node.js](https://nodejs.org/) 18.x or later
+- [pnpm](https://pnpm.io/) (recommended) - Install with `npm install -g pnpm`
+- A [Neon](https://neon.tech/) PostgreSQL database (or compatible PostgreSQL instance)
 
 ## Getting Started
 
-First, run the development server:
+### 1. Clone the Repository
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/your-username/viu-career-outlooks.git
+cd viu-career-outlooks
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Install Dependencies
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+pnpm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 3. Set Up Environment Variables
 
-## Learn More
+Create a `.env.local` file in the project root with your database credentials:
 
-To learn more about Next.js, take a look at the following resources:
+```env
+# Neon Database (Pooled connection - for app queries)
+DATABASE_URL=postgresql://user:password@ep-xxx-pooler.region.aws.neon.tech/neondb?sslmode=require
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Neon Database (Direct connection - for Prisma migrations)
+DATABASE_URL_UNPOOLED=postgresql://user:password@ep-xxx.region.aws.neon.tech/neondb?sslmode=require
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+> **Note:** If using Vercel with Neon integration, you can copy these values from the Neon console or your Vercel project's environment variables.
 
-## Deploy on Vercel
+#### Environment Variables Explained
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+| Variable | Description |
+|----------|-------------|
+| `DATABASE_URL` | **Pooled** connection string (hostname contains `-pooler`). Used by the app for queries. Better for concurrent connections. |
+| `DATABASE_URL_UNPOOLED` | **Direct** connection string (no `-pooler` in hostname). Required by Prisma for migrations and schema changes. |
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 4. Set Up the Database
+
+Generate the Prisma client and run migrations:
+
+```bash
+# Generate Prisma client
+pnpm prisma generate
+
+# Run migrations to create database tables
+# Note: Use dotenv-cli to load .env.local for Prisma CLI
+pnpm dlx dotenv-cli -e .env.local -- pnpm prisma migrate deploy
+```
+
+### 5. Start the Development Server
+
+```bash
+pnpm dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+## Project Structure
+
+```
+├── app/                    # Next.js App Router
+│   ├── api/               # API routes
+│   │   ├── economic-regions/
+│   │   ├── noc/[noc]/
+│   │   ├── outlooks/
+│   │   ├── preferences/
+│   │   ├── programs/[nid]/
+│   │   └── top-outlooks/
+│   ├── credentials/       # Credentials browsing page
+│   ├── noc/[noc]/        # NOC occupation details
+│   ├── programs/[nid]/   # Program details page
+│   ├── layout.tsx        # Root layout
+│   └── page.tsx          # Home page
+├── components/            # React components
+│   ├── credentials/      # Credential-related components
+│   ├── global/           # Shared/reusable components
+│   ├── home/             # Home page components
+│   ├── noc/              # NOC page components
+│   ├── programs/         # Program page components
+│   └── ui/               # shadcn/ui components
+├── lib/                   # Utility functions
+│   ├── constants.ts
+│   ├── cookies.ts
+│   ├── db.ts             # Prisma client instance
+│   └── utils.ts
+├── prisma/
+│   ├── migrations/       # Database migrations
+│   └── schema.prisma     # Database schema
+├── public/               # Static assets
+│   ├── icons/
+│   └── images/
+├── types/                # TypeScript type definitions
+└── __tests__/            # Test files
+```
+
+## Database Schema
+
+The application uses the following data models:
+
+| Model | Description |
+|-------|-------------|
+| `Program` | VIU academic programs (diplomas, degrees, certificates) |
+| `ProgramArea` | Program categories/faculties |
+| `UnitGroup` | NOC (National Occupational Classification) occupation codes |
+| `Outlook` | Employment outlook data for occupations by region |
+| `EconomicRegion` | BC economic regions for employment data |
+| `SectionsEntity` | Detailed occupation information sections |
+
+### Prisma Commands
+
+```bash
+# Generate Prisma client after schema changes
+pnpm prisma generate
+
+# Run migrations (creates/updates database tables)
+pnpm dlx dotenv-cli -e .env.local -- pnpm prisma migrate deploy
+
+# Create a new migration
+pnpm dlx dotenv-cli -e .env.local -- pnpm prisma migrate dev --name your_migration_name
+
+# Open Prisma Studio (database GUI)
+pnpm dlx dotenv-cli -e .env.local -- pnpm prisma studio
+
+# Pull schema from existing database
+pnpm dlx dotenv-cli -e .env.local -- pnpm prisma db pull
+```
+
+## Available Scripts
+
+| Script | Description |
+|--------|-------------|
+| `pnpm dev` | Start development server with Turbopack |
+| `pnpm build` | Build for production (runs Prisma generate & migrate) |
+| `pnpm start` | Start production server |
+| `pnpm lint` | Run ESLint |
+| `pnpm test` | Run Jest tests |
+| `pnpm test:watch` | Run tests in watch mode |
 
 ## Testing
 
-This project uses Jest and React Testing Library for testing. Tests are written in JavaScript rather than TypeScript to avoid additional dependencies in CI/CD pipelines.
-
-Run tests locally with:
+This project uses Jest and React Testing Library for testing. Tests are written in JavaScript to avoid additional dependencies in CI/CD pipelines.
 
 ```bash
+# Run all tests
 pnpm test
+
+# Run tests in watch mode
+pnpm test:watch
 ```
 
 For more details on writing and running tests, see our [Testing Guidelines](./docs/testing.md).
+
+## Deployment
+
+### Vercel (Recommended)
+
+1. Connect your repository to [Vercel](https://vercel.com/)
+2. Add a Neon PostgreSQL database via the Vercel Storage tab
+3. Ensure environment variables are configured:
+   - `DATABASE_URL`
+   - `DATABASE_URL_UNPOOLED`
+4. Deploy!
+
+The build script automatically runs Prisma generate and migrations:
+```json
+"build": "prisma generate && prisma migrate deploy && next build"
+```
+
+### Manual Deployment
+
+1. Set up environment variables on your hosting platform
+2. Run `pnpm build`
+3. Run `pnpm start`
 
 ## Contributing
 
@@ -73,3 +219,37 @@ This project uses GitHub Actions to enforce our development workflow:
 - Merging to `main` automatically triggers deployment to production
 
 Always develop in `dev` first and only merge to `main` when ready for production deployment.
+
+## Troubleshooting
+
+### "Environment variable not found: DATABASE_URL_UNPOOLED"
+
+Prisma CLI doesn't automatically read `.env.local`. Use `dotenv-cli`:
+```bash
+pnpm dlx dotenv-cli -e .env.local -- pnpm prisma migrate deploy
+```
+
+### Database connection errors
+
+1. Verify your connection strings in `.env.local`
+2. Ensure `DATABASE_URL` uses the pooled connection (`-pooler` in hostname)
+3. Ensure `DATABASE_URL_UNPOOLED` uses the direct connection (no `-pooler`)
+
+### Prisma client out of sync
+
+If you see schema mismatch errors, regenerate the Prisma client:
+```bash
+pnpm prisma generate
+```
+
+## Learn More
+
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Prisma Documentation](https://www.prisma.io/docs)
+- [Neon Documentation](https://neon.tech/docs)
+- [TailwindCSS Documentation](https://tailwindcss.com/docs)
+- [shadcn/ui Documentation](https://ui.shadcn.com/)
+
+## License
+
+This project is private and proprietary to Vancouver Island University.
